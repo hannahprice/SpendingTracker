@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using SpendingTracker.Server;
+using System.Text.Json.Serialization;
 
 namespace Company.WebApplication1
 {
@@ -9,9 +12,10 @@ namespace Company.WebApplication1
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             builder.Services.AddRazorPages();
+
+            builder.Services.AddDbContext<FinanceContext>(options => options.UseSqlServer(@"Server=(localdb)\\mssqllocaldb;Database=FinanceTracker;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
             var app = builder.Build();
 
