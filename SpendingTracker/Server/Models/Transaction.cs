@@ -10,5 +10,6 @@
         public Frequency ReoccuringFrequency { get; set; }
         public DateOnly DateOfTransaction { get; set; }
         public List<Category>? Categories { get; set; }
+        public List<Subcategory>? Subcategories { get; set; }
     }
 }
