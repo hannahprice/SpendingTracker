@@ -8,7 +8,7 @@
         public bool IsOutwardPayment { get; set; }
         public bool IsReoccurring { get; set; }
         public Frequency ReoccuringFrequency { get; set; }
-        public DateOnly DateOfTransaction { get; set; }
+        public DateTime DateOfTransaction { get; set; }
         public List<Category>? Categories { get; set; }
         public List<Subcategory>? Subcategories { get; set; }
     }

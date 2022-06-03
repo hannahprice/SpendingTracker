@@ -10,10 +10,12 @@ namespace SpendingTracker.Server
         public DbSet<Budget> Budgets => Set<Budget>();
         public DbSet<Subcategory> Subcategories => Set<Subcategory>();
 
+        public FinanceContext(DbContextOptions<FinanceContext> options) : base(options) { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                @"Server=(localdb)\\mssqllocaldb;Database=FinanceTracker;Trusted_Connection=True;MultipleActiveResultSets=true");
+                @"Server=(localdb)\mssqllocaldb;Database=FinanceTracker;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -70,24 +72,35 @@ namespace SpendingTracker.Server
                 new Subcategory { Id = 28, CategoryId = 5, Description = "Drinks" },
                 new Subcategory { Id = 29, CategoryId = 5, Description = "Days out" },
                 new Subcategory { Id = 30, CategoryId = 5, Description = "Takeaways" },
+                new Subcategory { Id = 31, CategoryId = 5, Description = "Games" },
+                new Subcategory { Id = 32, CategoryId = 5, Description = "Books" },
+                new Subcategory { Id = 33, CategoryId = 5, Description = "Craft supplies" },
 
                 // Holidays
-                new Subcategory { Id = 31, CategoryId = 6, Description = "Accommodation" },
-                new Subcategory { Id = 32, CategoryId = 6, Description = "Flights" },
-                new Subcategory { Id = 33, CategoryId = 6, Description = "Airport parking" },
-                new Subcategory { Id = 34, CategoryId = 6, Description = "Transfers" },
-                new Subcategory { Id = 35, CategoryId = 6, Description = "Travel insurance" },
-                new Subcategory { Id = 36, CategoryId = 6, Description = "Holiday activities" },
+                new Subcategory { Id = 34, CategoryId = 6, Description = "Accommodation" },
+                new Subcategory { Id = 35, CategoryId = 6, Description = "Flights" },
+                new Subcategory { Id = 36, CategoryId = 6, Description = "Airport parking" },
+                new Subcategory { Id = 37, CategoryId = 6, Description = "Transfers" },
+                new Subcategory { Id = 38, CategoryId = 6, Description = "Travel insurance" },
+                new Subcategory { Id = 39, CategoryId = 6, Description = "Holiday activities" },
 
                 // Miscellaneous 
-                new Subcategory { Id = 37, CategoryId = 7, Description = "Gifts" },
-                new Subcategory { Id = 38, CategoryId = 7, Description = "Charity donations" },
-                new Subcategory { Id = 39, CategoryId = 7, Description = "App subscriptions" }
+                new Subcategory { Id = 40, CategoryId = 7, Description = "Gifts" },
+                new Subcategory { Id = 41, CategoryId = 7, Description = "Charity donations" },
+                new Subcategory { Id = 42, CategoryId = 7, Description = "App subscriptions" },
+                new Subcategory { Id = 43, CategoryId = 7, Description = "Miscellaneous purchases" }
             };            
 
             modelBuilder.Entity<Category>().HasData(seedCategories);
             modelBuilder.Entity<Subcategory>().HasData(seedSubcategories);
+
+            modelBuilder.Entity<Budget>()
+                .Property(b => b.Amount)
+                .HasPrecision(7, 2);
+
+            modelBuilder.Entity<Transaction>()
+                .Property(b => b.Amount)
+                .HasPrecision(7, 2);
         }
-         
     }
 }
