@@ -7,22 +7,3 @@
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-
-<section>
-    @foreach (var transaction in Transactions)
-    {
-        <p>@transaction?.Description</p>
-    }
-</section>
-
-@code {
-
-    [Inject]
-    public ITransactionService TransactionService { get; set; }
-    public List<Transaction> Transactions { get; set; } = new List<Transaction>(0);
-
-    protected override async Task OnInitializedAsync()
-    {
-        Transactions = await TransactionService.GetAllTransactions();
-    }
-}

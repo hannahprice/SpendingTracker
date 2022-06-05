@@ -1,0 +1,36 @@
+﻿@page "/transactions"
+
+<section>
+    @if (IsLoading)
+    {
+        <p>Loading...</p>
+    }
+    else if (!IsLoading && !Transactions.Any())
+    {
+        <p>No transactions</p>
+    } 
+    else
+    {
+        @foreach (var transaction in Transactions)
+        {
+            <p>@transaction.Amount</p>
+            <p>@transaction.DateOfTransaction</p>
+            <p>@transaction.Description</p>
+            <p>Out: @transaction.IsOutwardPayment</p>
+            <p>Is reoccuring: @transaction.IsReoccurring</p>
+            <p>Frequency: @transaction.ReoccuringFrequency</p>
+            
+            <p>Categories:</p>
+            @foreach (var category in transaction.Categories)
+            {
+                <span>@category.Description</span>
+            }
+
+            <p>Subcategories:</p>
+            @foreach (var category in transaction.Subcategories)
+            {
+                <span>@category.Description</span>
+            }
+        }
+    }
+</section>

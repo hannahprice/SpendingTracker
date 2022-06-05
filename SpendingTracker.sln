@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendingTracker.Server", "SpendingTracker\Server\SpendingTracker.Server.csproj", "{BE3CFAE2-7E30-46EF-9FCC-237CA009719E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpendingTracker.Server", "SpendingTracker\Server\SpendingTracker.Server.csproj", "{BE3CFAE2-7E30-46EF-9FCC-237CA009719E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendingTracker.Client", "SpendingTracker\Client\SpendingTracker.Client.csproj", "{CF46A1C8-6BE0-4568-8D19-2B95A563A889}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpendingTracker.Client", "SpendingTracker\Client\SpendingTracker.Client.csproj", "{CF46A1C8-6BE0-4568-8D19-2B95A563A889}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendingTracker.Shared", "SpendingTracker\Shared\SpendingTracker.Shared.csproj", "{E543501C-41F1-4920-87EF-842F3CE9B32C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpendingTracker.Shared", "SpendingTracker\Shared\SpendingTracker.Shared.csproj", "{E543501C-41F1-4920-87EF-842F3CE9B32C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
