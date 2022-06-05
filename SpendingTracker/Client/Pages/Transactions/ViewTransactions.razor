@@ -1,36 +1,67 @@
 ﻿@page "/transactions"
 
 <section>
-    @if (IsLoading)
-    {
-        <p>Loading...</p>
-    }
-    else if (!IsLoading && !Transactions.Any())
+    @if (!IsLoading && !Transactions.Any())
     {
         <p>No transactions</p>
     } 
     else
     {
-        @foreach (var transaction in Transactions)
-        {
-            <p>@transaction.Amount</p>
-            <p>@transaction.DateOfTransaction</p>
-            <p>@transaction.Description</p>
-            <p>Out: @transaction.IsOutwardPayment</p>
-            <p>Is reoccuring: @transaction.IsReoccurring</p>
-            <p>Frequency: @transaction.ReoccuringFrequency</p>
-            
-            <p>Categories:</p>
-            @foreach (var category in transaction.Categories)
-            {
-                <span>@category.Description</span>
-            }
+        <MudText Typo="Typo.h2" Class="my-8">Transaction list</MudText>
 
-            <p>Subcategories:</p>
-            @foreach (var category in transaction.Subcategories)
-            {
-                <span>@category.Description</span>
-            }
-        }
+        <MudTable 
+            Items="@Transactions" 
+            Hover="true" 
+            Dense="true"
+            Striped="true"
+            Breakpoint="Breakpoint.Sm" 
+            Loading="@IsLoading"
+            LoadingProgressColor="Color.Info">
+            <HeaderContent>
+                <MudTh>Id</MudTh>
+                <MudTh>Date</MudTh>
+                <MudTh>Description</MudTh>
+                <MudTh>Amount</MudTh>
+                <MudTh>Is outward payment</MudTh>
+                <MudTh>Is reoccuring</MudTh>
+                <MudTh>Reoccuring frequency</MudTh>
+                <MudTh>Categories</MudTh>
+                <MudTh>Subcategories</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Id">@context.Id</MudTd>
+                <MudTd DataLabel="Date">@context.DateOfTransaction</MudTd>
+                <MudTd DataLabel="Description">@context.Description</MudTd>
+                <MudTd DataLabel="Amount">@context.Amount</MudTd>
+                <MudTd DataLabel="Is outward payment">@context.IsOutwardPayment</MudTd>
+                <MudTd DataLabel="Is reoccuring">@context.IsReoccurring</MudTd>
+                @if (@context.IsReoccurring)
+                {
+                <MudTd DataLabel="Reoccuring frequency">@context.ReoccuringFrequency</MudTd>
+                } 
+                else
+                {
+                    <MudTd DataLabel="Reoccuring frequency">-</MudTd>                
+                }
+                
+                @if (@context.Categories != null && @context.Categories.Any())
+                {
+                    <MudTd DataLabel="Categories">@string.Join(",", context.Categories)</MudTd>
+                }
+                else
+                {
+                    <MudTd DataLabel="Categories">-</MudTd>
+                }
+                
+                @if (@context.Subcategories != null && @context.Subcategories.Any())
+                {
+                    <MudTd DataLabel="Subcategories">@string.Join(",", context.Subcategories)</MudTd>
+                }
+                else
+                {
+                    <MudTd DataLabel="Subcategories">-</MudTd>
+                }
+            </RowTemplate>
+        </MudTable>
     }
 </section>
