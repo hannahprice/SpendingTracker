@@ -3,13 +3,12 @@ using System.Text.Json;
 
 namespace SpendingTracker.Client.Services
 {
-    public class TransactionService : ITransactionService
+    public class TransactionsService : ITransactionsService
     {
         private readonly HttpClient _httpClient;
         private JsonSerializerOptions _jsonOptions;
 
-
-        public TransactionService(HttpClient httpClient)
+        public TransactionsService(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
@@ -18,7 +17,7 @@ namespace SpendingTracker.Client.Services
         public async Task<List<Transaction>> GetAllTransactions()
         {
             return await JsonSerializer.DeserializeAsync<List<Transaction>>
-                (await _httpClient.GetStreamAsync("api/Transaction"), _jsonOptions);
+                (await _httpClient.GetStreamAsync("api/Transactions"), _jsonOptions);
         }
     }
 }

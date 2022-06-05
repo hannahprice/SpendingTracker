@@ -2,7 +2,7 @@
 
 namespace SpendingTracker.Client.Services
 {
-    public interface ITransactionService
+    public interface ITransactionsService
     {
         Task<List<Transaction>> GetAllTransactions();
     }

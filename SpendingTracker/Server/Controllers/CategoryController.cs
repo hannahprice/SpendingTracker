@@ -6,19 +6,19 @@ namespace SpendingTracker.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransactionController : Controller
+    public class CategoriesController : Controller
     {
         private readonly IMediator _mediator;
 
-        public TransactionController(IMediator mediator)
+        public CategoriesController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTransactions()
+        public async Task<IActionResult> GetCategories()
         {
-            var result = await _mediator.Send(new GetTransactionsQuery());
+            var result = await _mediator.Send(new GetCategoriesQuery());
             return Ok(result);
         }
     }

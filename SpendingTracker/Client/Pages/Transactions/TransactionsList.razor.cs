@@ -4,19 +4,19 @@ using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Pages.Transactions
 {
-    public partial class ViewTransactions
+    public partial class TransactionsList
     {
 
         [Inject]
-        public ITransactionService TransactionService { get; set; }
-        public List<Transaction> Transactions { get; set; } = new List<Transaction>(0);
+        public ITransactionsService TransactionsService { get; set; }
+        public List<Transaction> Transactions { get; set; } = new List<Transaction>();
         public bool IsLoading { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
         {
             IsLoading = true;
             
-            Transactions = await TransactionService.GetAllTransactions();
+            Transactions = await TransactionsService.GetAllTransactions();
             
             IsLoading = false;
         }

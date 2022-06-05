@@ -1,0 +1,49 @@
+﻿@page "/categories"
+@using static MudBlazor.CategoryTypes
+
+<style>
+    .mud-table-cell-custom-group {
+        font-weight: 500;
+    }
+</style>
+
+<section>
+    @if (!IsLoading && !Categories.Any())
+    {
+        <p>No categories</p>
+    }
+    else
+    {
+        <MudText Typo="Typo.h2" Class="my-8">Categories and subcategories</MudText>
+
+        <MudTable
+            Items="@Categories"
+            Hover="true" 
+            Dense="true"
+            Striped="true"
+            Breakpoint="Breakpoint.Sm" 
+            Loading="@IsLoading"
+            LoadingProgressColor="Color.Info">
+            @*GroupBy="@_groupDefinition"*@
+            <ColGroup>
+                <col style="width: 60px;" />
+                <col />
+                <col />
+            </ColGroup>
+            
+            <HeaderContent>
+                <MudTh>Id</MudTh>
+                <MudTh>Name</MudTh>
+            </HeaderContent>
+
+            @*<GroupHeaderTemplate>
+                <MudTh Class="mud-table-cell-custom-group" colspan="2">@($"{context.GroupName}: {context.Key}")</MudTh>
+            </GroupHeaderTemplate>*@
+
+            <RowTemplate>
+                <MudTd DataLabel="Id">@context.Id</MudTd>
+                <MudTd DataLabel="Name">@context.Description</MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+</section>
