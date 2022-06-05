@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SpendingTracker.Server.Models;
+using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Server
 {

@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using SpendingTracker.Client.Services
+@using SpendingTracker.Shared.Models
 
 <PageTitle>Index</PageTitle>
 
@@ -6,4 +8,21 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<section>
+    @foreach (var transaction in Transactions)
+    {
+        <p>@transaction?.Description</p>
+    }
+</section>
+
+@code {
+
+    [Inject]
+    public ITransactionService TransactionService { get; set; }
+    public List<Transaction> Transactions { get; set; } = new List<Transaction>(0);
+
+    protected override async Task OnInitializedAsync()
+    {
+        Transactions = await TransactionService.GetAllTransactions();
+    }
+}

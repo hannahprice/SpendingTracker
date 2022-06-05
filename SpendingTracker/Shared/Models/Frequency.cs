@@ -1,4 +1,4 @@
-﻿namespace SpendingTracker.Server.Models
+﻿namespace SpendingTracker.Shared.Models
 {
     public enum Frequency
     {
