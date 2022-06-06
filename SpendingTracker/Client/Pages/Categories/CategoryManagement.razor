@@ -1,14 +1,8 @@
 ﻿@page "/categories"
 @using static MudBlazor.CategoryTypes
 
-<style>
-    .mud-table-cell-custom-group {
-        font-weight: 500;
-    }
-</style>
-
 <section>
-    @if (!IsLoading && !Categories.Any())
+    @if (!IsLoading && !Subcategories.Any())
     {
         <p>No categories</p>
     }
@@ -17,14 +11,15 @@
         <MudText Typo="Typo.h2" Class="my-8">Categories and subcategories</MudText>
 
         <MudTable
-            Items="@Categories"
+            Items="@Subcategories"
             Hover="true" 
-            Dense="true"
+            Dense="false"
             Striped="true"
             Breakpoint="Breakpoint.Sm" 
             Loading="@IsLoading"
-            LoadingProgressColor="Color.Info">
-            @*GroupBy="@_groupDefinition"*@
+            LoadingProgressColor="Color.Info"
+            GroupBy="@_groupDefinition">
+            
             <ColGroup>
                 <col style="width: 60px;" />
                 <col />
@@ -36,9 +31,9 @@
                 <MudTh>Name</MudTh>
             </HeaderContent>
 
-            @*<GroupHeaderTemplate>
-                <MudTh Class="mud-table-cell-custom-group" colspan="2">@($"{context.GroupName}: {context.Key}")</MudTh>
-            </GroupHeaderTemplate>*@
+            <GroupHeaderTemplate>
+                <MudTh Style="font-weight: 500" colspan="2">@($"{context.GroupName}: {GetGroupName(context.Key)}")</MudTh>
+            </GroupHeaderTemplate>
 
             <RowTemplate>
                 <MudTd DataLabel="Id">@context.Id</MudTd>
