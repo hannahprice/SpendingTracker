@@ -16,6 +16,7 @@ namespace Company.WebApplication1
 
             builder.Services.AddTransient<ITransactionsService, TransactionsService>();
             builder.Services.AddTransient<ICategoriesService, CategoriesService>();
+            builder.Services.AddTransient<IBudgetsService, BudgetsService>();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddMudServices();
