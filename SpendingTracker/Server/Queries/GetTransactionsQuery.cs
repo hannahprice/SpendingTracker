@@ -3,7 +3,5 @@ using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Server.Queries
 {
-    public class GetTransactionsQuery : IRequest<List<Transaction>>
-    {
-    }
+    public record GetTransactionsQuery : IRequest<List<Transaction>>;
 }

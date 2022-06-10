@@ -20,5 +20,4 @@ namespace SpendingTracker.Client.Pages.Budgets
             IsLoading = false;
         }
     }
-
 }
