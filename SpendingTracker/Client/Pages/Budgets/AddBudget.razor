@@ -1,0 +1,53 @@
+﻿@using SpendingTracker.Shared.Models;
+@page "/budgets/add"
+
+<section>
+    <MudForm>
+        <MudTextField 
+            @bind-Value="@Budget.Amount"
+            Label="Amount"
+            T="decimal"
+            Variant="Variant.Text"
+            Adornment="Adornment.Start" 
+            AdornmentIcon="@Icons.Material.Filled.Money"/>
+
+        <MudSelect 
+            @bind-Value="Budget.Frequency"
+            T="Frequency"
+            Label="Frequency" 
+            AnchorOrigin="Origin.BottomCenter">
+            @foreach (Frequency item in Enum.GetValues(typeof(Frequency)))
+            {
+                <MudSelectItem Value="@item">@item</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudText Typo="Typo.caption">Categories</MudText>
+        <MudChipSet
+            @bind-SelectedChips="@SelectedCategories"
+            MultiSelection="true"
+            Filter="true">
+            @foreach (Category category in AvailableCategories)
+            {
+                <MudChip Text="@category?.Description"></MudChip>
+            }
+        </MudChipSet>
+
+        <MudText Typo="Typo.caption">Subcategories</MudText>
+        <MudChipSet
+            @bind-SelectedChips="@SelectedSubcategories"
+            MultiSelection="true"
+            Filter="true">
+            @foreach (Subcategory category in AvailableSubcategories)
+            {
+                <MudChip Text="@category?.Description"></MudChip>
+            }
+        </MudChipSet>
+
+        <MudButton 
+            Variant="Variant.Filled" 
+            Color="Color.Primary" 
+            Class="ml-auto">Submit
+        </MudButton>
+    </MudForm>
+</section>
