@@ -2,19 +2,23 @@
 @page "/budgets/add"
 
 <section>
-    <MudForm>
+    <MudForm @ref="Form">
         <MudTextField 
             @bind-Value="@Budget.Amount"
             Label="Amount"
             T="decimal"
             Variant="Variant.Text"
+            Required="true"
+            RequiredError="Amount is required"
             Adornment="Adornment.Start" 
-            AdornmentIcon="@Icons.Material.Filled.Money"/>
+            AdornmentIcon="@Icons.Material.Filled.AttachMoney"/>
 
         <MudSelect 
             @bind-Value="Budget.Frequency"
             T="Frequency"
             Label="Frequency" 
+            Required="true"
+            RequiredError="Frequency is required"
             AnchorOrigin="Origin.BottomCenter">
             @foreach (Frequency item in Enum.GetValues(typeof(Frequency)))
             {
@@ -47,7 +51,8 @@
         <MudButton 
             Variant="Variant.Filled" 
             Color="Color.Primary" 
-            Class="ml-auto">Submit
+            Class="ml-auto"
+            OnClick="@(()=>Submit())">Submit
         </MudButton>
     </MudForm>
 </section>

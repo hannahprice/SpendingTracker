@@ -17,7 +17,8 @@ namespace Company.WebApplication1
 
             builder.Services.AddMediatR(typeof(Program));
 
-            builder.Services.AddDbContext<FinanceContext>(options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=FinanceTracker;Trusted_Connection=True;MultipleActiveResultSets=true"));
+            builder.Services.AddDbContext<FinanceContext>(options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=FinanceTracker;Trusted_Connection=True;MultipleActiveResultSets=true")
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution));
 
             var app = builder.Build();
 
