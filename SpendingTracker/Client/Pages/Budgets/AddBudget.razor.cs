@@ -26,18 +26,19 @@ namespace SpendingTracker.Client.Pages.Budgets
 
         public async Task Submit()
         {
-            // todo handle validation of cats
-            if (SelectedCategories is not null && SelectedCategories.Any())
+            if (Form.IsValid)
             {
-                Budget.Categories = GetSelectedCategoriesForSubmit();
-                
-                if (SelectedSubcategories is not null && SelectedSubcategories.Any())
+                if (SelectedCategories is not null && SelectedCategories.Any())
                 {
-                    Budget.Subcategories = GetSelectedSubcategoriesForSubmit();
-                }
- 
-                var createdId = await BudgetsService.AddBudget(Budget);
+                    Budget.Categories = GetSelectedCategoriesForSubmit();
 
+                    if (SelectedSubcategories is not null && SelectedSubcategories.Any())
+                    {
+                        Budget.Subcategories = GetSelectedSubcategoriesForSubmit();
+                    }
+                }
+
+                var createdId = await BudgetsService.AddBudget(Budget);
                 Success = createdId > 0;
 
                 Form.Reset();
@@ -46,7 +47,7 @@ namespace SpendingTracker.Client.Pages.Budgets
 
         private List<Category> GetSelectedCategoriesForSubmit()
         {
-            var selectedCategoryDescriptions = SelectedCategories.Select(c => c.Text).ToList();
+            var selectedCategoryDescriptions = SelectedCategories?.Select(c => c.Text).ToList();
             var test = AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
             test.ForEach(x => x.Subcategories = null);
             return test;
@@ -54,7 +55,7 @@ namespace SpendingTracker.Client.Pages.Budgets
 
         private List<Subcategory> GetSelectedSubcategoriesForSubmit()
         {
-            var selectedSubcategoryDescriptions = SelectedSubcategories.Select(c => c.Text).ToList();
+            var selectedSubcategoryDescriptions = SelectedSubcategories?.Select(c => c.Text).ToList();
             return AvailableSubcategories.Where(x => selectedSubcategoryDescriptions.Contains(x.Description)).ToList();
         }
     }
