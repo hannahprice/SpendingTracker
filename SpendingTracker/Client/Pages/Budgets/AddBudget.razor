@@ -1,58 +1,59 @@
 ﻿@using SpendingTracker.Shared.Models;
 @page "/budgets/add"
 
-<section>
-    <MudForm @ref="Form">
-        <MudTextField 
-            @bind-Value="@Budget.Amount"
-            Label="Amount"
-            T="decimal"
-            Variant="Variant.Text"
-            Required="true"
-            RequiredError="Amount is required"
-            Adornment="Adornment.Start" 
-            AdornmentIcon="@Icons.Filled.CurrencyPound"/>
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" sm="10">
+        <MudPaper Class="pa-16 ma-16" Elevation="3">
+            <MudText Typo="Typo.h5" Class="mb-7">Add new budget</MudText>
+            <MudForm @ref="Form">
+                <MudTextField @bind-Value="@Budget.Amount"
+                              Label="Amount"
+                              T="decimal"
+                              Variant="Variant.Text"
+                              Required="true"
+                              RequiredError="Amount is required"
+                              Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Filled.CurrencyPound" />
 
-        <MudSelect 
-            @bind-Value="@Budget.Frequency"
-            T="Frequency"
-            Label="Frequency" 
-            Required="true"
-            RequiredError="Frequency is required"
-            AnchorOrigin="Origin.BottomCenter">
-            @foreach (Frequency item in Enum.GetValues(typeof(Frequency)))
-            {
-                <MudSelectItem Value="@item">@item</MudSelectItem>
-            }
-        </MudSelect>
+                <MudSelect @bind-Value="@Budget.Frequency"
+                           T="Frequency"
+                           Label="Frequency"
+                           Required="true"
+                           RequiredError="Frequency is required"
+                           AnchorOrigin="Origin.BottomCenter">
+                    @foreach (Frequency item in Enum.GetValues(typeof(Frequency)))
+                    {
+                        <MudSelectItem Value="@item">@item</MudSelectItem>
+                    }
+                </MudSelect>
 
-        <MudText Typo="Typo.caption">Categories</MudText>
-        <MudChipSet
-            @bind-SelectedChips="@SelectedCategories"
-            MultiSelection="true"
-            Filter="true">
-            @foreach (Category category in AvailableCategories)
-            {
-                <MudChip Text="@category?.Description"></MudChip>
-            }
-        </MudChipSet>
+                <MudText Typo="Typo.caption">Categories</MudText>
+                <MudChipSet @bind-SelectedChips="@SelectedCategories"
+                            MultiSelection="true"
+                            Filter="true">
+                    @foreach (Category category in AvailableCategories)
+                    {
+                        <MudChip Text="@category?.Description"></MudChip>
+                    }
+                </MudChipSet>
 
-        <MudText Typo="Typo.caption">Subcategories</MudText>
-        <MudChipSet
-            @bind-SelectedChips="@SelectedSubcategories"
-            MultiSelection="true"
-            Filter="true">
-            @foreach (Subcategory category in AvailableSubcategories)
-            {
-                <MudChip Text="@category?.Description"></MudChip>
-            }
-        </MudChipSet>
+                <MudText Typo="Typo.caption">Subcategories</MudText>
+                <MudChipSet @bind-SelectedChips="@SelectedSubcategories"
+                            MultiSelection="true"
+                            Filter="true">
+                    @foreach (Subcategory category in AvailableSubcategories)
+                    {
+                        <MudChip Text="@category?.Description"></MudChip>
+                    }
+                </MudChipSet>
 
-        <MudButton 
-            Variant="Variant.Filled" 
-            Color="Color.Primary" 
-            Class="ml-auto"
-            OnClick="@(()=>Submit())">Submit
-        </MudButton>
-    </MudForm>
-</section>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Class="ml-auto"
+                           OnClick="@(()=>Submit())">
+                    Submit
+                </MudButton>
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
