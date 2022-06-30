@@ -1,53 +1,55 @@
 ﻿@page "/budgets"
 
-<section>
-    @if (!IsLoading && !Budgets.Any())
-    {
-        <p>No transactions</p>
-    }
-    else
-    {
-        <MudText Typo="Typo.h2" Class="my-8">Budgets</MudText>
-        
-        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" Href="/budgets/add"/>
-
-        <MudTable 
-            Items="@Budgets" 
-            Hover="true" 
-            Dense="true"
-            Striped="true"
-            Breakpoint="Breakpoint.Sm" 
-            Loading="@IsLoading"
-            LoadingProgressColor="Color.Info">
-            <HeaderContent>
-                <MudTh>Id</MudTh>
-                <MudTh>Amount</MudTh>
-                <MudTh>Frequency</MudTh>
-                <MudTh>Categories</MudTh>
-                <MudTh>Subcategories</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="Id">@context.Id</MudTd>
-                <MudTd DataLabel="Amount">@context.Amount</MudTd>
-                <MudTd DataLabel="Frequency">@context.Frequency</MudTd>
-                @if (@context.Categories != null && @context.Categories.Any())
-                {
+@if (!IsLoading && !Budgets.Any())
+{
+    <p>No transactions</p>
+}
+else
+{
+    <MudGrid Justify="Justify.Center" Spacing="5">
+        <MudItem xs="12" sm="11">
+            <MudText Typo="Typo.h2" Class="my-8">Budgets</MudText>
+        </MudItem>
+        <MudItem xs="12" sm="1" Class="d-flex align-center justify-center">
+            <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" Href="/budgets/add" />
+        </MudItem>
+        <MudItem xs="12">
+            <MudTable Items="@Budgets"
+                  Hover="true"
+                  Striped="true"
+                  Breakpoint="Breakpoint.Sm"
+                  Loading="@IsLoading"
+                  LoadingProgressColor="Color.Info">
+                <HeaderContent>
+                    <MudTh>Id</MudTh>
+                    <MudTh>Amount</MudTh>
+                    <MudTh>Frequency</MudTh>
+                    <MudTh>Categories</MudTh>
+                    <MudTh>Subcategories</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Id">@context.Id</MudTd>
+                    <MudTd DataLabel="Amount">@context.Amount</MudTd>
+                    <MudTd DataLabel="Frequency">@context.Frequency</MudTd>
+                    @if (@context.Categories != null && @context.Categories.Any())
+                    {
                     <MudTd DataLabel="Categories">@string.Join(",", context.Categories)</MudTd>
-                }
-                else
-                {
+                    }
+                    else
+                    {
                     <MudTd DataLabel="Categories">-</MudTd>
-                }
-                
+                    }
+
                 @if (@context.Subcategories != null && @context.Subcategories.Any())
-                {
+                    {
                     <MudTd DataLabel="Subcategories">@string.Join(",", context.Subcategories)</MudTd>
-                }
-                else
-                {
+                    }
+                    else
+                    {
                     <MudTd DataLabel="Subcategories">-</MudTd>
-                }
+                    }
             </RowTemplate>
         </MudTable>
-    }
-</section>
+    </MudItem>
+</MudGrid>
+}
