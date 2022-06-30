@@ -56,4 +56,16 @@
             </MudForm>
         </MudPaper>
     </MudItem>
+    @if (Success != null && Success.Value)
+    {
+        <MudItem xs="12" sm="10">
+            <MudAlert Severity="Severity.Success" Variant="Variant.Outlined">Budget added</MudAlert>
+        </MudItem>
+    }
+    else if (Success != null && !Success.Value)
+    {
+        <MudItem xs="12" sm="10">
+            <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">Failed to add budget</MudAlert>
+        </MudItem>
+    }
 </MudGrid>
