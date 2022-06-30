@@ -31,23 +31,40 @@ else
                     <MudTd DataLabel="Id">@context.Id</MudTd>
                     <MudTd DataLabel="Amount">@context.Amount</MudTd>
                     <MudTd DataLabel="Frequency">@context.Frequency</MudTd>
-                    @if (@context.Categories != null && @context.Categories.Any())
-                    {
-                    <MudTd DataLabel="Categories">@string.Join(",", context.Categories)</MudTd>
-                    }
-                    else
-                    {
-                    <MudTd DataLabel="Categories">-</MudTd>
-                    }
 
-                @if (@context.Subcategories != null && @context.Subcategories.Any())
-                    {
-                    <MudTd DataLabel="Subcategories">@string.Join(",", context.Subcategories)</MudTd>
-                    }
-                    else
-                    {
-                    <MudTd DataLabel="Subcategories">-</MudTd>
-                    }
+
+                    <MudTd DataLabel="Categories">
+                        @if (@context.Categories != null && @context.Categories.Any())
+                        {
+                        <MudList Dense="true" DisableGutters="true" DisablePadding="true">
+                            @foreach (var category in context.Categories)
+                                {
+                                <MudListItem Text="@category.Description" />
+                                }
+                        </MudList>
+                        }
+                        else
+                        {
+                        <p>-</p>
+                        }
+
+                    </MudTd>
+
+                    <MudTd DataLabel="Subcategories">
+                        @if (@context.Subcategories != null && @context.Subcategories.Any())
+                        {
+                        <MudList Dense="true" DisableGutters="true" DisablePadding="true">
+                            @foreach (var subcategory in context.Subcategories)
+                                {
+                                <MudListItem Text="@subcategory.Description" />
+                                }
+                        </MudList>
+                        }
+                        else
+                        {
+                        <p>-</p>
+                        }
+                    </MudTd>
             </RowTemplate>
         </MudTable>
     </MudItem>
