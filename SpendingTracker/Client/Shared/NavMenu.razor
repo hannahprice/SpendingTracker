@@ -1,6 +1,13 @@
 ﻿<MudNavMenu>
     <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-    <MudNavLink Href="/transactions" Match="NavLinkMatch.Prefix">Transactions</MudNavLink>
-    <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix">Categories</MudNavLink>
-    <MudNavLink Href="/budgets" Match="NavLinkMatch.Prefix">Budgets</MudNavLink>
+    <MudNavGroup Title="Transactions">
+        <MudNavLink Href="/transactions" Match="NavLinkMatch.Prefix">Transactions list</MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="Categories">
+        <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix">Categories list</MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="Budgets">
+        <MudNavLink Href="/budgets" Match="NavLinkMatch.Prefix">Budgets list</MudNavLink>
+        <MudNavLink Href="/budgets/add" Match="NavLinkMatch.Prefix">Add budgets</MudNavLink>
+    </MudNavGroup>
 </MudNavMenu>
