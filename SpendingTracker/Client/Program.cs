@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using SpendingTracker.Client;
 using SpendingTracker.Client.Services;
 using MudBlazor.Services;
+using MudBlazor;
 
 namespace Company.WebApplication1
 {
@@ -19,7 +20,15 @@ namespace Company.WebApplication1
             builder.Services.AddTransient<IBudgetsService, BudgetsService>();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddMudServices();
+
+            builder.Services.AddMudServices(config =>
+            {
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomLeft;
+                config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+                config.SnackbarConfiguration.ShowTransitionDuration = 500;
+                config.SnackbarConfiguration.HideTransitionDuration = 500;
+                config.SnackbarConfiguration.VisibleStateDuration = 10000;
+            });
 
             await builder.Build().RunAsync();
         }

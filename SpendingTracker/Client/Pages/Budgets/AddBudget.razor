@@ -2,17 +2,23 @@
 @page "/budgets/add"
 
 <MudGrid Justify="Justify.Center" Spacing="5">
+    <MudItem xs="12" sm="5">
+        <MudText Typo="Typo.h3" Class="mb-7">Add new budget</MudText>
+    </MudItem>
+    <MudItem xs="12" sm="5" Class="">
+        <MudSwitch @bind-Checked="AddingMultiple" Color="Color.Primary" Label="Add multiple (remains on this page)" />
+    </MudItem>
     <MudItem xs="12" sm="10">
         <MudPaper Class="pa-16 ma-16" Elevation="3">
-            <MudText Typo="Typo.h5" Class="mb-7">Add new budget</MudText>
+            <MudText Typo="Typo.h5" Class="mb-7">New budget</MudText>
             <MudForm @ref="Form">
                 <MudNumericField @bind-Value="@Budget.Amount"
-                              Label="Amount"
-                              Min="1.0m"
-                              Required="true"
-                              RequiredError="Amount is required"
-                              Adornment="Adornment.Start"
-                              AdornmentIcon="@Icons.Filled.CurrencyPound" />
+                                 Label="Amount"
+                                 Min="1.0m"
+                                 Required="true"
+                                 RequiredError="Amount is required"
+                                 Adornment="Adornment.Start"
+                                 AdornmentIcon="@Icons.Filled.CurrencyPound" />
 
                 <MudSelect @bind-Value="@Budget.Frequency"
                            T="Frequency"
@@ -55,16 +61,4 @@
             </MudForm>
         </MudPaper>
     </MudItem>
-    @if (Success != null && Success.Value)
-    {
-        <MudItem xs="12" sm="10">
-            <MudAlert Severity="Severity.Success" Variant="Variant.Outlined">Budget added</MudAlert>
-        </MudItem>
-    }
-    else if (Success != null && !Success.Value)
-    {
-        <MudItem xs="12" sm="10">
-            <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">Failed to add budget</MudAlert>
-        </MudItem>
-    }
 </MudGrid>

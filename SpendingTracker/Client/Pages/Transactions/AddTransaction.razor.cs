@@ -14,6 +14,12 @@ namespace SpendingTracker.Client.Pages.Transactions
         [Inject]
         public ICategoriesService CategoriesService { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        private ISnackbar Snackbar { get; set; }
+
         public Transaction Transaction { get; set; } = new Transaction();
         public List<Category> AvailableCategories { get; set; } = new List<Category>();
         public List<Subcategory> AvailableSubcategories { get; set; } = new List<Subcategory>();
@@ -22,6 +28,7 @@ namespace SpendingTracker.Client.Pages.Transactions
         public DateTime? SelectedDatetime { get; set; }
         public bool? Success { get; set; } = null;
         public MudForm Form { get; set; }
+        public bool AddingMultiple { get; set; } = false;
 
         public CultureInfo EnGbCulture = CultureInfo.GetCultureInfo("en-GB");
 
@@ -55,7 +62,25 @@ namespace SpendingTracker.Client.Pages.Transactions
                 var createdId = await TransactionsService.AddTransaction(Transaction);
                 Success = createdId > 0;
 
+                AddSnackBarMessage();
                 Form.Reset();
+
+                if (!AddingMultiple)
+                {
+                    NavigationManager.NavigateTo("/transactions", false);
+                }
+            }
+        }
+
+        private void AddSnackBarMessage()
+        {
+            if (Success.Value)
+            {
+                Snackbar.Add($"Transaction added: {Transaction.Description}", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add($"Error adding transaction: {Transaction.Description}", Severity.Error);
             }
         }
 
