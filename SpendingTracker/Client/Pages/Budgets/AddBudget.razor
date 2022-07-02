@@ -1,15 +1,14 @@
 ﻿@using SpendingTracker.Shared.Models;
 @page "/budgets/add"
 
-<MudGrid Justify="Justify.Center">
+<MudGrid Justify="Justify.Center" Spacing="5">
     <MudItem xs="12" sm="10">
         <MudPaper Class="pa-16 ma-16" Elevation="3">
             <MudText Typo="Typo.h5" Class="mb-7">Add new budget</MudText>
             <MudForm @ref="Form">
-                <MudTextField @bind-Value="@Budget.Amount"
+                <MudNumericField @bind-Value="@Budget.Amount"
                               Label="Amount"
-                              T="decimal"
-                              Variant="Variant.Text"
+                              Min="1.0m"
                               Required="true"
                               RequiredError="Amount is required"
                               Adornment="Adornment.Start"
@@ -50,7 +49,7 @@
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
                            Class="ml-auto"
-                           OnClick="@(()=>Submit())">
+                           OnClick="@(async ()=> await Submit())">
                     Submit
                 </MudButton>
             </MudForm>

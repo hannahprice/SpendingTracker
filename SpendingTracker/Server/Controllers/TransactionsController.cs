@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SpendingTracker.Server.Commands;
 using SpendingTracker.Server.Queries;
+using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Server.Controllers
 {
@@ -19,6 +21,13 @@ namespace SpendingTracker.Server.Controllers
         public async Task<IActionResult> GetTransactions()
         {
             var result = await _mediator.Send(new GetTransactionsQuery());
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTransaction([FromBody] Transaction transaction)
+        {
+            var result = await _mediator.Send(new AddTransactionCommand(transaction));
             return Ok(result);
         }
     }

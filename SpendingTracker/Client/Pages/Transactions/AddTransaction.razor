@@ -1,0 +1,81 @@
+﻿@using SpendingTracker.Shared.Models;
+@page "/transactions/add"
+
+<MudGrid Justify="Justify.Center" Spacing="5">
+    <MudItem xs="12" sm="10">
+        <MudPaper Class="pa-16 ma-16" Elevation="3">
+            <MudText Typo="Typo.h5" Class="mb-7">Add new transaction</MudText>
+            <MudForm @ref="Form">
+                <MudNumericField Label="Amount"
+                                 @bind-Value="Transaction.Amount"
+                                 Min="1.0m"
+                                 Required="true"
+                                 RequiredError="Amount is required"
+                                 Culture="EnGbCulture"
+                                 Adornment="Adornment.Start"
+                                 AdornmentIcon="@Icons.Filled.CurrencyPound" />
+
+                <MudTextField @bind-Value="Transaction.Description"
+                              Label="Description"
+                              Variant="Variant.Text" />
+
+                <MudText Typo="Typo.caption">Payment direction</MudText>
+                <MudRadioGroup @bind-SelectedOption="Transaction.IsOutwardPayment">
+                    <MudRadio Option="false">In</MudRadio>
+                    <MudRadio Option="true">Out</MudRadio>
+                </MudRadioGroup>
+
+                <MudText Typo="Typo.caption">Reoccuring?</MudText>
+                <MudRadioGroup @bind-SelectedOption="Transaction.IsReoccurring">
+                    <MudRadio Option="false">No</MudRadio>
+                    <MudRadio Option="true">Yes</MudRadio>
+                </MudRadioGroup>
+
+                <MudDatePicker Label="Date of transaction"
+                               @bind-Date="SelectedDatetime"
+                               Editable="true"
+                               Required="true"
+                               RequiredError="Date is required" />
+
+                <MudText Typo="Typo.caption">Categories</MudText>
+                <MudChipSet @bind-SelectedChips="@SelectedCategories"
+                            MultiSelection="true"
+                            Filter="true">
+                    @foreach (Category category in AvailableCategories)
+                    {
+                        <MudChip Text="@category?.Description"></MudChip>
+                    }
+                </MudChipSet>
+
+                <MudText Typo="Typo.caption">Subcategories</MudText>
+                <MudChipSet @bind-SelectedChips="@SelectedSubcategories"
+                            MultiSelection="true"
+                            Filter="true">
+                    @foreach (Subcategory category in AvailableSubcategories)
+                    {
+                        <MudChip Text="@category?.Description"></MudChip>
+                    }
+                </MudChipSet>
+
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Class="ml-auto"
+                           OnClick="@(async ()=> await Submit())">
+                    Submit
+                </MudButton>
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+    @if (Success != null && Success.Value)
+    {
+        <MudItem xs="12" sm="10">
+            <MudAlert Severity="Severity.Success" Variant="Variant.Outlined">Transaction added</MudAlert>
+        </MudItem>
+    }
+    else if (Success != null && !Success.Value)
+    {
+        <MudItem xs="12" sm="10">
+            <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">Failed to add transaction</MudAlert>
+        </MudItem>
+    }
+</MudGrid>

@@ -2,27 +2,34 @@
 using MudBlazor;
 using SpendingTracker.Client.Services;
 using SpendingTracker.Shared.Models;
+using System.Globalization;
 
-namespace SpendingTracker.Client.Pages.Budgets
+namespace SpendingTracker.Client.Pages.Transactions
 {
-    public partial class AddBudget
+    public partial class AddTransaction
     {
         [Inject]
-        public IBudgetsService BudgetsService { get; set; }
+        public ITransactionsService TransactionsService { get; set; }
 
         [Inject]
         public ICategoriesService CategoriesService { get; set; }
 
-        public Budget Budget { get; set; } = new Budget();
+        public Transaction Transaction { get; set; } = new Transaction();
         public List<Category> AvailableCategories { get; set; } = new List<Category>();
         public List<Subcategory> AvailableSubcategories { get; set; } = new List<Subcategory>();
         public MudChip[]? SelectedCategories { get; set; }
         public MudChip[]? SelectedSubcategories { get; set; }
+        public DateTime? SelectedDatetime { get; set; }
         public bool? Success { get; set; } = null;
         public MudForm Form { get; set; }
 
+        public CultureInfo EnGbCulture = CultureInfo.GetCultureInfo("en-GB");
+
         protected override async Task OnInitializedAsync()
         {
+            Transaction.IsOutwardPayment = true;
+            Transaction.IsReoccurring = false;
+
             AvailableCategories = await CategoriesService.GetAllCategories();
             AvailableSubcategories = AvailableCategories.SelectMany(x => x.Subcategories).ToList();
         }
@@ -35,15 +42,17 @@ namespace SpendingTracker.Client.Pages.Budgets
             {
                 if (SelectedCategories is not null && SelectedCategories.Any())
                 {
-                    Budget.Categories = GetSelectedCategoriesForSubmit();
-
-                    if (SelectedSubcategories is not null && SelectedSubcategories.Any())
-                    {
-                        Budget.Subcategories = GetSelectedSubcategoriesForSubmit();
-                    }
+                    Transaction.Categories = GetSelectedCategoriesForSubmit();
                 }
 
-                var createdId = await BudgetsService.AddBudget(Budget);
+                if (SelectedSubcategories is not null && SelectedSubcategories.Any())
+                {
+                    Transaction.Subcategories = GetSelectedSubcategoriesForSubmit();
+                }
+
+                Transaction.DateOfTransaction = SelectedDatetime.Value;
+
+                var createdId = await TransactionsService.AddTransaction(Transaction);
                 Success = createdId > 0;
 
                 Form.Reset();

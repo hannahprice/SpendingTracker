@@ -6,11 +6,11 @@ namespace SpendingTracker.Server.CommandHandlers
 {
     public class AddBudgetCommandHandler : IRequestHandler<AddBudgetCommand, int>
     {
-        private readonly FinanceContext _dbcontext;
+        private readonly FinanceContext _dbContext;
 
-        public AddBudgetCommandHandler(FinanceContext dbcontext)
+        public AddBudgetCommandHandler(FinanceContext dbContext)
         {
-            _dbcontext = dbcontext;
+            _dbContext = dbContext;
         }
 
         public async Task<int> Handle(AddBudgetCommand request, CancellationToken cancellationToken)
@@ -23,10 +23,10 @@ namespace SpendingTracker.Server.CommandHandlers
             budget.Categories.Clear();
             budget.Subcategories?.Clear();
 
-            _dbcontext.Budgets.Attach(budget);
-            
-            foreach (Category category in categories) { _dbcontext.Categories.Attach(category); }
-            foreach (Subcategory subCategory in subCategories) { _dbcontext.Subcategories.Attach(subCategory); }
+            _dbContext.Budgets.Attach(budget);
+
+            foreach (Category category in categories) { _dbContext.Categories.Attach(category); }
+            foreach (Subcategory subCategory in subCategories) { _dbContext.Subcategories.Attach(subCategory); }
 
             budget.Categories.Clear();
             budget.Subcategories?.Clear();
@@ -34,9 +34,9 @@ namespace SpendingTracker.Server.CommandHandlers
             foreach (Category category in categories) { budget.Categories.Add(category); }
             foreach (Subcategory subCategory in subCategories) { budget.Subcategories.Add(subCategory); }
 
-            _dbcontext.Entry(budget).State = Microsoft.EntityFrameworkCore.EntityState.Added;
-            
-            await _dbcontext.SaveChangesAsync();
+            _dbContext.Entry(budget).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+
+            await _dbContext.SaveChangesAsync();
 
             return request.budget.Id;
         }
