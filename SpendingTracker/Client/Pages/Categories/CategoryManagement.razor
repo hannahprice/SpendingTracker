@@ -2,43 +2,44 @@
 @using static MudBlazor.CategoryTypes
 
 <section>
-    @if (!IsLoading && !Subcategories.Any())
+    @if (!IsLoading && !Categories.Any())
     {
         <p>No categories</p>
     }
     else
     {
-        <MudText Typo="Typo.h2" Class="my-8">Categories and subcategories</MudText>
+        <MudGrid Justify="Justify.Center" Spacing="5">
+            <MudItem xs="12">
+                <MudText Typo="Typo.h2" Class="my-8">Categories and subcategories</MudText>
+            </MudItem>
 
-        <MudTable
-            Items="@Subcategories"
-            Hover="true" 
-            Dense="false"
-            Striped="true"
-            Breakpoint="Breakpoint.Sm" 
-            Loading="@IsLoading"
-            LoadingProgressColor="Color.Info"
-            GroupBy="@_groupDefinition">
-            
-            <ColGroup>
-                <col style="width: 60px;" />
-                <col />
-                <col />
-            </ColGroup>
-            
-            <HeaderContent>
-                <MudTh>Id</MudTh>
-                <MudTh>Name</MudTh>
-            </HeaderContent>
+            @if (IsLoading)
+            {
+                <MudItem xs="12" Class="d-flex align-center justify-center">
+                    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+                </MudItem>
+            }
 
-            <GroupHeaderTemplate>
-                <MudTh Style="font-weight: 500" colspan="2">@($"{context.GroupName}: {GetGroupName(context.Key)}")</MudTh>
-            </GroupHeaderTemplate>
+            <MudItem xs="12">
+                <MudExpansionPanels MultiExpansion="true">
+                    @foreach (var category in Categories)
+                    {
+                        <MudExpansionPanel Text="@category.Description">
+                            @if (@category.Subcategories != null && @category.Subcategories.Any())
+                            {
+                                <MudList Dense="true">
+                                    @foreach (var subcategory in @category.Subcategories)
+                                    {
+                                        <MudListItem Text="@subcategory.Description" />
+                                    }
+                                </MudList>
+                            }
+                        </MudExpansionPanel>
+                    }
+                </MudExpansionPanels>
+            </MudItem>
 
-            <RowTemplate>
-                <MudTd DataLabel="Id">@context.Id</MudTd>
-                <MudTd DataLabel="Name">@context.Description</MudTd>
-            </RowTemplate>
-        </MudTable>
+        </MudGrid>
+
     }
 </section>

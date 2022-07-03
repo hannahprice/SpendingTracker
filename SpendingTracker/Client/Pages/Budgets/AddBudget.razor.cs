@@ -66,9 +66,9 @@ namespace SpendingTracker.Client.Pages.Budgets
         private List<Category> GetSelectedCategoriesForSubmit()
         {
             var selectedCategoryDescriptions = SelectedCategories?.Select(c => c.Text).ToList();
-            var test = AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
-            test.ForEach(x => x.Subcategories = null);
-            return test;
+            var categories = AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
+            categories.ForEach(x => x.Subcategories = null);
+            return categories;
         }
 
         private List<Subcategory> GetSelectedSubcategoriesForSubmit()

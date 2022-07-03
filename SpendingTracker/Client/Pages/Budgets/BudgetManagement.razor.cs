@@ -8,7 +8,8 @@ namespace SpendingTracker.Client.Pages.Budgets
     {
         [Inject]
         public IBudgetsService BudgetsService { get; set; }
-        public List<Budget> Budgets { get; set; }
+
+        public List<Budget> Budgets { get; set; } = new List<Budget>();
         public bool IsLoading { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
