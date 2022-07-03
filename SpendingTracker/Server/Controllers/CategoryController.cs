@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SpendingTracker.Server.Commands;
 using SpendingTracker.Server.Queries;
+using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Server.Controllers
 {
@@ -19,6 +21,13 @@ namespace SpendingTracker.Server.Controllers
         public async Task<IActionResult> GetCategories()
         {
             var result = await _mediator.Send(new GetCategoriesQuery());
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCategory([FromBody] Category category)
+        {
+            var result = await _mediator.Send(new AddCategoryCommand(category));
             return Ok(result);
         }
     }

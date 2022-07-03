@@ -1,0 +1,29 @@
+﻿@page "/categories/add"
+
+<MudGrid Justify="Justify.Center" Spacing="5">
+    <MudItem xs="12" sm="5">
+        <MudText Typo="Typo.h3" Class="mb-7">Add new category</MudText>
+    </MudItem>
+    <MudItem xs="12" sm="5" Class="">
+        <MudSwitch @bind-Checked="AddingMultiple" Color="Color.Primary" Label="Add multiple (remains on this page)" />
+    </MudItem>
+    <MudItem xs="12" sm="10">
+        <MudPaper Class="pa-16 ma-16" Elevation="3">
+            <MudText Typo="Typo.h5" Class="mb-7">New Category</MudText>
+            <MudForm @ref="Form">
+                <MudTextField @bind-Value="Category.Description"
+                              Required="true"
+                              RequiredError="Description is required"
+                              Label="Description"
+                              Variant="Variant.Text" />
+
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Class="ml-auto"
+                           OnClick="@(async ()=> await Submit())">
+                    Submit
+                </MudButton>
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>

@@ -5,5 +5,7 @@ namespace SpendingTracker.Client.Services
     public interface ICategoriesService
     {
         Task<List<Category>> GetAllCategories();
+
+        Task<int> AddCategory(Category category);
     }
 }
