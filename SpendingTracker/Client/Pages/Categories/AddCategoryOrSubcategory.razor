@@ -1,29 +1,78 @@
 ﻿@page "/categories/add"
+@using SpendingTracker.Shared.Models
 
 <MudGrid Justify="Justify.Center" Spacing="5">
-    <MudItem xs="12" sm="5">
+    <MudItem xs="12" sm="6">
         <MudText Typo="Typo.h3" Class="mb-7">Add new category</MudText>
     </MudItem>
-    <MudItem xs="12" sm="5" Class="">
+    <MudItem xs="12" sm="3" Class="">
         <MudSwitch @bind-Checked="AddingMultiple" Color="Color.Primary" Label="Add multiple (remains on this page)" />
+    </MudItem>
+    <MudItem xs="12" sm="3" Class="">
+        <MudSwitch @bind-Checked="AddingSubcategory" Color="Color.Primary" UnCheckedColor="Color.Secondary">
+            @if (AddingSubcategory)
+            {
+                <MudText Typo="Typo.caption">Add subcategory</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.caption">Add category</MudText>
+            }
+
+        </MudSwitch>
     </MudItem>
     <MudItem xs="12" sm="10">
         <MudPaper Class="pa-16 ma-16" Elevation="3">
-            <MudText Typo="Typo.h5" Class="mb-7">New Category</MudText>
-            <MudForm @ref="Form">
-                <MudTextField @bind-Value="Category.Description"
+
+            @if (AddingSubcategory)
+            {
+                <MudText Typo="Typo.h5" Class="mb-7">New Subcategory</MudText>
+                <MudForm @ref=SubcategoryForm>
+                    <MudSelect T="int" 
+                        @bind-Value="@Subcategory.CategoryId"
+                        Label="Category" 
+                        AnchorOrigin="Origin.BottomCenter" 
+                        Required="true" 
+                        RequiredError="Category is required">
+                        @foreach (Category category in AvailableCategories)
+                        {
+                            <MudSelectItem Value="category.Id">@category.Description</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <MudTextField @bind-Value="Subcategory.Description"
                               Required="true"
                               RequiredError="Description is required"
                               Label="Description"
                               Variant="Variant.Text" />
 
-                <MudButton Variant="Variant.Filled"
+                    <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
                            Class="ml-auto"
-                           OnClick="@(async ()=> await Submit())">
-                    Submit
-                </MudButton>
-            </MudForm>
+                           OnClick="@(async ()=> await SubmitSubcategory())">
+                        Submit
+                    </MudButton>
+
+                </MudForm>
+            }
+            else
+            {
+                <MudText Typo="Typo.h5" Class="mb-7">New Category</MudText>
+                <MudForm @ref="CategoryForm">
+                    <MudTextField @bind-Value="Category.Description"
+                              Required="true"
+                              RequiredError="Description is required"
+                              Label="Description"
+                              Variant="Variant.Text" />
+
+                    <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Class="ml-auto"
+                           OnClick="@(async ()=> await SubmitCategory())">
+                        Submit
+                    </MudButton>
+                </MudForm>
+            }
         </MudPaper>
     </MudItem>
 </MudGrid>
