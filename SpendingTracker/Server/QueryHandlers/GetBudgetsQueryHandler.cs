@@ -17,6 +17,7 @@ namespace SpendingTracker.Server.QueryHandlers
         public Task<List<Budget>> Handle(GetBudgetsQuery request, CancellationToken cancellationToken)
         {
             return _dbcontext.Budgets
+                .OrderByDescending(x => x.Id)
                 .Include(x => x.Categories)
                 .Include(x => x.Subcategories)
                 .ToListAsync();

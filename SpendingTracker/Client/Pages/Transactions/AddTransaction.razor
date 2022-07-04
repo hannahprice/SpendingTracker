@@ -1,16 +1,15 @@
 ﻿@using SpendingTracker.Shared.Models;
 @page "/transactions/add"
 
-<MudGrid Justify="Justify.Center" Spacing="5">
+<MudGrid Justify="Justify.Center">
     <MudItem xs="12" sm="5">
-        <MudText Typo="Typo.h3" Class="mb-7">Add new transaction</MudText>
+        <MudText Typo="Typo.h3" Class="my-7">Add new transaction</MudText>
     </MudItem>
-    <MudItem xs="12" sm="5" Class="">
+    <MudItem xs="12" sm="5" Class="my-7 d-flex justify-end">
         <MudSwitch @bind-Checked="AddingMultiple" Color="Color.Primary" Label="Add multiple (remains on this page)" /> 
     </MudItem>
     <MudItem xs="12" sm="10">
-        <MudPaper Class="pa-16 ma-16" Elevation="3">
-            <MudText Typo="Typo.h5" Class="mb-7">New transaction</MudText>
+        <MudPaper Class="pa-16" Elevation="3">
             <MudForm @ref="Form">
                 <MudNumericField Label="Amount"
                                  @bind-Value="Transaction.Amount"
@@ -23,7 +22,8 @@
 
                 <MudTextField @bind-Value="Transaction.Description"
                               Label="Description"
-                              Variant="Variant.Text" />
+                              Variant="Variant.Text"
+                              Class="my-4"/>
 
                 <MudText Typo="Typo.caption">Payment direction</MudText>
                 <MudRadioGroup @bind-SelectedOption="Transaction.IsOutwardPayment">
@@ -37,13 +37,27 @@
                     <MudRadio Option="true">Yes</MudRadio>
                 </MudRadioGroup>
 
+                @if (Transaction.IsReoccurring)
+                {
+                    <MudSelect @bind-Value="@Transaction.ReoccuringFrequency"
+                           Label="Frequency"
+                           AnchorOrigin="Origin.BottomCenter"
+                            Class="my-4">
+                    @foreach (Frequency item in Enum.GetValues(typeof(Frequency)))
+                    {
+                        <MudSelectItem Value="@item">@item</MudSelectItem>
+                    }
+                </MudSelect>
+                }
+
                 <MudDatePicker Label="Date of transaction"
                                @bind-Date="SelectedDatetime"
                                Editable="true"
                                Required="true"
-                               RequiredError="Date is required" />
+                               RequiredError="Date is required"
+                               Class="mb-6"/>
 
-                <MudText Typo="Typo.caption">Categories</MudText>
+                <MudText Typo="Typo.caption">Categories (optional)</MudText>
                 <MudChipSet @bind-SelectedChips="@SelectedCategories"
                             MultiSelection="true"
                             Filter="true">
@@ -53,7 +67,7 @@
                     }
                 </MudChipSet>
 
-                <MudText Typo="Typo.caption">Subcategories</MudText>
+                <MudText Typo="Typo.caption">Subcategories (optional)</MudText>
                 <MudChipSet @bind-SelectedChips="@SelectedSubcategories"
                             MultiSelection="true"
                             Filter="true">
@@ -65,7 +79,7 @@
 
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
-                           Class="ml-auto"
+                           Class="ml-auto mt-6"
                            OnClick="@(async ()=> await Submit())">
                     Submit
                 </MudButton>

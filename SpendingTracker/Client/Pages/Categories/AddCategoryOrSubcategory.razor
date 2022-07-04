@@ -1,14 +1,13 @@
 ﻿@page "/categories/add"
 @using SpendingTracker.Shared.Models
 
-<MudGrid Justify="Justify.Center" Spacing="5">
-    <MudItem xs="12" sm="6">
-        <MudText Typo="Typo.h3" Class="mb-7">Add new category</MudText>
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" sm="7">
+        <MudText Typo="Typo.h3" Class="my-7">Add new category</MudText>
     </MudItem>
-    <MudItem xs="12" sm="3" Class="">
+    <MudItem xs="12" sm="3" Class="my-7 d-flex justify-end">
         <MudSwitch @bind-Checked="AddingMultiple" Color="Color.Primary" Label="Add multiple (remains on this page)" />
-    </MudItem>
-    <MudItem xs="12" sm="3" Class="">
+
         <MudSwitch @bind-Checked="AddingSubcategory" Color="Color.Primary" UnCheckedColor="Color.Secondary">
             @if (AddingSubcategory)
             {
@@ -22,11 +21,10 @@
         </MudSwitch>
     </MudItem>
     <MudItem xs="12" sm="10">
-        <MudPaper Class="pa-16 ma-16" Elevation="3">
+        <MudPaper Class="pa-16" Elevation="3">
 
             @if (AddingSubcategory)
             {
-                <MudText Typo="Typo.h5" Class="mb-7">New Subcategory</MudText>
                 <MudForm @ref=SubcategoryForm>
                     <MudSelect T="int" 
                         @bind-Value="@Subcategory.CategoryId"
@@ -44,11 +42,12 @@
                               Required="true"
                               RequiredError="Description is required"
                               Label="Description"
-                              Variant="Variant.Text" />
+                              Variant="Variant.Text"
+                              Class="mt-6"/>
 
                     <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
-                           Class="ml-auto"
+                           Class="ml-auto mt-6"
                            OnClick="@(async ()=> await SubmitSubcategory())">
                         Submit
                     </MudButton>
@@ -57,7 +56,6 @@
             }
             else
             {
-                <MudText Typo="Typo.h5" Class="mb-7">New Category</MudText>
                 <MudForm @ref="CategoryForm">
                     <MudTextField @bind-Value="Category.Description"
                               Required="true"
@@ -67,7 +65,7 @@
 
                     <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
-                           Class="ml-auto"
+                           Class="ml-auto mt-6"
                            OnClick="@(async ()=> await SubmitCategory())">
                         Submit
                     </MudButton>
