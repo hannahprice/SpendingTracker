@@ -5,7 +5,7 @@ using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Pages.Categories
 {
-    public partial class CategoryManagement
+    public partial class CategoryList
     {
         [Inject]
         public ICategoriesService CategoriesService { get; set; }

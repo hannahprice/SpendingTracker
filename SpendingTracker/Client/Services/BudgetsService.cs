@@ -34,5 +34,11 @@ namespace SpendingTracker.Client.Services
 
             return default;
         }
+
+        public async Task<Budget> GetBudget(int id)
+        {
+            return await JsonSerializer.DeserializeAsync<Budget>
+                (await _httpClient.GetStreamAsync($"api/Budgets/{id}"), _jsonOptions);
+        }
     }
 }

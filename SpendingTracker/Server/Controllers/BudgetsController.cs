@@ -25,9 +25,17 @@ namespace SpendingTracker.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBudget([FromBody]Budget budget)
+        public async Task<IActionResult> AddBudget([FromBody] Budget budget)
         {
             var result = await _mediator.Send(new AddBudgetCommand(budget));
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetBudget([FromRoute] int id)
+        {
+            var result = await _mediator.Send(new GetBudgetQuery(id));
             return Ok(result);
         }
     }
