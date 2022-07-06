@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpendingTracker.Client", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpendingTracker.Shared", "SpendingTracker\Shared\SpendingTracker.Shared.csproj", "{E543501C-41F1-4920-87EF-842F3CE9B32C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTests", "ServiceTests\ServiceTests.csproj", "{318E083B-9B75-4078-97C5-9E7F4145F844}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E543501C-41F1-4920-87EF-842F3CE9B32C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E543501C-41F1-4920-87EF-842F3CE9B32C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E543501C-41F1-4920-87EF-842F3CE9B32C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{318E083B-9B75-4078-97C5-9E7F4145F844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{318E083B-9B75-4078-97C5-9E7F4145F844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{318E083B-9B75-4078-97C5-9E7F4145F844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{318E083B-9B75-4078-97C5-9E7F4145F844}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using SpendingTracker.Client;
-using SpendingTracker.Client.Services;
-using MudBlazor.Services;
 using MudBlazor;
+using MudBlazor.Services;
+using SpendingTracker.Client.Services;
 
-namespace Company.WebApplication1
+namespace SpendingTracker.Client
 {
     public class Program
     {

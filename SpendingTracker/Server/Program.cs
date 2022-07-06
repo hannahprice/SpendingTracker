@@ -1,9 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using SpendingTracker.Server;
 using System.Text.Json.Serialization;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Company.WebApplication1
+namespace SpendingTracker.Server
 {
     public class Program
     {
