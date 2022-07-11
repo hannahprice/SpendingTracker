@@ -40,5 +40,10 @@ namespace SpendingTracker.Client.Services
             return await JsonSerializer.DeserializeAsync<Budget>
                 (await _httpClient.GetStreamAsync($"api/Budgets/{id}"), _jsonOptions);
         }
+
+        public Task DeleteBudget(int id)
+        {
+            return _httpClient.DeleteAsync($"api/Budgets/{id}");
+        }
     }
 }
