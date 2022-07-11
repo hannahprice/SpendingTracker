@@ -38,5 +38,13 @@ namespace SpendingTracker.Server.Controllers
             var result = await _mediator.Send(new GetBudgetQuery(id));
             return Ok(result);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteBudget([FromRoute] int id)
+        {
+            await _mediator.Send(new DeleteBudgetCommand(id));
+            return NoContent();
+        }
     }
 }

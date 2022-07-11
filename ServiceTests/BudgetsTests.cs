@@ -79,6 +79,20 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         await RemoveAddedBudget(dbContext!, 5);
     }
 
+    [Fact]
+    public async Task DeleteBudgetSuccess()
+    {
+        await InsertTestBudget(6);
+
+        var response = await _httpClient.DeleteAsync($"api/Budgets/6");
+        response.EnsureSuccessStatusCode();
+        
+        var dbContext = Utilities.GetDbContext(_appFactory);
+        dbContext!.Budgets.Should().NotContain(c => c.Id == 6);
+    }
+    
+    #region TestHelpers
+
     private async Task InsertTestBudget(int id)
     {
         var budget = new Budget()
@@ -96,4 +110,6 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         dbContext.Budgets.Remove(dbContext.Budgets.Single(c => c.Id == addedBudgetId));
         await dbContext.SaveChangesAsync();
     }
+
+    #endregion
 }

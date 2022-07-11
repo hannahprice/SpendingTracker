@@ -1,15 +1,15 @@
 ﻿@page "/budgets/{id}"
 
 <MudGrid Justify="Justify.Center" Spacing="5">
-    <MudItem xs="12" sm="4">
+    <MudItem xs="12" sm="4" Class="mt-10">
         <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowBack" Size="Size.Large" Href="/budgets"/>
     </MudItem>
-    <MudItem xs="12" sm="4">
+    <MudItem xs="12" sm="4" Class="mt-10">
         <MudText Typo="Typo.h3">Budget detail</MudText>
     </MudItem>
 
     <MudItem xs="8">
-        <MudPaper Elevation="3" Class="pa-16 mt-16">
+        <MudPaper Elevation="3" Class="pa-16">
             Amount: @Budget.Amount
             Frequency: @Budget.Frequency
         </MudPaper>
