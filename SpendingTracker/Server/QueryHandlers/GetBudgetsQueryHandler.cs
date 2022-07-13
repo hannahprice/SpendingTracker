@@ -7,20 +7,20 @@ namespace SpendingTracker.Server.QueryHandlers
 {
     public class GetBudgetsQueryHandler : IRequestHandler<GetBudgetsQuery, List<Budget>>
     {
-        private readonly FinanceContext _dbcontext;
+        private readonly FinanceContext _dbContext;
 
-        public GetBudgetsQueryHandler(FinanceContext dbcontext)
+        public GetBudgetsQueryHandler(FinanceContext dbContext)
         {
-            _dbcontext = dbcontext;
+            _dbContext = dbContext;
         }
 
         public Task<List<Budget>> Handle(GetBudgetsQuery request, CancellationToken cancellationToken)
         {
-            return _dbcontext.Budgets
+            return _dbContext.Budgets
                 .OrderByDescending(x => x.Id)
                 .Include(x => x.Categories)
                 .Include(x => x.Subcategories)
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
         }
     }
 }

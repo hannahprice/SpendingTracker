@@ -7,20 +7,20 @@ namespace SpendingTracker.Server.QueryHandlers
 {
     public class GetTransactionsQueryHandler : IRequestHandler<GetTransactionsQuery, List<Transaction>>
     {
-        private readonly FinanceContext _dbcontext;
+        private readonly FinanceContext _dbContext;
 
         public GetTransactionsQueryHandler(FinanceContext dbContext)
         {
-            _dbcontext = dbContext;
+            _dbContext = dbContext;
         }
 
         public Task<List<Transaction>> Handle(GetTransactionsQuery request, CancellationToken cancellationToken)
         {
-            return _dbcontext.Transactions
+            return _dbContext.Transactions
                 .OrderByDescending(x => x.DateOfTransaction)
                 .Include(x => x.Categories)
                 .Include(x => x.Subcategories)
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
         }
     }
 }

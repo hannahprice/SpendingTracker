@@ -1,32 +1,25 @@
-﻿using SpendingTracker.Shared.Models;
-using System.Text;
-using System.Text.Json;
+﻿using System.Net.Http.Json;
+using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Services
 {
     public class SubcategoriesService : ISubcategoriesService
     {
         private readonly HttpClient _httpClient;
-        private JsonSerializerOptions _jsonOptions;
 
         public SubcategoriesService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         }
 
         public async Task<int> AddSubcategory(Subcategory subcategory)
         {
-            var json = new StringContent(JsonSerializer.Serialize(subcategory), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync("api/Subcategories", json);
+            var result = await _httpClient.PostAsJsonAsync("api/Subcategories", subcategory);
 
-            if (result.IsSuccessStatusCode)
-            {
-                var data = await result.Content.ReadAsStringAsync();
-                return int.Parse(data);
-            }
-
-            return default;
+            if (!result.IsSuccessStatusCode) return default;
+            
+            var data = await result.Content.ReadAsStringAsync();
+            return int.Parse(data);
         }
     }
 }

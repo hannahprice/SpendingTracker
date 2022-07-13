@@ -66,22 +66,43 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         await RemoveAddedTransaction(dbContext, 4);
     }
 
-    private async Task InsertTestTransaction(int id)
+    [Fact]
+    public async Task GetTransactionSuccess()
     {
-        var transaction = new Transaction()
-        {
-            Id = id, Amount = 55.99m, Description = "Card payment to Sainsbury's", IsReoccurring = false,
-            IsOutwardPayment = true, DateOfTransaction = DateTime.Now,
-            Categories = new List<Category> { new Category { Id = 1 } },
-            Subcategories = new List<Subcategory> { new Subcategory { Id = 1 } }
-        };
-        var response = await _httpClient.PostAsJsonAsync("api/Transactions", transaction);
-        response.EnsureSuccessStatusCode();
+        const int id = 5;
+        await InsertTestTransaction(id);
+
+        var response = await _httpClient.GetFromJsonAsync<Transaction>($"api/Transactions/{id}");
+        
+        response.Should().NotBeNull();
+        response!.Id.Should().Be(id);
+        
+        var dbContext = Utilities.GetDbContext(_appFactory);
+
+        await RemoveAddedTransaction(dbContext!, id);
     }
 
-    private async Task RemoveAddedTransaction(FinanceContext dbContext, int addedTransactionId)
-    {
-        dbContext.Transactions.Remove(dbContext.Transactions.Single(t => t.Id == addedTransactionId));
-        await dbContext.SaveChangesAsync();
-    }
+    #region TestHelpers
+
+        private async Task InsertTestTransaction(int id)
+        {
+            var transaction = new Transaction()
+            {
+                Id = id, Amount = 55.99m, Description = "Card payment to Sainsbury's", IsReoccurring = false,
+                IsOutwardPayment = true, DateOfTransaction = DateTime.Now,
+                Categories = new List<Category> { new Category { Id = 1 } },
+                Subcategories = new List<Subcategory> { new Subcategory { Id = 1 } }
+            };
+            var response = await _httpClient.PostAsJsonAsync("api/Transactions", transaction);
+            response.EnsureSuccessStatusCode();
+        }
+    
+        private async Task RemoveAddedTransaction(FinanceContext dbContext, int addedTransactionId)
+        {
+            dbContext.Transactions.Remove(dbContext.Transactions.Single(t => t.Id == addedTransactionId));
+            await dbContext.SaveChangesAsync();
+        }
+
+    #endregion
+
 }

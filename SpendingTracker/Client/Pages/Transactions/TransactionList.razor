@@ -1,4 +1,5 @@
 ﻿@page "/transactions"
+@using SpendingTracker.Shared.Models
 
 <section>
     @if (!IsLoading && !Transactions.Any())
@@ -21,7 +22,9 @@
                       Striped="true"
                       Breakpoint="Breakpoint.Sm"
                       Loading="@IsLoading"
-                      LoadingProgressColor="Color.Info">
+                      LoadingProgressColor="Color.Info"
+                      OnRowClick="@TransactionClicked"
+                      T="Transaction">
                     <HeaderContent>
                         <MudTh>Id</MudTh>
                         <MudTh>Date</MudTh>
@@ -39,14 +42,14 @@
                         <MudTd DataLabel="Description">@context.Description</MudTd>
                         <MudTd DataLabel="Amount">@context.Amount</MudTd>
                         <MudTd DataLabel="Is outward payment">@context.IsOutwardPayment</MudTd>
-                        <MudTd DataLabel="Is reoccuring">@context.IsReoccurring</MudTd>
+                        <MudTd DataLabel="Is reoccurring">@context.IsReoccurring</MudTd>
                         @if (@context.IsReoccurring)
                         {
-                        <MudTd DataLabel="Reoccuring frequency">@context.ReoccuringFrequency</MudTd>
+                        <MudTd DataLabel="Reoccurring frequency">@context.ReoccuringFrequency</MudTd>
                         }
                         else
                         {
-                        <MudTd DataLabel="Reoccuring frequency">-</MudTd>
+                        <MudTd DataLabel="Reoccurring frequency">-</MudTd>
                         }
 
                     <MudTd DataLabel="Categories">

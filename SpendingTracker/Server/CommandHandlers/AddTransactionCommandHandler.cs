@@ -17,8 +17,8 @@ namespace SpendingTracker.Server.CommandHandlers
         {
             var transaction = request.transaction;
 
-            var categories = transaction.Categories != null ? transaction.Categories.ToList() : Enumerable.Empty<Category>();
-            var subCategories = transaction.Subcategories != null ? transaction.Subcategories.ToList() : Enumerable.Empty<Subcategory>();
+            var categories = transaction.Categories?.ToList() ?? Enumerable.Empty<Category>();
+            var subCategories = transaction.Subcategories?.ToList() ?? Enumerable.Empty<Subcategory>();
 
             transaction.Categories?.Clear();
             transaction.Subcategories?.Clear();
@@ -36,7 +36,7 @@ namespace SpendingTracker.Server.CommandHandlers
 
             _dbContext.Entry(transaction).State = Microsoft.EntityFrameworkCore.EntityState.Added;
 
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return transaction.Id;
         }

@@ -17,8 +17,8 @@ namespace SpendingTracker.Server.QueryHandlers
         public Task<Budget> Handle(GetBudgetQuery request, CancellationToken cancellationToken)
         {
             return _dbContext.Budgets.Where(x => x.Id == request.id)
-                .Include(b => b.Categories)
-                .Include(b => b.Subcategories).FirstAsync();
+                .Include(x => x.Categories)
+                .Include(x => x.Subcategories).FirstAsync(cancellationToken: cancellationToken);
         }
     }
 }

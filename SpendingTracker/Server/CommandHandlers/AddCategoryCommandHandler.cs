@@ -15,7 +15,7 @@ namespace SpendingTracker.Server.CommandHandlers
         public async Task<int> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
             _dbContext.Categories.Add(request.category);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return request.category.Id;
         }

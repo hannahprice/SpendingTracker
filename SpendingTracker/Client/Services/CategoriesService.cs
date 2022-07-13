@@ -1,38 +1,30 @@
-﻿using SpendingTracker.Shared.Models;
-using System.Text;
-using System.Text.Json;
+﻿using System.Net.Http.Json;
+using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Services
 {
     public class CategoriesService : ICategoriesService
     {
         private readonly HttpClient _httpClient;
-        private JsonSerializerOptions _jsonOptions;
 
         public CategoriesService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         }
 
-        public async Task<List<Category>> GetAllCategories()
+        public Task<List<Category>> GetAllCategories()
         {
-            return await JsonSerializer.DeserializeAsync<List<Category>>
-                (await _httpClient.GetStreamAsync("api/Categories"), _jsonOptions);
+            return _httpClient.GetFromJsonAsync<List<Category>>("api/Categories");
         }
 
         public async Task<int> AddCategory(Category category)
         {
-            var json = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync("api/Categories", json);
+            var result = await _httpClient.PostAsJsonAsync("api/Categories", category);
 
-            if (result.IsSuccessStatusCode)
-            {
-                var data = await result.Content.ReadAsStringAsync();
-                return int.Parse(data);
-            }
-
-            return default;
+            if (!result.IsSuccessStatusCode) return default;
+            var data = await result.Content.ReadAsStringAsync();
+            
+            return int.Parse(data);
         }
     }
 }

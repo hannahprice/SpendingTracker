@@ -7,5 +7,6 @@ namespace SpendingTracker.Client.Services
         Task<List<Transaction>> GetAllTransactions();
 
         Task<int> AddTransaction(Transaction transaction);
+        Task<Transaction> GetTransaction(int id);
     }
 }

@@ -15,7 +15,7 @@ namespace SpendingTracker.Server.CommandHandlers
         public async Task<int> Handle(AddSubcategoryCommand request, CancellationToken cancellationToken)
         {
             _dbContext.Subcategories.Add(request.subcategory);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return request.subcategory.Id;
         }

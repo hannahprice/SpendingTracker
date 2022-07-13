@@ -18,25 +18,25 @@ namespace SpendingTracker.Server.CommandHandlers
             var budget = request.budget;
 
             var categories = request.budget.Categories.ToList();
-            var subCategories = budget.Subcategories != null ? budget.Subcategories.ToList() : Enumerable.Empty<Subcategory>();
+            var subCategories = budget.Subcategories?.ToList() ?? Enumerable.Empty<Subcategory>();
 
             budget.Categories.Clear();
             budget.Subcategories?.Clear();
 
             _dbContext.Budgets.Attach(budget);
 
-            foreach (Category category in categories) { _dbContext.Categories.Attach(category); }
-            foreach (Subcategory subCategory in subCategories) { _dbContext.Subcategories.Attach(subCategory); }
+            _dbContext.Categories.AttachRange(categories);
+            _dbContext.Subcategories.AttachRange(subCategories);
 
             budget.Categories.Clear();
             budget.Subcategories?.Clear();
 
-            foreach (Category category in categories) { budget.Categories.Add(category); }
-            foreach (Subcategory subCategory in subCategories) { budget.Subcategories.Add(subCategory); }
+            budget.Categories.AddRange(categories);
+            budget.Subcategories?.AddRange(subCategories);
 
             _dbContext.Entry(budget).State = Microsoft.EntityFrameworkCore.EntityState.Added;
 
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return request.budget.Id;
         }

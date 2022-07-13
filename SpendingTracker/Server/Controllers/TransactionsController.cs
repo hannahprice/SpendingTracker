@@ -30,5 +30,13 @@ namespace SpendingTracker.Server.Controllers
             var result = await _mediator.Send(new AddTransactionCommand(transaction));
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetTransaction([FromRoute] int id)
+        {
+            var result = await _mediator.Send(new GetTransactionQuery(id));
+            return Ok(result);
+        }
     }
 }

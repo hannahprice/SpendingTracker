@@ -1,44 +1,35 @@
-﻿using SpendingTracker.Shared.Models;
-using System.Text;
-using System.Text.Json;
+﻿using System.Net.Http.Json;
+using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Services
 {
     public class BudgetsService : IBudgetsService
     {
         private readonly HttpClient _httpClient;
-        private JsonSerializerOptions _jsonOptions;
 
         public BudgetsService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         }
 
-        public async Task<List<Budget>> GetAllBudgets()
+        public Task<List<Budget>> GetAllBudgets()
         {
-            return await JsonSerializer.DeserializeAsync<List<Budget>>
-                (await _httpClient.GetStreamAsync("api/Budgets"), _jsonOptions);
+            return _httpClient.GetFromJsonAsync<List<Budget>>("api/Budgets");
         }
 
         public async Task<int> AddBudget(Budget budget)
         {
-            var json = new StringContent(JsonSerializer.Serialize(budget), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync("api/Budgets", json);
+            var result = await _httpClient.PostAsJsonAsync("api/Budgets", budget);
 
-            if (result.IsSuccessStatusCode)
-            {
-                var data = await result.Content.ReadAsStringAsync();
-                return int.Parse(data);
-            }
-
-            return default;
+            if (!result.IsSuccessStatusCode) return default;
+            
+            var data = await result.Content.ReadAsStringAsync();
+            return int.Parse(data);
         }
 
-        public async Task<Budget> GetBudget(int id)
+        public Task<Budget> GetBudget(int id)
         {
-            return await JsonSerializer.DeserializeAsync<Budget>
-                (await _httpClient.GetStreamAsync($"api/Budgets/{id}"), _jsonOptions);
+            return _httpClient.GetFromJsonAsync<Budget>($"api/Budgets/{id}");
         }
 
         public Task DeleteBudget(int id)

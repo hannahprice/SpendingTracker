@@ -1,30 +1,25 @@
-﻿using SpendingTracker.Shared.Models;
-using System.Text;
-using System.Text.Json;
+﻿using System.Net.Http.Json;
+using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Services
 {
     public class TransactionsService : ITransactionsService
     {
         private readonly HttpClient _httpClient;
-        private JsonSerializerOptions _jsonOptions;
 
         public TransactionsService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         }
 
-        public async Task<List<Transaction>> GetAllTransactions()
+        public Task<List<Transaction>> GetAllTransactions()
         {
-            return await JsonSerializer.DeserializeAsync<List<Transaction>>
-                (await _httpClient.GetStreamAsync("api/Transactions"), _jsonOptions);
+            return _httpClient.GetFromJsonAsync<List<Transaction>>("api/Transactions");
         }
 
         public async Task<int> AddTransaction(Transaction transaction)
         {
-            var json = new StringContent(JsonSerializer.Serialize(transaction), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync("api/Transactions", json);
+            var result = await _httpClient.PostAsJsonAsync("api/Transactions", transaction);
 
             if (result.IsSuccessStatusCode)
             {
@@ -33,6 +28,11 @@ namespace SpendingTracker.Client.Services
             }
 
             return default;
+        }
+
+        public Task<Transaction> GetTransaction(int id)
+        {
+            return _httpClient.GetFromJsonAsync<Transaction>($"api/Transactions/{id}");
         }
     }
 }
