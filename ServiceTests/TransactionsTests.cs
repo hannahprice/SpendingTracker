@@ -26,7 +26,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         await Task.WhenAll(addTransactionTask1, addTransactionTask2, addTransactionTask3);
 
         var response = await _httpClient.GetFromJsonAsync<List<Transaction>>("api/Transactions");
-        
+
         response.Should().NotBeNullOrEmpty();
         response.Should().BeInDescendingOrder(c => c.Id);
         response.Should().AllSatisfy(c =>
@@ -34,7 +34,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
             c.Categories.Should().NotBeNullOrEmpty();
             c.Subcategories.Should().NotBeNullOrEmpty();
         });
-        
+
         var dbContext = Utilities.GetDbContext(_appFactory);
 
         var removeTransactionTask1 = RemoveAddedTransaction(dbContext!, 1);
@@ -53,13 +53,13 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
             Categories = new List<Category> { new Category { Id = 1 } },
             Subcategories = new List<Subcategory> { new Subcategory { Id = 1 } }
         };
-        
+
         var response = await _httpClient.PostAsJsonAsync("api/Transactions", transaction);
         response.EnsureSuccessStatusCode();
-        
+
         var responseContent = await response.Content.ReadAsStringAsync();
         var newTransactionId = int.Parse(responseContent);
-        
+
         var dbContext = Utilities.GetDbContext(_appFactory);
         dbContext!.Transactions.Should().Contain(c => c.Id == newTransactionId);
 
@@ -73,36 +73,48 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         await InsertTestTransaction(id);
 
         var response = await _httpClient.GetFromJsonAsync<Transaction>($"api/Transactions/{id}");
-        
+
         response.Should().NotBeNull();
         response!.Id.Should().Be(id);
-        
+
         var dbContext = Utilities.GetDbContext(_appFactory);
 
         await RemoveAddedTransaction(dbContext!, id);
     }
 
+    [Fact]
+    public async Task DeleteBudgetSuccess()
+    {
+        const int id = 6;
+        await InsertTestTransaction(id);
+
+        var response = await _httpClient.DeleteAsync($"api/Transactions/{id}");
+        response.EnsureSuccessStatusCode();
+
+        var dbContext = Utilities.GetDbContext(_appFactory);
+        dbContext!.Transactions.Should().NotContain(c => c.Id == id);
+    }
+
     #region TestHelpers
 
-        private async Task InsertTestTransaction(int id)
+    private async Task InsertTestTransaction(int id)
+    {
+        var transaction = new Transaction()
         {
-            var transaction = new Transaction()
-            {
-                Id = id, Amount = 55.99m, Description = "Card payment to Sainsbury's", IsReoccurring = false,
-                IsOutwardPayment = true, DateOfTransaction = DateTime.Now,
-                Categories = new List<Category> { new Category { Id = 1 } },
-                Subcategories = new List<Subcategory> { new Subcategory { Id = 1 } }
-            };
-            var response = await _httpClient.PostAsJsonAsync("api/Transactions", transaction);
-            response.EnsureSuccessStatusCode();
-        }
-    
-        private async Task RemoveAddedTransaction(FinanceContext dbContext, int addedTransactionId)
-        {
-            dbContext.Transactions.Remove(dbContext.Transactions.Single(t => t.Id == addedTransactionId));
-            await dbContext.SaveChangesAsync();
-        }
+            Id = id, Amount = 55.99m, Description = "Card payment to Sainsbury's", IsReoccurring = false,
+            IsOutwardPayment = true, DateOfTransaction = DateTime.Now,
+            Categories = new List<Category> { new Category { Id = 1 } },
+            Subcategories = new List<Subcategory> { new Subcategory { Id = 1 } }
+        };
+        var response = await _httpClient.PostAsJsonAsync("api/Transactions", transaction);
+        response.EnsureSuccessStatusCode();
+    }
+
+    private async Task RemoveAddedTransaction(FinanceContext dbContext, int addedTransactionId)
+    {
+        dbContext.Transactions.Remove(dbContext.Transactions.Single(t => t.Id == addedTransactionId));
+        await dbContext.SaveChangesAsync();
+    }
 
     #endregion
-
 }
