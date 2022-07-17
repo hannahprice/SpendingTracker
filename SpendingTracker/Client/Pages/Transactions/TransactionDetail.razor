@@ -7,6 +7,9 @@
     <MudItem xs="12" sm="4" Class="mt-10 d-flex justify-center">
         <MudText Typo="Typo.h3">Transaction detail</MudText>
     </MudItem>
+    <MudItem xs="12" sm="2" Class="mt-10 d-flex justify-end">
+        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.DeleteForever" Size="Size.Large" OnClick="ToggleDialog"/>
+    </MudItem>
 
     <MudItem xs="8">
         <MudPaper Elevation="3" Class="pa-16">
@@ -16,3 +19,13 @@
         </MudPaper>
     </MudItem>
 </MudGrid>
+
+<MudDialog @bind-IsVisible="DialogVisible">
+    <DialogContent>
+        Delete transaction?
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="(() => ToggleDialog())">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="DeleteTransaction">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
