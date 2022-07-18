@@ -34,5 +34,10 @@ namespace SpendingTracker.Client.Services
         {
             return _httpClient.GetFromJsonAsync<Transaction>($"api/Transactions/{id}");
         }
+
+        public Task DeleteTransaction(int id)
+        {
+            return _httpClient.DeleteAsync($"api/Transactions/{id}");
+        }
     }
 }
