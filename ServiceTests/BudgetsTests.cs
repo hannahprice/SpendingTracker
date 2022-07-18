@@ -2,10 +2,10 @@
 using FluentAssertions;
 using SpendingTracker.Server;
 using SpendingTracker.Shared.Models;
-using Xunit;
 
 namespace ServiceTests;
 
+[UsesVerify]
 public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
 {
     private readonly TestWebApplicationFactory<Program> _appFactory;
@@ -29,11 +29,8 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         
         response.Should().NotBeNullOrEmpty();
         response.Should().BeInDescendingOrder(c => c.Id);
-        response.Should().AllSatisfy(c =>
-        {
-            c.Categories.Should().NotBeNullOrEmpty();
-            c.Subcategories.Should().NotBeNullOrEmpty();
-        });
+
+        await Verify(response);
         
         var dbContext = Utilities.GetDbContext(_appFactory);
 
@@ -73,6 +70,8 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         var response = await _httpClient.GetFromJsonAsync<Budget>("api/Budgets/5");
         response.Should().NotBeNull();
         response!.Id.Should().Be(5);
+        
+        await Verify(response);
         
         var dbContext = Utilities.GetDbContext(_appFactory);
 

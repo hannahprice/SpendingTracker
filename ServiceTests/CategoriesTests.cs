@@ -2,10 +2,10 @@
 using FluentAssertions;
 using SpendingTracker.Server;
 using SpendingTracker.Shared.Models;
-using Xunit;
 
 namespace ServiceTests;
 
+[UsesVerify]
 public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
 {
     private readonly TestWebApplicationFactory<Program> _appFactory;
@@ -18,18 +18,15 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
     }
     
     [Fact]
-    public void DatabaseIsSeededWithExpectedCategories()
+    public async Task DatabaseIsSeededWithExpectedCategories()
     {
-        var expectedCategoryNames = new List<string>
-        {
-            "Bills", "Shopping", "Travel", "Health", "Leisure", "Holidays", "Miscellaneous"
-        };
-            
         var dbContext = Utilities.GetDbContext(_appFactory);
 
         dbContext.Should().NotBeNull();
         dbContext!.Categories.Should().NotBeNullOrEmpty();
-        dbContext.Categories.Select(c => c.Description).Should().BeEquivalentTo(expectedCategoryNames);
+        var categoryNames = dbContext.Categories.Select(c => c.Description);
+
+        await Verify(categoryNames);
     }
 
     [Fact]
@@ -43,6 +40,8 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
         {
             c.Subcategories.Should().NotBeNullOrEmpty();
         });
+
+        await Verify(response);
     }
 
     [Fact]

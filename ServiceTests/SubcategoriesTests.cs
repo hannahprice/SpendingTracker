@@ -6,6 +6,7 @@ using Xunit;
 
 namespace ServiceTests;
 
+[UsesVerify]
 public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
 {
     private readonly TestWebApplicationFactory<Program> _appFactory;
@@ -18,12 +19,13 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Progra
     }
 
     [Fact]
-    public void DatabaseIsSeededWithSomeSubcategories()
+    public async Task DatabaseIsSeededWithSomeSubcategories()
     {
         var dbContext = Utilities.GetDbContext(_appFactory);
 
         dbContext.Should().NotBeNull();
         dbContext!.Subcategories.Should().NotBeNullOrEmpty();
+        await Verify(dbContext.Subcategories);
     }
 
     [Fact]

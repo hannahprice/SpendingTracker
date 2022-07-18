@@ -1,0 +1,217 @@
+﻿[
+  {
+    Id: 1,
+    Description: Rent,
+    CategoryId: 1
+  },
+  {
+    Id: 2,
+    Description: Mortgage,
+    CategoryId: 1
+  },
+  {
+    Id: 3,
+    Description: Council tax,
+    CategoryId: 1
+  },
+  {
+    Id: 4,
+    Description: Gas,
+    CategoryId: 1
+  },
+  {
+    Id: 5,
+    Description: Electric,
+    CategoryId: 1
+  },
+  {
+    Id: 6,
+    Description: Water,
+    CategoryId: 1
+  },
+  {
+    Id: 7,
+    Description: Internet,
+    CategoryId: 1
+  },
+  {
+    Id: 8,
+    Description: Phone data plan,
+    CategoryId: 1
+  },
+  {
+    Id: 9,
+    Description: Phone insurance,
+    CategoryId: 1
+  },
+  {
+    Id: 10,
+    Description: TV subscription,
+    CategoryId: 1
+  },
+  {
+    Id: 11,
+    Description: Groceries,
+    CategoryId: 2
+  },
+  {
+    Id: 12,
+    Description: Toiletries,
+    CategoryId: 2
+  },
+  {
+    Id: 13,
+    Description: Household items,
+    CategoryId: 2
+  },
+  {
+    Id: 14,
+    Description: Clothes,
+    CategoryId: 2
+  },
+  {
+    Id: 15,
+    Description: Fuel,
+    CategoryId: 3
+  },
+  {
+    Id: 16,
+    Description: MOT,
+    CategoryId: 3
+  },
+  {
+    Id: 17,
+    Description: Car service,
+    CategoryId: 3
+  },
+  {
+    Id: 18,
+    Description: Breakdown cover,
+    CategoryId: 3
+  },
+  {
+    Id: 19,
+    Description: Car tax,
+    CategoryId: 3
+  },
+  {
+    Id: 20,
+    Description: Car insurance,
+    CategoryId: 3
+  },
+  {
+    Id: 21,
+    Description: Car repairs,
+    CategoryId: 3
+  },
+  {
+    Id: 22,
+    Description: Taxi fare,
+    CategoryId: 3
+  },
+  {
+    Id: 23,
+    Description: Train tickets,
+    CategoryId: 3
+  },
+  {
+    Id: 24,
+    Description: Gym membership,
+    CategoryId: 4
+  },
+  {
+    Id: 25,
+    Description: Medicine,
+    CategoryId: 4
+  },
+  {
+    Id: 26,
+    Description: Prescriptions,
+    CategoryId: 4
+  },
+  {
+    Id: 27,
+    Description: Dining out,
+    CategoryId: 5
+  },
+  {
+    Id: 28,
+    Description: Drinks,
+    CategoryId: 5
+  },
+  {
+    Id: 29,
+    Description: Days out,
+    CategoryId: 5
+  },
+  {
+    Id: 30,
+    Description: Takeaways,
+    CategoryId: 5
+  },
+  {
+    Id: 31,
+    Description: Games,
+    CategoryId: 5
+  },
+  {
+    Id: 32,
+    Description: Books,
+    CategoryId: 5
+  },
+  {
+    Id: 33,
+    Description: Craft supplies,
+    CategoryId: 5
+  },
+  {
+    Id: 34,
+    Description: Accommodation,
+    CategoryId: 6
+  },
+  {
+    Id: 35,
+    Description: Flights,
+    CategoryId: 6
+  },
+  {
+    Id: 36,
+    Description: Airport parking,
+    CategoryId: 6
+  },
+  {
+    Id: 37,
+    Description: Transfers,
+    CategoryId: 6
+  },
+  {
+    Id: 38,
+    Description: Travel insurance,
+    CategoryId: 6
+  },
+  {
+    Id: 39,
+    Description: Holiday activities,
+    CategoryId: 6
+  },
+  {
+    Id: 40,
+    Description: Gifts,
+    CategoryId: 7
+  },
+  {
+    Id: 41,
+    Description: Charity donations,
+    CategoryId: 7
+  },
+  {
+    Id: 42,
+    Description: App subscriptions,
+    CategoryId: 7
+  },
+  {
+    Id: 43,
+    Description: Miscellaneous purchases,
+    CategoryId: 7
+  }
+]
