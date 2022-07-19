@@ -1,0 +1,9 @@
+﻿[
+  Bills,
+  Shopping,
+  Travel,
+  Health,
+  Leisure,
+  Holidays,
+  Miscellaneous
+]

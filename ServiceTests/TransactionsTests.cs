@@ -6,6 +6,7 @@ using Xunit;
 
 namespace ServiceTests;
 
+[UsesVerify]
 public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program>>
 {
     private readonly TestWebApplicationFactory<Program> _appFactory;
@@ -34,6 +35,8 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
             c.Categories.Should().NotBeNullOrEmpty();
             c.Subcategories.Should().NotBeNullOrEmpty();
         });
+
+        await Verify(response);
 
         var dbContext = Utilities.GetDbContext(_appFactory);
 
@@ -76,6 +79,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
 
         response.Should().NotBeNull();
         response!.Id.Should().Be(id);
+        await Verify(response);
 
         var dbContext = Utilities.GetDbContext(_appFactory);
 

@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 .idea/
+
+# Received files for Verify tests
+*.received.*
