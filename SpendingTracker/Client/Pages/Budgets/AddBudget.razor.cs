@@ -11,52 +11,42 @@ namespace SpendingTracker.Client.Pages.Budgets
         public IBudgetsService BudgetsService { get; set; }
 
         [Inject]
-        public ICategoriesService CategoriesService { get; set; }
-
-        [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         [Inject]
         private ISnackbar Snackbar { get; set; }
 
         public Budget Budget { get; set; } = new Budget();
-        public List<Category> AvailableCategories { get; set; } = new List<Category>();
-        public List<Subcategory> AvailableSubcategories { get; set; } = new List<Subcategory>();
-        public MudChip[]? SelectedCategories { get; set; }
-        public MudChip[]? SelectedSubcategories { get; set; }
+        public List<Category> SelectedCategories { get; set; } = new List<Category>();
+        public List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
         public bool? Success { get; set; } = null;
         public MudForm Form { get; set; }
         public bool AddingMultiple { get; set; } = false;
-        public bool IsLoading { get; set; } = false;
 
-        protected override async Task OnInitializedAsync()
+        private void UpdateSelectedCategories(List<Category> categories)
         {
-            IsLoading = true;
-            AvailableCategories = await CategoriesService.GetAllCategories();
-            IsLoading = false;
+            SelectedCategories = categories;
         }
-
-        private void CategoryClicked()
+        
+        private void UpdateSelectedSubcategories(List<Subcategory> subcategories)
         {
-            var selectedCategoryDescriptions = SelectedCategories?.Select(c => c.Text).ToList();
-            var selectedCategories = AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
-            
-            AvailableSubcategories = selectedCategories.SelectMany(x => x.Subcategories).ToList();
+            SelectedSubcategories = subcategories;
         }
-
+        
         private async Task Submit()
         {
             await Form.Validate();
 
             if (Form.IsValid)
             {
-                if (SelectedCategories is not null && SelectedCategories.Any())
+                if (SelectedCategories.Any())
                 {
-                    Budget.Categories = GetSelectedCategoriesForSubmit();
+                    Budget.Categories = SelectedCategories;
+                    Budget.Categories.ForEach(x => x.Subcategories = null);
 
-                    if (SelectedSubcategories is not null && SelectedSubcategories.Any())
+                    if (SelectedSubcategories.Any())
                     {
-                        Budget.Subcategories = GetSelectedSubcategoriesForSubmit();
+                        Budget.Subcategories = SelectedSubcategories;
                     }
                 }
 
@@ -71,20 +61,6 @@ namespace SpendingTracker.Client.Pages.Budgets
                     NavigationManager.NavigateTo("/budgets", false);
                 }
             }
-        }
-
-        private List<Category> GetSelectedCategoriesForSubmit()
-        {
-            var selectedCategoryDescriptions = SelectedCategories?.Select(c => c.Text).ToList();
-            var categories = AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
-            categories.ForEach(x => x.Subcategories = null);
-            return categories;
-        }
-
-        private List<Subcategory> GetSelectedSubcategoriesForSubmit()
-        {
-            var selectedSubcategoryDescriptions = SelectedSubcategories?.Select(c => c.Text).ToList();
-            return AvailableSubcategories.Where(x => selectedSubcategoryDescriptions.Contains(x.Description)).ToList();
         }
 
         private void AddSnackBarMessage()

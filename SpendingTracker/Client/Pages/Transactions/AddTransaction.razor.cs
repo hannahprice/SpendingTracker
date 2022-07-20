@@ -12,19 +12,14 @@ namespace SpendingTracker.Client.Pages.Transactions
         public ITransactionsService TransactionsService { get; set; }
 
         [Inject]
-        public ICategoriesService CategoriesService { get; set; }
-
-        [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         [Inject]
         private ISnackbar Snackbar { get; set; }
 
         public Transaction Transaction { get; set; } = new Transaction();
-        public List<Category> AvailableCategories { get; set; } = new List<Category>();
-        public List<Subcategory> AvailableSubcategories { get; set; } = new List<Subcategory>();
-        public MudChip[]? SelectedCategories { get; set; }
-        public MudChip[]? SelectedSubcategories { get; set; }
+        public List<Category> SelectedCategories { get; set; } = new List<Category>();
+        public List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
         public DateTime? SelectedDatetime { get; set; }
         public bool? Success { get; set; } = null;
         public MudForm Form { get; set; }
@@ -36,9 +31,16 @@ namespace SpendingTracker.Client.Pages.Transactions
         {
             Transaction.IsOutwardPayment = true;
             Transaction.IsReoccurring = false;
-
-            AvailableCategories = await CategoriesService.GetAllCategories();
-            AvailableSubcategories = AvailableCategories.SelectMany(x => x.Subcategories).ToList();
+        }
+        
+        private void UpdateSelectedCategories(List<Category> categories)
+        {
+            SelectedCategories = categories;
+        }
+        
+        private void UpdateSelectedSubcategories(List<Subcategory> subcategories)
+        {
+            SelectedSubcategories = subcategories;
         }
 
         public async Task Submit()
@@ -47,14 +49,15 @@ namespace SpendingTracker.Client.Pages.Transactions
 
             if (Form.IsValid)
             {
-                if (SelectedCategories is not null && SelectedCategories.Any())
+                if (SelectedCategories.Any())
                 {
-                    Transaction.Categories = GetSelectedCategoriesForSubmit();
+                    Transaction.Categories = SelectedCategories;
+                    Transaction.Categories.ForEach(x => x.Subcategories = null);
                 }
 
-                if (SelectedSubcategories is not null && SelectedSubcategories.Any())
+                if (SelectedSubcategories.Any())
                 {
-                    Transaction.Subcategories = GetSelectedSubcategoriesForSubmit();
+                    Transaction.Subcategories = SelectedSubcategories;
                 }
 
                 Transaction.DateOfTransaction = SelectedDatetime.Value;
@@ -82,20 +85,6 @@ namespace SpendingTracker.Client.Pages.Transactions
             {
                 Snackbar.Add($"Error adding transaction: {Transaction.Description}", Severity.Error);
             }
-        }
-
-        private List<Category> GetSelectedCategoriesForSubmit()
-        {
-            var selectedCategoryDescriptions = SelectedCategories?.Select(c => c.Text).ToList();
-            var categories = AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
-            categories.ForEach(x => x.Subcategories = null);
-            return categories;
-        }
-
-        private List<Subcategory> GetSelectedSubcategoriesForSubmit()
-        {
-            var selectedSubcategoryDescriptions = SelectedSubcategories?.Select(c => c.Text).ToList();
-            return AvailableSubcategories.Where(x => selectedSubcategoryDescriptions.Contains(x.Description)).ToList();
         }
     }
 }

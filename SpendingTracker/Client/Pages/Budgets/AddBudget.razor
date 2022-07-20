@@ -1,4 +1,5 @@
 ﻿@using SpendingTracker.Shared.Models;
+@using SpendingTracker.Client.Components;
 @page "/budgets/add"
 
 <MudGrid Justify="Justify.Center">
@@ -31,37 +32,10 @@
                         <MudSelectItem Value="@item">@item</MudSelectItem>
                     }
                 </MudSelect>
-
-                <MudText Typo="Typo.caption">Categories</MudText>
-                @if (IsLoading)
-                {
-                    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7"/>
-                }
-                <MudChipSet @bind-SelectedChips="@SelectedCategories"
-                            MultiSelection="true"
-                            Filter="true">
-                    @foreach (Category category in AvailableCategories)
-                    {
-                        <MudChip Text="@category?.Description" Size="Size.Large" OnClick="CategoryClicked"></MudChip>
-                    }
-                </MudChipSet>
-
-                @if (!AvailableSubcategories.Any())
-                {
-                    <MudText Typo="Typo.caption">Select a category to display related subcategories</MudText>
-                }
-                else
-                {
-                    <MudText Typo="Typo.caption">Subcategories</MudText>
-                }
-                <MudChipSet @bind-SelectedChips="@SelectedSubcategories"
-                            MultiSelection="true"
-                            Filter="true">
-                    @foreach (Subcategory category in AvailableSubcategories)
-                    {
-                        <MudChip Text="@category?.Description" Size="Size.Large"></MudChip>
-                    }
-                </MudChipSet>
+                
+                <CategorySelection
+                    SelectedCategoriesChanged="UpdateSelectedCategories"
+                    SelectedSubcategoriesChanged="UpdateSelectedSubcategories"/>
 
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
