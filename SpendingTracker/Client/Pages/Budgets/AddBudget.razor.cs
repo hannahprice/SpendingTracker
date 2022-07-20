@@ -27,14 +27,24 @@ namespace SpendingTracker.Client.Pages.Budgets
         public bool? Success { get; set; } = null;
         public MudForm Form { get; set; }
         public bool AddingMultiple { get; set; } = false;
+        public bool IsLoading { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
         {
+            IsLoading = true;
             AvailableCategories = await CategoriesService.GetAllCategories();
-            AvailableSubcategories = AvailableCategories.SelectMany(x => x.Subcategories).ToList();
+            IsLoading = false;
         }
 
-        public async Task Submit()
+        private void CategoryClicked()
+        {
+            var selectedCategoryDescriptions = SelectedCategories?.Select(c => c.Text).ToList();
+            var selectedCategories = AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
+            
+            AvailableSubcategories = selectedCategories.SelectMany(x => x.Subcategories).ToList();
+        }
+
+        private async Task Submit()
         {
             await Form.Validate();
 
@@ -79,7 +89,7 @@ namespace SpendingTracker.Client.Pages.Budgets
 
         private void AddSnackBarMessage()
         {
-            if (Success.Value)
+            if (Success!.Value)
             {
                 Snackbar.Add($"Budget added: {Budget.Amount}", Severity.Success);
             }

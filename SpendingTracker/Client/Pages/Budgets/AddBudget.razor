@@ -6,7 +6,7 @@
         <MudText Typo="Typo.h2" Class="my-7">Add new budget</MudText>
     </MudItem>
     <MudItem xs="12" sm="5" Class="my-7 d-flex justify-end">
-        <MudSwitch @bind-Checked="AddingMultiple" Color="Color.Primary" Label="Add multiple (remains on this page)" />
+        <MudSwitch @bind-Checked="AddingMultiple" Color="Color.Primary" Label="Add multiple (remains on this page)"/>
     </MudItem>
     <MudItem xs="12" sm="10">
         <MudPaper Class="pa-16" Elevation="3">
@@ -17,7 +17,7 @@
                                  Required="true"
                                  RequiredError="Amount is required"
                                  Adornment="Adornment.Start"
-                                 AdornmentIcon="@Icons.Filled.CurrencyPound" />
+                                 AdornmentIcon="@Icons.Filled.CurrencyPound"/>
 
                 <MudSelect @bind-Value="@Budget.Frequency"
                            T="Frequency"
@@ -25,7 +25,7 @@
                            Required="true"
                            RequiredError="Frequency is required"
                            AnchorOrigin="Origin.BottomCenter"
-                Class="my-6">
+                           Class="my-6">
                     @foreach (Frequency item in Enum.GetValues(typeof(Frequency)))
                     {
                         <MudSelectItem Value="@item">@item</MudSelectItem>
@@ -33,29 +33,40 @@
                 </MudSelect>
 
                 <MudText Typo="Typo.caption">Categories</MudText>
+                @if (IsLoading)
+                {
+                    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7"/>
+                }
                 <MudChipSet @bind-SelectedChips="@SelectedCategories"
                             MultiSelection="true"
                             Filter="true">
                     @foreach (Category category in AvailableCategories)
                     {
-                        <MudChip Text="@category?.Description"></MudChip>
+                        <MudChip Text="@category?.Description" Size="Size.Large" OnClick="CategoryClicked"></MudChip>
                     }
                 </MudChipSet>
 
-                <MudText Typo="Typo.caption">Subcategories</MudText>
+                @if (!AvailableSubcategories.Any())
+                {
+                    <MudText Typo="Typo.caption">Select a category to display related subcategories</MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.caption">Subcategories</MudText>
+                }
                 <MudChipSet @bind-SelectedChips="@SelectedSubcategories"
                             MultiSelection="true"
                             Filter="true">
                     @foreach (Subcategory category in AvailableSubcategories)
                     {
-                        <MudChip Text="@category?.Description"></MudChip>
+                        <MudChip Text="@category?.Description" Size="Size.Large"></MudChip>
                     }
                 </MudChipSet>
 
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
                            Class="ml-auto mt-6"
-                           OnClick="@(async ()=> await Submit())">
+                           OnClick="@(async () => await Submit())">
                     Submit
                 </MudButton>
             </MudForm>
