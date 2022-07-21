@@ -22,16 +22,6 @@ namespace SpendingTracker.Client.Pages.Budgets
         public bool? Success { get; set; } = null;
         public MudForm Form { get; set; }
         public bool AddingMultiple { get; set; } = false;
-
-        private void UpdateSelectedCategories(List<Category> categories)
-        {
-            SelectedCategories = categories;
-        }
-        
-        private void UpdateSelectedSubcategories(List<Subcategory> subcategories)
-        {
-            SelectedSubcategories = subcategories;
-        }
         
         private async Task Submit()
         {

@@ -59,8 +59,8 @@
                                Class="mb-6"/>
 
                 <CategorySelection
-                    SelectedCategoriesChanged="UpdateSelectedCategories"
-                    SelectedSubcategoriesChanged="UpdateSelectedSubcategories"/>
+                    @bind-SelectedCategories="SelectedCategories"
+                    @bind-SelectedSubcategories="SelectedSubcategories"/>
 
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"

@@ -32,16 +32,6 @@ namespace SpendingTracker.Client.Pages.Transactions
             Transaction.IsOutwardPayment = true;
             Transaction.IsReoccurring = false;
         }
-        
-        private void UpdateSelectedCategories(List<Category> categories)
-        {
-            SelectedCategories = categories;
-        }
-        
-        private void UpdateSelectedSubcategories(List<Subcategory> subcategories)
-        {
-            SelectedSubcategories = subcategories;
-        }
 
         public async Task Submit()
         {

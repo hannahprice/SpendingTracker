@@ -12,13 +12,23 @@ public partial class CategorySelection
     public List<Subcategory> AvailableSubcategories { get; set; } = new List<Subcategory>();
     public MudChip[]? SelectedCategoryChips { get; set; } 
     public MudChip[]? SelectedSubcategoryChips { get; set; }
+    
+    [Parameter]
+    public List<Category> SelectedCategories { get; set; }
+    
     [Parameter]
     public EventCallback<List<Category>> SelectedCategoriesChanged { get; set; }
+    
+    [Parameter]
+    public List<Subcategory> SelectedSubcategories { get; set; }
+    
     [Parameter]
     public EventCallback<List<Subcategory>> SelectedSubcategoriesChanged { get; set; }
 
     [Inject]
     public ICategoriesService CategoriesService { get; set; }
+
+    public string Test { get; set; } = null;
     
     protected override async Task OnInitializedAsync()
     {
@@ -27,15 +37,24 @@ public partial class CategorySelection
         IsLoading = false;
     }
     
-    private void CategoryClicked()
+    private async Task CategoryClicked()
     {
         var selectedCategoryDescriptions = SelectedCategoryChips?.Select(c => c.Text).ToList();
         var selectedCategories = AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
             
         AvailableSubcategories = selectedCategories.SelectMany(x => x.Subcategories).ToList();
 
-        SelectedCategoriesChanged.InvokeAsync(GetSelectedCategories());
-        SelectedSubcategoriesChanged.InvokeAsync(GetSelectedSubcategories());
+        SelectedCategories = GetSelectedCategories();
+        SelectedSubcategories = GetSelectedSubcategories();
+        
+        await SelectedCategoriesChanged.InvokeAsync(SelectedCategories);
+        await SelectedSubcategoriesChanged.InvokeAsync(SelectedSubcategories);
+    }
+
+    private async Task SubcategoryClicked()
+    {
+        SelectedSubcategories = GetSelectedSubcategories();
+        await SelectedSubcategoriesChanged.InvokeAsync(SelectedSubcategories);
     }
 
     public List<Category> GetSelectedCategories()
@@ -49,9 +68,10 @@ public partial class CategorySelection
         if (SelectedSubcategoryChips != null && SelectedSubcategoryChips.Length > 0)
         {
             var selectedSubcategoryDescriptions = SelectedSubcategoryChips?.Select(c => c.Text).ToList();
+            Test = string.Join(',', selectedSubcategoryDescriptions);
+
             return AvailableSubcategories.Where(x => selectedSubcategoryDescriptions.Contains(x.Description)).ToList();   
         }
-
         return new List<Subcategory>(0);
     }
 }
