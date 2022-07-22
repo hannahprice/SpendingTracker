@@ -1,22 +1,21 @@
 ﻿@page "/transactions"
 @using SpendingTracker.Shared.Models
 
-<section>
-    @if (!IsLoading && !Transactions.Any())
-    {
-        <p>No transactions</p>
-    }
-    else
-    {
-        <MudGrid Justify="Justify.Center" Spacing="5">
-            <MudItem xs="12" sm="10" lg="11">
-                <MudText Typo="Typo.h2" Class="my-8">Transaction list</MudText>
-            </MudItem>
-            <MudItem xs="12" sm="2" lg="1" Class="d-flex align-center justify-center">
-                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" Href="/transactions/add" />
-            </MudItem>
-            <MudItem xs="12">
-                <MudTable Items="@Transactions"
+@if (!IsLoading && !Transactions.Any())
+{
+    <p>No transactions</p>
+}
+else
+{
+    <MudGrid Justify="Justify.Center" Spacing="5">
+        <MudItem xs="12" sm="10" lg="11">
+            <MudText Typo="Typo.h2" Class="my-8">Transaction list</MudText>
+        </MudItem>
+        <MudItem xs="12" sm="2" lg="1" Class="d-flex align-center justify-center">
+            <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" Href="/transactions/add"/>
+        </MudItem>
+        <MudItem xs="12">
+            <MudTable Items="@Transactions"
                       Hover="true"
                       Dense="true"
                       Striped="true"
@@ -25,68 +24,67 @@
                       LoadingProgressColor="Color.Info"
                       OnRowClick="@TransactionClicked"
                       T="Transaction">
-                    <HeaderContent>
-                        <MudTh>Id</MudTh>
-                        <MudTh>Date</MudTh>
-                        <MudTh>Description</MudTh>
-                        <MudTh>Amount</MudTh>
-                        <MudTh>Is outward payment</MudTh>
-                        <MudTh>Is reoccuring</MudTh>
-                        <MudTh>Reoccuring frequency</MudTh>
-                        <MudTh>Categories</MudTh>
-                        <MudTh>Subcategories</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                        <MudTd DataLabel="Id">@context.Id</MudTd>
-                        <MudTd DataLabel="Date">@context.DateOfTransaction</MudTd>
-                        <MudTd DataLabel="Description">@context.Description</MudTd>
-                        <MudTd DataLabel="Amount">@context.Amount</MudTd>
-                        <MudTd DataLabel="Is outward payment">@context.IsOutwardPayment</MudTd>
-                        <MudTd DataLabel="Is reoccurring">@context.IsReoccurring</MudTd>
-                        @if (@context.IsReoccurring)
-                        {
+                <HeaderContent>
+                    <MudTh>Id</MudTh>
+                    <MudTh>Date</MudTh>
+                    <MudTh>Description</MudTh>
+                    <MudTh>Amount</MudTh>
+                    <MudTh>Is outward payment</MudTh>
+                    <MudTh>Is reoccuring</MudTh>
+                    <MudTh>Reoccuring frequency</MudTh>
+                    <MudTh>Categories</MudTh>
+                    <MudTh>Subcategories</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Id">@context.Id</MudTd>
+                    <MudTd DataLabel="Date">@context.DateOfTransaction</MudTd>
+                    <MudTd DataLabel="Description">@context.Description</MudTd>
+                    <MudTd DataLabel="Amount">@context.Amount</MudTd>
+                    <MudTd DataLabel="Is outward payment">@context.IsOutwardPayment</MudTd>
+                    <MudTd DataLabel="Is reoccurring">@context.IsReoccurring</MudTd>
+                    @if (@context.IsReoccurring)
+                    {
                         <MudTd DataLabel="Reoccurring frequency">@context.ReoccuringFrequency</MudTd>
-                        }
-                        else
-                        {
+                    }
+                    else
+                    {
                         <MudTd DataLabel="Reoccurring frequency">-</MudTd>
-                        }
+                    }
 
                     <MudTd DataLabel="Categories">
                         @if (@context.Categories != null && @context.Categories.Any())
-                            {
+                        {
                             <MudList Dense="true" DisableGutters="true" DisablePadding="true">
                                 @foreach (var category in context.Categories)
-                                    {
-                                    <MudListItem Text="@category.Description" />
-                                    }
+                                {
+                                    <MudListItem Text="@category.Description"/>
+                                }
                             </MudList>
-                            }
-                            else
-                            {
+                        }
+                        else
+                        {
                             <p>-</p>
-                            }
+                        }
 
                     </MudTd>
 
                     <MudTd DataLabel="Subcategories">
                         @if (@context.Subcategories != null && @context.Subcategories.Any())
-                            {
+                        {
                             <MudList Dense="true" DisableGutters="true" DisablePadding="true">
                                 @foreach (var subcategory in context.Subcategories)
-                                    {
-                                    <MudListItem Text="@subcategory.Description" />
-                                    }
+                                {
+                                    <MudListItem Text="@subcategory.Description"/>
+                                }
                             </MudList>
-                            }
-                            else
-                            {
+                        }
+                        else
+                        {
                             <p>-</p>
-                            }
+                        }
                     </MudTd>
                 </RowTemplate>
             </MudTable>
         </MudItem>
     </MudGrid>
-    }
-</section>
+}

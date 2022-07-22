@@ -1,0 +1,30 @@
+﻿@if (!IsLoading && !AllTransactions.Any())
+{
+    <p>No transactions</p>
+}
+else
+{
+    <MudGrid Justify="Justify.Center" Spacing="5">
+        <MudItem xs="12" sm="6" lg="4" Class="pt-16">
+            <MudText Typo="Typo.h5" Class="pb-2 d-flex justify-center">Monthly spend by category</MudText>
+            <MudText Typo="Typo.caption" Class="pb-6 d-flex justify-center">Click a section to display total cost</MudText>
+            @if (IsLoading)
+            {
+                <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true"/>
+            }
+            else
+            {
+                <MudChart ChartType="ChartType.Donut" InputData="ThisMonthsTransactionsData" InputLabels="ThisMonthsTransactionsDataLabels" @bind-SelectedIndex="Index">
+                    <CustomGraphics>
+                        <text class="donut-inner-text" x="47%" y="35%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="2">
+                            @ChartInnerLabel
+                        </text>
+                        <text class="donut-inner-text" x="47%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="5">
+                            £@ChartInnerData
+                        </text>
+                    </CustomGraphics>
+                </MudChart>
+            }
+        </MudItem>
+    </MudGrid>
+}
