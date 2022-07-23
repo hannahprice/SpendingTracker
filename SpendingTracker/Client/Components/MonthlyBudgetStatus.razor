@@ -1,0 +1,14 @@
+﻿<MudTable Items="MonthlyBudgetStatuses" Loading="IsLoading" LoadingProgressColor="Color.Secondary" Hover="true">
+    <HeaderContent>
+        <MudTh>Budget category</MudTh>
+        <MudTh>Budget amount</MudTh>
+        <MudTh>Current month spend</MudTh>
+        <MudTh>Within budget?</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.BudgetDescription</MudTd>
+        <MudTd>@context.BudgetAmount</MudTd>
+        <MudTd>@context.CurrentMonthSpendForBudget</MudTd>
+        <MudTd>@context.WithinBudget</MudTd>
+    </RowTemplate>
+</MudTable>
