@@ -4,7 +4,7 @@ using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Components;
 
-public partial class TransactionCharts
+public partial class MonthlyTransactionChart
 {
     public bool IsLoading { get; set; } = false;
     public List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
@@ -13,7 +13,7 @@ public partial class TransactionCharts
     public double[] ThisMonthsTransactionsData { get; set; }
     public int Index = -1;
     public string ChartInnerLabel => Index < 0 ? "Total" : ThisMonthsTransactionsDataLabels[Index];
-    public double? ChartInnerData => Index < 0 ? ThisMonthsTransactionsData?.Sum() : ThisMonthsTransactionsData[Index];
+    public string ChartInnerData => Index < 0 ? ThisMonthsTransactionsData?.Sum().ToString("0.00") : ThisMonthsTransactionsData[Index].ToString("0.00");
 
     [Inject] public ITransactionsService TransactionsService { get; set; }
 
