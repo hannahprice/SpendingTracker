@@ -1,14 +1,27 @@
-﻿<MudTable Items="MonthlyBudgetStatuses" Loading="IsLoading" LoadingProgressColor="Color.Secondary" Hover="true">
-    <HeaderContent>
-        <MudTh>Budget category</MudTh>
-        <MudTh>Budget amount</MudTh>
-        <MudTh>Current month spend</MudTh>
-        <MudTh>Within budget?</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd>@context.BudgetDescription</MudTd>
-        <MudTd>@context.BudgetAmount</MudTd>
-        <MudTd>@context.CurrentMonthSpendForBudget</MudTd>
-        <MudTd>@context.WithinBudget</MudTd>
-    </RowTemplate>
-</MudTable>
+﻿<MudText Typo="Typo.h5" Class="mt-10">Monthly budget status</MudText>
+
+<MudPaper Elevation="3" Class="mt-6">
+    <MudTable Items="MonthlyBudgetStatuses" Loading="IsLoading" LoadingProgressColor="Color.Secondary" Hover="true">
+        <HeaderContent>
+            <MudTh>Budget category</MudTh>
+            <MudTh>Budget amount</MudTh>
+            <MudTh>Current month spend</MudTh>
+            <MudTh>Within budget?</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.BudgetDescription</MudTd>
+            <MudTd>£@context.BudgetAmount</MudTd>
+            <MudTd>£@context.CurrentMonthSpendForBudget</MudTd>
+            <MudTd>
+                @if (context.WithinBudget)
+                {
+                    <MudIcon Icon="@Icons.Material.Filled.Check" Title="Check" Color="Color.Success" />  
+                }
+                else
+                {
+                    <MudIcon Icon="@Icons.Material.Filled.Warning" Title="Warning" Color="Color.Warning" />
+                }
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudPaper>
