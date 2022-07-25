@@ -1,45 +1,38 @@
 ﻿@page "/categories"
-@using static MudBlazor.CategoryTypes
 
-<section>
-    @if (!IsLoading && !Categories.Any())
-    {
-        <p>No categories</p>
-    }
-    else
-    {
-        <MudGrid Justify="Justify.Center" Spacing="5">
-            <MudItem xs="12">
-                <MudText Typo="Typo.h2" Class="my-8">Categories and subcategories</MudText>
+@if (!IsLoading && !Categories.Any())
+{
+    <p>No categories</p>
+}
+else
+{
+    <MudGrid Justify="Justify.Center" Spacing="5">
+        <MudItem xs="8" Class="d-flex justify-center">
+            <MudText Typo="Typo.h2" Class="my-8">Categories and subcategories</MudText>
+        </MudItem>
+
+        @if (IsLoading)
+        {
+            <MudItem xs="12" Class="d-flex align-center justify-center">
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true"/>
             </MudItem>
+        }
 
-            @if (IsLoading)
-            {
-                <MudItem xs="12" Class="d-flex align-center justify-center">
-                    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
-                </MudItem>
-            }
+        <MudItem xs="6">
+            <MudTable
+                Items="@Subcategories"
+                GroupBy="@_groupDefinition"
+                Hover="true"
+                GroupHeaderStyle="@($"background-color:{Colors.Grey.Lighten5}")">
+                <GroupHeaderTemplate>
+                    <MudTh Class="mud-table-cell-custom-group">@GetGroupName(context.Key)</MudTh>
+                </GroupHeaderTemplate>
+                <RowTemplate>
+                    <MudTd>@context.Description</MudTd>
+                </RowTemplate>
+            </MudTable>
 
-            <MudItem xs="12">
-                <MudExpansionPanels MultiExpansion="true">
-                    @foreach (var category in Categories)
-                    {
-                        <MudExpansionPanel Text="@category.Description">
-                            @if (@category.Subcategories != null && @category.Subcategories.Any())
-                            {
-                                <MudList Dense="true">
-                                    @foreach (var subcategory in @category.Subcategories)
-                                    {
-                                        <MudListItem Text="@subcategory.Description" />
-                                    }
-                                </MudList>
-                            }
-                        </MudExpansionPanel>
-                    }
-                </MudExpansionPanels>
-            </MudItem>
+        </MudItem>
 
-        </MudGrid>
-
-    }
-</section>
+    </MudGrid>
+}
