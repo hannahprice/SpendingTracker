@@ -21,5 +21,10 @@ namespace SpendingTracker.Client.Services
             var data = await result.Content.ReadAsStringAsync();
             return int.Parse(data);
         }
+        
+        public async Task<Subcategory> GetSubcategory(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<Subcategory>($"api/Subcategories/{id}");
+        }
     }
 }

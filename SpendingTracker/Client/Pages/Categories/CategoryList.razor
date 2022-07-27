@@ -30,7 +30,7 @@ else
                     </MudTh>
                 </GroupHeaderTemplate>
                 <RowTemplate>
-                    <MudTd>@context.Description</MudTd>
+                    <MudTd @onclick="() => NavigateToSubcategoryDetail(context.Id)">@context.Description</MudTd>
                 </RowTemplate>
             </MudTable>
 

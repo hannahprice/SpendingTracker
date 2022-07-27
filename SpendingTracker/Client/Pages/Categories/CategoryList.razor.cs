@@ -37,6 +37,11 @@ namespace SpendingTracker.Client.Pages.Categories
             NavigationManager.NavigateTo($"categories/{categoryId}");
         }
 
+        private void NavigateToSubcategoryDetail(object subcategoryId)
+        {
+            NavigationManager.NavigateTo($"subcategories/{subcategoryId}");
+        }
+
         private string GetGroupName(object categoryId)
         {
             var id = int.Parse(categoryId.ToString());

@@ -2,20 +2,20 @@
 using SpendingTracker.Client.Services;
 using SpendingTracker.Shared.Models;
 
-namespace SpendingTracker.Client.Pages.Categories;
+namespace SpendingTracker.Client.Pages.Subcategories;
 
-public partial class CategoryDetail
+public partial class SubcategoryDetail
 {
-    [Inject] public ICategoriesService CategoriesService { get; set; }
+    [Inject] public ISubcategoriesService SubcategoriesService { get; set; }
     [Parameter] public string Id { get; set; }
 
     public bool IsLoading { get; set; } = false;
-    public Category Category { get; set; } = new Category();
+    public Subcategory Subcategory { get; set; } = new Subcategory();
 
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
-        Category = await CategoriesService.GetCategory(int.Parse(Id));
+        Subcategory = await SubcategoriesService.GetSubcategory(int.Parse(Id));
         IsLoading = false;
-    }
+    }   
 }
