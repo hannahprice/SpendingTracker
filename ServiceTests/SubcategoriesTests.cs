@@ -51,6 +51,15 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Progra
         await RemoveAddedSubcategory(dbContext, addedSubcategory);
     }
 
+    [Fact]
+    public async Task GetSubcategorySuccess()
+    {
+        var response = await _httpClient.GetFromJsonAsync<Subcategory>("api/Subcategories/2");
+
+        response.Should().NotBeNull();
+        await Verify(response);
+    }
+    
     private async Task RemoveAddedSubcategory(FinanceContext dbContext, Subcategory addedSubcategory)
     {
         dbContext.Subcategories.Remove(addedSubcategory);

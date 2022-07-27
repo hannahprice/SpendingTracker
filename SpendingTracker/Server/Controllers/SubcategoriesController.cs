@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SpendingTracker.Server.Commands;
+using SpendingTracker.Server.Queries;
 using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Server.Controllers
@@ -20,6 +21,14 @@ namespace SpendingTracker.Server.Controllers
         public async Task<IActionResult> AddSubcategory([FromBody] Subcategory subcategory)
         {
             var result = await _mediator.Send(new AddSubcategoryCommand(subcategory));
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetSubcategory([FromRoute] int id)
+        {
+            var result = await _mediator.Send(new GetSubcategoryQuery(id));
             return Ok(result);
         }
     }
