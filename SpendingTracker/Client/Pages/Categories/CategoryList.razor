@@ -25,7 +25,9 @@ else
                 Hover="true"
                 GroupHeaderStyle="@($"background-color:{Colors.Grey.Lighten5}")">
                 <GroupHeaderTemplate>
-                    <MudTh Class="mud-table-cell-custom-group">@GetGroupName(context.Key)</MudTh>
+                    <MudTh Class="mud-table-cell-custom-group">
+                        <MudText Typo="Typo.h6" @onclick="() => NavigateToCategoryDetail(context.Key)">@GetGroupName(context.Key)</MudText>
+                    </MudTh>
                 </GroupHeaderTemplate>
                 <RowTemplate>
                     <MudTd>@context.Description</MudTd>

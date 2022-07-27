@@ -7,9 +7,8 @@ namespace SpendingTracker.Client.Pages.Categories
 {
     public partial class CategoryList
     {
-        [Inject]
-        public ICategoriesService CategoriesService { get; set; }
-
+        [Inject] public ICategoriesService CategoriesService { get; set; }
+        [Inject] public NavigationManager NavigationManager { get; set; }
         public List<Subcategory> Subcategories { get; set; } = new List<Subcategory>();
         public bool IsLoading { get; set; } = false;
         private List<Category> Categories { get; set; } = new List<Category>();
@@ -31,6 +30,11 @@ namespace SpendingTracker.Client.Pages.Categories
                 .SelectMany(x => x.Subcategories!).ToList();
             
             IsLoading = false;
+        }
+
+        private void NavigateToCategoryDetail(object categoryId)
+        {
+            NavigationManager.NavigateTo($"categories/{categoryId}");
         }
 
         private string GetGroupName(object categoryId)

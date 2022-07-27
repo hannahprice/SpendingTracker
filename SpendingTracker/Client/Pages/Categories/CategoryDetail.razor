@@ -1,0 +1,17 @@
+﻿@page "/categories/{id}"
+@using SpendingTracker.Shared.Models
+
+<MudGrid Justify="Justify.Center" Spacing="5">
+    <MudItem xs="12" sm="2" Class="mt-10">
+        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowBack" Size="Size.Large" Href="/categories"/>
+    </MudItem>
+    <MudItem xs="12" sm="4" Class="mt-10 d-flex justify-center">
+        <MudText Typo="Typo.h3">Category detail</MudText>
+    </MudItem>
+
+    <MudItem xs="8">
+        <MudPaper Elevation="3" Class="pa-16">
+            Description: @Category.Description
+        </MudPaper>
+    </MudItem>
+</MudGrid>

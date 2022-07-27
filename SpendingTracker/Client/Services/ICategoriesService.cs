@@ -7,5 +7,6 @@ namespace SpendingTracker.Client.Services
         Task<List<Category>> GetAllCategories();
 
         Task<int> AddCategory(Category category);
+        Task<Category> GetCategory(int id);
     }
 }
