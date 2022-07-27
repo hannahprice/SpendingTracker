@@ -1,32 +1,48 @@
-﻿@if (!IsLoading && !AllTransactions.Any())
-{
-    <p>No transactions</p>
-}
-else
-{
-    <MudGrid Justify="Justify.Center" Spacing="5">
-        <MudItem xs="12" sm="6" lg="4" Class="pt-16">
-            <MudPaper Elevation="3" Class="py-6 px-2">
-                <MudText Typo="Typo.h5" Class="pb-2 d-flex justify-center">Monthly spend by category</MudText>
-                <MudText Typo="Typo.caption" Class="pb-6 d-flex justify-center">Click a section to display total cost</MudText>
+﻿<MudGrid Justify="Justify.Center" Spacing="5">
+    <MudItem xs="12" sm="6" lg="4" Class="pt-16">
+        <MudPaper Elevation="3" Class="py-6 px-2">
+
+            <MudGrid Justify="Justify.Center" Spacing="5">
+                <MudItem>
+                    <MudText Typo="Typo.h5" Class="pb-2">Monthly spend by category</MudText>
+                </MudItem>
+
                 @if (IsLoading)
                 {
-                    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true"/>
+                    <MudItem>
+                        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true"/>
+                    </MudItem>
                 }
                 else
                 {
-                    <MudChart ChartType="ChartType.Donut" InputData="ThisMonthsTransactionsData" InputLabels="ThisMonthsTransactionsDataLabels" @bind-SelectedIndex="Index">
-                        <CustomGraphics>
-                            <text class="donut-inner-text" x="47%" y="35%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="2">
-                                @ChartInnerLabel
-                            </text>
-                            <text class="donut-inner-text" x="47%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="5">
-                                £@ChartInnerData
-                            </text>
-                        </CustomGraphics>
-                    </MudChart>
+                    if (!AllTransactions.Any())
+                    {
+                        <MudItem>
+                            <MudText Typo="Typo.caption" Align="Align.Center">Add some transactions for this month to view the overview</MudText>
+                        </MudItem>
+                    }
+                    else
+                    {
+                        <MudItem>
+                            <MudText Typo="Typo.caption" Class="pb-6 d-flex justify-center">Click a section to display total cost</MudText>
+                        </MudItem>
+
+                        <MudItem>
+                            <MudChart ChartType="ChartType.Donut" InputData="ThisMonthsTransactionsData" InputLabels="ThisMonthsTransactionsDataLabels" @bind-SelectedIndex="Index">
+                                <CustomGraphics>
+                                    <text class="donut-inner-text" x="47%" y="35%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="2">
+                                        @ChartInnerLabel
+                                    </text>
+                                    <text class="donut-inner-text" x="47%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="5">
+                                        £@ChartInnerData
+                                    </text>
+                                </CustomGraphics>
+                            </MudChart>
+                        </MudItem>
+                    }
                 }
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
-}
+
+            </MudGrid>
+        </MudPaper>
+    </MudItem>
+</MudGrid>

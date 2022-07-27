@@ -30,5 +30,13 @@ namespace SpendingTracker.Server.Controllers
             var result = await _mediator.Send(new AddCategoryCommand(category));
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetCategory([FromRoute] int id)
+        {
+            var result = await _mediator.Send(new GetCategoryQuery(id));
+            return Ok(result);
+        }
     }
 }

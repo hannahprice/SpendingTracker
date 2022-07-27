@@ -65,6 +65,15 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
         await RemoveAddedCategory(dbContext, newCategoryId);
     }
 
+    [Fact]
+    public async Task GetCategorySuccess()
+    {
+        var response = await _httpClient.GetFromJsonAsync<Category>($"api/Categories/2");
+
+        response.Should().NotBeNull();
+        await Verify(response);
+    }
+    
     private async Task RemoveAddedCategory(FinanceContext dbContext, int addedCategoryId)
     {
         dbContext.Categories.Remove(dbContext.Categories.Single(c => c.Id == addedCategoryId));
