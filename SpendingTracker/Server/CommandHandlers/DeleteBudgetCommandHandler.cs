@@ -14,7 +14,8 @@ public class DeleteBudgetCommandHandler : AsyncRequestHandler<DeleteBudgetComman
     
     protected override async Task Handle(DeleteBudgetCommand request, CancellationToken cancellationToken)
     {
-        _dbContext.Budgets.Remove(_dbContext.Budgets.Find(request.id));
+        var budget = await _dbContext.Budgets.FindAsync(new object?[] { request.id }, cancellationToken: cancellationToken);
+        if (budget != null) _dbContext.Budgets.Remove(budget);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

@@ -14,7 +14,8 @@ public class DeleteTransactionCommandHandler : AsyncRequestHandler<DeleteTransac
     
     protected override async Task Handle(DeleteTransactionCommand request, CancellationToken cancellationToken)
     {
-        _dbContext.Transactions.Remove(_dbContext.Transactions.Find(request.id));
+        var transaction = await _dbContext.Transactions.FindAsync(new object?[] { request.id }, cancellationToken: cancellationToken);
+        if (transaction != null) _dbContext.Transactions.Remove(transaction);
         await _dbContext.SaveChangesAsync(cancellationToken);    
     }
 }
