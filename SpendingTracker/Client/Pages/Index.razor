@@ -1,7 +1,15 @@
 ﻿@page "/"
 @using SpendingTracker.Client.Components
 
-<MonthlyTransactionChart/>
-<YearlyTransactionChart/>
+<MudGrid Justify="Justify.Center" Spacing="5">
+    <MudItem xs="12" sm="4" Class="pt-16">
+        <MonthlyTransactionChart/>
+    </MudItem>
+    <MudItem xs="12" sm="8" Class="pt-12">
+        <YearlyTransactionChart/>
+    </MudItem>
+    <MudItem xs="12">
+        <MonthlyBudgetStatus/>
+    </MudItem>
+</MudGrid>
 
-<MonthlyBudgetStatus/>
