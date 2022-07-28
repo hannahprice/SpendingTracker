@@ -53,7 +53,7 @@ public partial class MonthlyTransactionChart
             if (transactionsWithNoCategories.Any())
             {
                 var totalSum = transactionsWithNoCategories.Sum(x => x.Amount);
-                dataLabels.Add("Other");
+                dataLabels.Add("Uncategorised");
                 data.Add((double)totalSum);
             }
             
