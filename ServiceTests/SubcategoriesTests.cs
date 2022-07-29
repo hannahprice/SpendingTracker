@@ -60,6 +60,26 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Progra
         await Verify(response);
     }
     
+    [Fact]
+    public async Task DeleteSubcategorySuccess()
+    {
+        var subcategory = new Subcategory
+        {
+            Id = 45,
+            Description = "SubcategoryToBeDeleted",
+            CategoryId = 5
+        };
+        
+        var addResponse = await _httpClient.PostAsJsonAsync("api/Subcategories", subcategory);
+        addResponse.EnsureSuccessStatusCode();
+
+        var response = await _httpClient.DeleteAsync($"api/Subcategories/{subcategory.Id}");
+        response.EnsureSuccessStatusCode();
+        
+        var dbContext = Utilities.GetDbContext(_appFactory);
+        dbContext!.Subcategories.Should().NotContain(c => c.Id == 45);
+    }
+    
     private async Task RemoveAddedSubcategory(FinanceContext dbContext, Subcategory addedSubcategory)
     {
         dbContext.Subcategories.Remove(addedSubcategory);

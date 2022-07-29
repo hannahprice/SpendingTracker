@@ -31,5 +31,13 @@ namespace SpendingTracker.Server.Controllers
             var result = await _mediator.Send(new GetSubcategoryQuery(id));
             return Ok(result);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteSubcategory([FromRoute] int id)
+        {
+            var result = await _mediator.Send(new DeleteSubcategoryCommand(id));
+            return Ok(result);
+        }
     }
 }
