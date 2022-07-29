@@ -28,6 +28,19 @@ namespace SpendingTracker.Client.Pages.Categories
             Categories = await CategoriesService.GetAllCategories();
             Subcategories = Categories.Where(x => x.Subcategories != null && x.Subcategories.Any())
                 .SelectMany(x => x.Subcategories!).ToList();
+
+            var categoriesWithNoSubcategories =
+                Categories.Where(x => x.Subcategories is null || !x.Subcategories.Any()).ToList();
+
+            foreach (var category in categoriesWithNoSubcategories)
+            {
+                var subcategory = new Subcategory
+                {
+                    CategoryId = category.Id,
+                    Description = string.Empty
+                };
+                Subcategories.Add(subcategory);
+            }
             
             IsLoading = false;
         }

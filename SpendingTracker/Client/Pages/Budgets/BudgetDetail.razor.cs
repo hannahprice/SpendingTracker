@@ -7,22 +7,13 @@ namespace SpendingTracker.Client.Pages.Budgets
 {
     public partial class BudgetDetail
     {
-        [Parameter]
-        public string Id { get; set; }
-
-        public Budget Budget { get; set; } = new Budget();
-        public bool IsLoading { get; set; } = false;
-
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
-
-        [Inject]
-        private ISnackbar Snackbar { get; set; }
-        
-        [Inject]
-        public IBudgetsService BudgetsService { get; set; }
-
-        public bool DialogVisible { get; set; } = false;
+        [Parameter] public string Id { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; }
+        [Inject] private ISnackbar Snackbar { get; set; }
+        [Inject] private IBudgetsService BudgetsService { get; set; }
+        private Budget Budget { get; set; } = new Budget();
+        private bool IsLoading { get; set; } = false;
+        private bool DialogVisible { get; set; } = false;
         
         protected override async Task OnInitializedAsync()
         {
@@ -31,9 +22,9 @@ namespace SpendingTracker.Client.Pages.Budgets
             IsLoading = false;
         }
 
-        public void ToggleDialog() => DialogVisible = !DialogVisible;
+        private void ToggleDialog() => DialogVisible = !DialogVisible;
 
-        public async Task DeleteBudget()
+        private async Task DeleteBudget()
         {
             try
             {

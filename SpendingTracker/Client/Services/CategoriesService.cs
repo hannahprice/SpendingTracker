@@ -31,5 +31,10 @@ namespace SpendingTracker.Client.Services
         {
             return await _httpClient.GetFromJsonAsync<Category>($"api/Categories/{id}");
         }
+        
+        public async Task DeleteCategory(int id)
+        {
+            await _httpClient.DeleteAsync($"api/Categories/{id}");
+        }
     }
 }

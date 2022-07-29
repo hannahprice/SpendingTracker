@@ -32,9 +32,9 @@ namespace SpendingTracker.Client.Services
             return _httpClient.GetFromJsonAsync<Budget>($"api/Budgets/{id}");
         }
 
-        public Task DeleteBudget(int id)
+        public async Task DeleteBudget(int id)
         {
-            return _httpClient.DeleteAsync($"api/Budgets/{id}");
+            await _httpClient.DeleteAsync($"api/Budgets/{id}");
         }
     }
 }

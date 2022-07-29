@@ -8,5 +8,6 @@ namespace SpendingTracker.Client.Services
 
         Task<int> AddCategory(Category category);
         Task<Category> GetCategory(int id);
+        Task DeleteCategory(int id);
     }
 }
