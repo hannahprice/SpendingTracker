@@ -30,8 +30,6 @@ public class TestWebApplicationFactory<TStartup> : WebApplicationFactory<TStartu
             {
                 var scopedServices = scope.ServiceProvider;
                 var db = scopedServices.GetRequiredService<FinanceContext>();
-                var logger = scopedServices
-                    .GetRequiredService<ILogger<TestWebApplicationFactory<TStartup>>>();
 
                 db.Database.EnsureCreated();
             }

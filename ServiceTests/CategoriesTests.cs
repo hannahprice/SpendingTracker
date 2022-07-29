@@ -73,6 +73,25 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
         response.Should().NotBeNull();
         await Verify(response);
     }
+
+    [Fact]
+    public async Task DeleteCategorySuccess()
+    {
+        var category = new Category
+        {
+            Id = 9,
+            Description = "CategoryToBeDeleted"
+        };
+        
+        var addResponse = await _httpClient.PostAsJsonAsync("api/Categories", category);
+        addResponse.EnsureSuccessStatusCode();
+
+        var response = await _httpClient.DeleteAsync($"api/Categories/{category.Id}");
+        response.EnsureSuccessStatusCode();
+        
+        var dbContext = Utilities.GetDbContext(_appFactory);
+        dbContext!.Categories.Should().NotContain(c => c.Id == 9);
+    }
     
     private async Task RemoveAddedCategory(FinanceContext dbContext, int addedCategoryId)
     {
