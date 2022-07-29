@@ -26,5 +26,10 @@ namespace SpendingTracker.Client.Services
         {
             return await _httpClient.GetFromJsonAsync<Subcategory>($"api/Subcategories/{id}");
         }
+
+        public async Task DeleteSubcategory(int id)
+        {
+            await _httpClient.DeleteAsync($"api/Subcategories/{id}");
+        }
     }
 }

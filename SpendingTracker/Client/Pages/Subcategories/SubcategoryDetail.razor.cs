@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using SpendingTracker.Client.Services;
 using SpendingTracker.Shared.Models;
 
@@ -6,11 +7,15 @@ namespace SpendingTracker.Client.Pages.Subcategories;
 
 public partial class SubcategoryDetail
 {
-    [Inject] public ISubcategoriesService SubcategoriesService { get; set; }
     [Parameter] public string Id { get; set; }
+    [Inject] private ISubcategoriesService SubcategoriesService { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] private ISnackbar Snackbar { get; set; }
+    private bool IsLoading { get; set; } = false;
+    private bool DialogVisible { get; set; } = false;
+    private void ToggleDialog() => DialogVisible = !DialogVisible;
 
-    public bool IsLoading { get; set; } = false;
-    public Subcategory Subcategory { get; set; } = new Subcategory();
+    private Subcategory Subcategory { get; set; } = new Subcategory();
 
     protected override async Task OnInitializedAsync()
     {
@@ -18,4 +23,20 @@ public partial class SubcategoryDetail
         Subcategory = await SubcategoriesService.GetSubcategory(int.Parse(Id));
         IsLoading = false;
     }   
+    private async Task DeleteSubcategory()
+    {
+        try
+        {
+            await SubcategoriesService.DeleteSubcategory(int.Parse(Id));
+                
+            ToggleDialog();
+            Snackbar.Add($"Subcategory removed", Severity.Success);
+                
+            NavigationManager.NavigateTo("/categories", false);
+        }
+        catch
+        {
+            Snackbar.Add($"Error removing subcategory: {Subcategory.Description}", Severity.Error);
+        }
+    }
 }

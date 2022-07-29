@@ -23,7 +23,7 @@ public partial class CategoryDetail
         IsLoading = false;
     }
     
-    private async Task DeleteBudget()
+    private async Task DeleteCategory()
     {
         try
         {

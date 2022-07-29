@@ -29,6 +29,13 @@ namespace SpendingTracker.Client.Pages.Categories
             Subcategories = Categories.Where(x => x.Subcategories != null && x.Subcategories.Any())
                 .SelectMany(x => x.Subcategories!).ToList();
 
+            AddCategoriesWithNoSubcategories();
+
+            IsLoading = false;
+        }
+
+        private void AddCategoriesWithNoSubcategories()
+        {
             var categoriesWithNoSubcategories =
                 Categories.Where(x => x.Subcategories is null || !x.Subcategories.Any()).ToList();
 
@@ -41,8 +48,6 @@ namespace SpendingTracker.Client.Pages.Categories
                 };
                 Subcategories.Add(subcategory);
             }
-            
-            IsLoading = false;
         }
 
         private void NavigateToCategoryDetail(object categoryId)

@@ -6,5 +6,6 @@ namespace SpendingTracker.Client.Services
     {
         Task<int> AddSubcategory(Subcategory subcategory);
         Task<Subcategory> GetSubcategory(int id);
+        Task DeleteSubcategory(int id);
     }
 }
