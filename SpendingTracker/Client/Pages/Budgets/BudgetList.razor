@@ -1,7 +1,8 @@
 ﻿@page "/budgets"
 @using SpendingTracker.Shared.Models
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-@if (!IsLoading && !Budgets.Any())
+@if (!BudgetsState.Value.IsLoading && !BudgetsState.Value.Budgets!.Any())
 {
     <p>No budgets</p>
 }
@@ -15,11 +16,11 @@ else
             <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" Href="/budgets/add"/>
         </MudItem>
         <MudItem xs="12">
-            <MudTable Items="@Budgets"
+            <MudTable Items="@BudgetsState.Value.Budgets"
                       Hover="true"
                       Striped="true"
                       Breakpoint="Breakpoint.Sm"
-                      Loading="@IsLoading"
+                      Loading="@BudgetsState.Value.IsLoading"
                       LoadingProgressColor="Color.Info"
                       OnRowClick="@BudgetClicked"
                       T="Budget">

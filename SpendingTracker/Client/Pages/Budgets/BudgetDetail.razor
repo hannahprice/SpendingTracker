@@ -1,4 +1,5 @@
 ﻿@page "/budgets/{id}"
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <MudGrid Justify="Justify.Center" Spacing="5">
     <MudItem xs="12" sm="2" Class="mt-10">
@@ -13,8 +14,8 @@
 
     <MudItem xs="8">
         <MudPaper Elevation="3" Class="pa-16">
-            Amount: @Budget.Amount
-            Frequency: @Budget.Frequency
+            Amount: @BudgetsState.Value.BudgetDetail?.Amount
+            Frequency: @BudgetsState.Value.BudgetDetail?.Frequency
         </MudPaper>
     </MudItem>
 </MudGrid>
@@ -24,7 +25,7 @@
         Delete budget?
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="(() => ToggleDialog())">Cancel</MudButton>
+        <MudButton OnClick="(ToggleDialog)">Cancel</MudButton>
         <MudButton Color="Color.Primary" OnClick="DeleteBudget">Ok</MudButton>
     </DialogActions>
 </MudDialog>

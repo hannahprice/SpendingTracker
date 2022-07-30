@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Fluxor;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using SpendingTracker.Client.Services;
-using SpendingTracker.Shared.Models;
+using SpendingTracker.Client.Store.Budgets;
+using SpendingTracker.Client.Store.Budgets.Actions;
 
 namespace SpendingTracker.Client.Pages.Budgets
 {
@@ -11,15 +13,14 @@ namespace SpendingTracker.Client.Pages.Budgets
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private ISnackbar Snackbar { get; set; }
         [Inject] private IBudgetsService BudgetsService { get; set; }
-        private Budget Budget { get; set; } = new Budget();
-        private bool IsLoading { get; set; } = false;
+        [Inject] private IState<BudgetsState> BudgetsState { get; set; }
+        [Inject] private IDispatcher Dispatcher { get; set; }
         private bool DialogVisible { get; set; } = false;
         
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            IsLoading = true;
-            Budget = await BudgetsService.GetBudget(int.Parse(Id));
-            IsLoading = false;
+            base.OnInitialized();
+            Dispatcher.Dispatch(new LoadBudgetDetailAction(int.Parse(Id)));
         }
 
         private void ToggleDialog() => DialogVisible = !DialogVisible;
@@ -37,7 +38,7 @@ namespace SpendingTracker.Client.Pages.Budgets
             }
             catch
             {
-                Snackbar.Add($"Error removing budget: {Budget.Amount}", Severity.Error);
+                Snackbar.Add($"Error removing budget: {BudgetsState.Value.BudgetDetail?.Amount}", Severity.Error);
             }
         }
     }

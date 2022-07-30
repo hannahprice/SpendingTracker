@@ -1,31 +1,25 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Fluxor;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using SpendingTracker.Client.Services;
+using SpendingTracker.Client.Store.Budgets;
+using SpendingTracker.Client.Store.Budgets.Actions;
 using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Pages.Budgets
 {
     public partial class BudgetList
     {
-        [Inject]
-        public IBudgetsService BudgetsService { get; set; }
-
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
-
-        public List<Budget> Budgets { get; set; } = new List<Budget>();
-        public bool IsLoading { get; set; } = false;
-
-        protected override async Task OnInitializedAsync()
+        [Inject] private NavigationManager NavigationManager { get; set; }
+        [Inject] private IState<BudgetsState> BudgetsState { get; set; }
+        [Inject] private IDispatcher Dispatcher { get; set; }
+        
+        protected override void OnInitialized()
         {
-            IsLoading = true;
-
-            Budgets = await BudgetsService.GetAllBudgets();
-
-            IsLoading = false;
+            base.OnInitialized();
+            Dispatcher.Dispatch(new LoadBudgetsAction());
         }
 
-        public void BudgetClicked(TableRowClickEventArgs<Budget> eventArgs)
+        private void BudgetClicked(TableRowClickEventArgs<Budget> eventArgs)
         {
             var id = eventArgs.Item.Id;
             NavigationManager.NavigateTo($"/budgets/{id}");

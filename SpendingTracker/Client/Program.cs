@@ -1,3 +1,4 @@
+using Fluxor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
@@ -29,6 +30,8 @@ namespace SpendingTracker.Client
                 config.SnackbarConfiguration.HideTransitionDuration = 500;
                 config.SnackbarConfiguration.VisibleStateDuration = 10000;
             });
+
+            builder.Services.AddFluxor(options => options.ScanAssemblies(typeof(Program).Assembly));
 
             await builder.Build().RunAsync();
         }
