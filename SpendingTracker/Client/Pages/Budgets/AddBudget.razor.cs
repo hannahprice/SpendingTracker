@@ -1,27 +1,20 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Fluxor;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using SpendingTracker.Client.Services;
+using SpendingTracker.Client.Store.Budgets;
+using SpendingTracker.Client.Store.Budgets.Actions;
 using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Pages.Budgets
 {
     public partial class AddBudget
     {
-        [Inject]
-        public IBudgetsService BudgetsService { get; set; }
-
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
-
-        [Inject]
-        private ISnackbar Snackbar { get; set; }
-
-        public Budget Budget { get; set; } = new Budget();
-        public List<Category> SelectedCategories { get; set; } = new List<Category>();
-        public List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
-        public bool? Success { get; set; } = null;
-        public MudForm Form { get; set; }
-        public bool AddingMultiple { get; set; } = false;
+        [Inject] private IDispatcher Dispatcher { get; set; }
+        [Inject] private IState<BudgetsState> BudgetsState { get; set; }
+        private Budget Budget { get; set; } = new Budget();
+        private List<Category> SelectedCategories { get; set; } = new List<Category>();
+        private List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
+        private MudForm Form { get; set; }
         
         private async Task Submit()
         {
@@ -40,29 +33,14 @@ namespace SpendingTracker.Client.Pages.Budgets
                     }
                 }
 
-                var createdId = await BudgetsService.AddBudget(Budget);
-                Success = createdId > 0;
-
-                AddSnackBarMessage();
+                Dispatcher.Dispatch(new AddBudgetAction(Budget));
                 Form.Reset();
-
-                if (!AddingMultiple)
-                {
-                    NavigationManager.NavigateTo("/budgets", false);
-                }
             }
         }
 
-        private void AddSnackBarMessage()
+        private void ToggleMultiAdd()
         {
-            if (Success!.Value)
-            {
-                Snackbar.Add($"Budget added: {Budget.Amount}", Severity.Success);
-            }
-            else
-            {
-                Snackbar.Add($"Error adding budget: {Budget.Amount}", Severity.Error);
-            }
+            Dispatcher.Dispatch(new ToggleMultiAddAction());
         }
     }
 }

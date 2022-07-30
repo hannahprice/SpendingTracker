@@ -1,13 +1,14 @@
 ﻿@using SpendingTracker.Shared.Models;
 @using SpendingTracker.Client.Components;
 @page "/budgets/add"
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <MudGrid Justify="Justify.Center">
     <MudItem xs="12" sm="5">
         <MudText Typo="Typo.h2" Class="my-7">Add new budget</MudText>
     </MudItem>
     <MudItem xs="12" sm="5" Class="my-7 d-flex justify-end">
-        <MudSwitch @bind-Checked="AddingMultiple" Color="Color.Primary" Label="Add multiple (remains on this page)"/>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ToggleMultiAdd">Multi add: @BudgetsState.Value.MultiAddEnabled</MudButton>
     </MudItem>
     <MudItem xs="12" sm="10">
         <MudPaper Class="pa-10" Elevation="3">
