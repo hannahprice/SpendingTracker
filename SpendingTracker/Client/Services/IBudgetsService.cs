@@ -9,6 +9,6 @@ namespace SpendingTracker.Client.Services
         Task<int> AddBudget(Budget budget);
 
         Task<Budget> GetBudget(int id);
-        Task DeleteBudget(int id);
+        Task<bool> DeleteBudget(int id);
     }
 }
