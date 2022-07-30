@@ -31,7 +31,11 @@ namespace SpendingTracker.Client
                 config.SnackbarConfiguration.VisibleStateDuration = 10000;
             });
 
-            builder.Services.AddFluxor(options => options.ScanAssemblies(typeof(Program).Assembly));
+            builder.Services.AddFluxor(options =>
+            {
+                options.ScanAssemblies(typeof(Program).Assembly);
+                options.UseReduxDevTools();
+            });
 
             await builder.Build().RunAsync();
         }
