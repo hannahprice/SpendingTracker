@@ -25,7 +25,8 @@ public class AddBudgetEffect
     public async Task HandleAddBudgetAction(AddBudgetAction action, IDispatcher dispatcher)
     {
         var createdId = await BudgetsService.AddBudget(action.Budget);
-        dispatcher.Dispatch(new AddBudgetResultAction(createdId > 0, action.Budget));
+        var addedBudget = await BudgetsService.GetBudget(createdId);
+        dispatcher.Dispatch(new AddBudgetResultAction(createdId > 0, addedBudget));
     }
 
     [EffectMethod]
