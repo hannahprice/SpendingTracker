@@ -7,22 +7,16 @@ namespace SpendingTracker.Client.Pages.Transactions;
 
 public partial class TransactionDetail
 {
-    [Parameter]
-    public string Id { get; set; }
-    
-    public Transaction Transaction { get; set; } = new Transaction();
-    public bool IsLoading { get; set; } = false;
+    [Parameter] public string Id { get; set; }
+    [Inject] private ITransactionsService TransactionsService { get; set; }
+    [Inject] private ISnackbar Snackbar { get; set; }
+    [Inject] public NavigationManager NavigationManager { get; set; }
+    private Transaction Transaction { get; set; } = new Transaction();
+    private bool IsLoading { get; set; } = false;
 
-    [Inject]
-    public ITransactionsService TransactionsService { get; set; }
-    [Inject]
-    private ISnackbar Snackbar { get; set; }
-    [Inject]
-    public NavigationManager NavigationManager { get; set; }
+    private bool DialogVisible { get; set; } = false;
 
-    public bool DialogVisible { get; set; } = false;
-
-    public void ToggleDialog() => DialogVisible = !DialogVisible;
+    private void ToggleDialog() => DialogVisible = !DialogVisible;
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
@@ -30,7 +24,7 @@ public partial class TransactionDetail
         IsLoading = false;
     }
 
-    public async Task DeleteTransaction()
+    private async Task DeleteTransaction()
     {
         try
         {

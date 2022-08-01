@@ -1,7 +1,8 @@
 ﻿@page "/transactions"
 @using SpendingTracker.Shared.Models
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-@if (!IsLoading && !Transactions.Any())
+@if (!TransactionsState.Value.IsLoading && !TransactionsState.Value.Transactions!.Any())
 {
     <p>No transactions</p>
 }
@@ -15,12 +16,12 @@ else
             <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" Href="/transactions/add"/>
         </MudItem>
         <MudItem xs="12">
-            <MudTable Items="@Transactions"
+            <MudTable Items="@TransactionsState.Value.Transactions"
                       Hover="true"
                       Dense="true"
                       Striped="true"
                       Breakpoint="Breakpoint.Sm"
-                      Loading="@IsLoading"
+                      Loading="@TransactionsState.Value.IsLoading"
                       LoadingProgressColor="Color.Info"
                       OnRowClick="@TransactionClicked"
                       T="Transaction">
