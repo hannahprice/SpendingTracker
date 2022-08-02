@@ -1,4 +1,5 @@
 ﻿@page "/transactions/{id}"
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <MudGrid Justify="Justify.Center" Spacing="5">
     <MudItem xs="12" sm="2" Class="mt-10">
@@ -13,9 +14,9 @@
 
     <MudItem xs="8">
         <MudPaper Elevation="3" Class="pa-16">
-            Description: @Transaction.Description
-            Amount: @Transaction.Amount
-            Date: @Transaction.DateOfTransaction
+            Description: @TransactionsState.Value.TransactionDetail?.Description
+            Amount: @TransactionsState.Value.TransactionDetail?.Amount
+            Date: @TransactionsState.Value.TransactionDetail?.DateOfTransaction
         </MudPaper>
     </MudItem>
 </MudGrid>

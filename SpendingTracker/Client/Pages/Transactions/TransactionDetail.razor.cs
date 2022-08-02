@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Fluxor;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using SpendingTracker.Client.Services;
-using SpendingTracker.Shared.Models;
+using SpendingTracker.Client.Store.Transactions;
+using SpendingTracker.Client.Store.Transactions.Actions;
 
 namespace SpendingTracker.Client.Pages.Transactions;
 
@@ -11,17 +13,15 @@ public partial class TransactionDetail
     [Inject] private ITransactionsService TransactionsService { get; set; }
     [Inject] private ISnackbar Snackbar { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
-    private Transaction Transaction { get; set; } = new Transaction();
-    private bool IsLoading { get; set; } = false;
-
+    [Inject] private IState<TransactionsState> TransactionsState { get; set; }
+    [Inject] private IDispatcher Dispatcher { get; set; }
     private bool DialogVisible { get; set; } = false;
 
     private void ToggleDialog() => DialogVisible = !DialogVisible;
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        IsLoading = true;
-        Transaction = await TransactionsService.GetTransaction(int.Parse(Id));    
-        IsLoading = false;
+        base.OnInitialized();
+        Dispatcher.Dispatch(new LoadTransactionDetailAction(int.Parse(Id)));   
     }
 
     private async Task DeleteTransaction()
@@ -36,7 +36,7 @@ public partial class TransactionDetail
         }
         catch
         {
-            Snackbar.Add($"Error removing transaction: {Transaction.Description}", Severity.Error);
+            Snackbar.Add($"Error removing transaction", Severity.Error);
         }
     }
 }

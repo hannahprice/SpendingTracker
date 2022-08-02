@@ -8,12 +8,14 @@ public class TransactionsState
 {
     public bool IsLoading { get; }
     public IEnumerable<Transaction>? Transactions { get; }
-    
+    public Transaction? TransactionDetail { get; }
+
     private TransactionsState() { }
 
-    public TransactionsState(bool isLoading, IEnumerable<Transaction>? transactions)
+    public TransactionsState(bool isLoading, IEnumerable<Transaction>? transactions, Transaction? transactionDetail)
     {
         IsLoading = isLoading;
         Transactions = transactions ?? Array.Empty<Transaction>();
+        TransactionDetail = transactionDetail;
     }
 }
