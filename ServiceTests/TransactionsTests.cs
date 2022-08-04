@@ -11,9 +11,13 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
 {
     private readonly TestWebApplicationFactory<Program> _appFactory;
     private readonly HttpClient _httpClient;
+    private readonly VerifySettings _verifySettings;
 
     public TransactionsTests(TestWebApplicationFactory<Program> appFactory)
     {
+        _verifySettings = new VerifySettings();
+        _verifySettings.UseDirectory("./Snapshots/Transactions");
+        
         _appFactory = appFactory;
         _httpClient = _appFactory.CreateClient();
     }
@@ -36,7 +40,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
             c.Subcategories.Should().NotBeNullOrEmpty();
         });
 
-        await Verify(response);
+        await Verify(response, _verifySettings);
 
         var dbContext = Utilities.GetDbContext(_appFactory);
 
@@ -79,7 +83,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
 
         response.Should().NotBeNull();
         response!.Id.Should().Be(id);
-        await Verify(response);
+        await Verify(response, _verifySettings);
 
         var dbContext = Utilities.GetDbContext(_appFactory);
 

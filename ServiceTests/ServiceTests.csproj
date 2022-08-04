@@ -19,4 +19,11 @@
       <ProjectReference Include="..\SpendingTracker\Server\SpendingTracker.Server.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Snapshots\Budgets" />
+      <Folder Include="Snapshots\Categories" />
+      <Folder Include="Snapshots\Subcategories" />
+      <Folder Include="Snapshots\Transactions" />
+    </ItemGroup>
+
 </Project>

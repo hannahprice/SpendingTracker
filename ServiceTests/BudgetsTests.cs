@@ -10,9 +10,12 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
 {
     private readonly TestWebApplicationFactory<Program> _appFactory;
     private readonly HttpClient _httpClient;
-
+    private readonly VerifySettings _verifySettings;
+    
     public BudgetsTests(TestWebApplicationFactory<Program> appFactory)
     {
+        _verifySettings = new VerifySettings();
+        _verifySettings.UseDirectory("./Snapshots/Budgets");
         _appFactory = appFactory;
         _httpClient = _appFactory.CreateClient();
     }
@@ -30,7 +33,7 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         response.Should().NotBeNullOrEmpty();
         response.Should().BeInDescendingOrder(c => c.Id);
 
-        await Verify(response);
+        await Verify(response, _verifySettings);
         
         var dbContext = Utilities.GetDbContext(_appFactory);
 
@@ -71,7 +74,7 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         response.Should().NotBeNull();
         response!.Id.Should().Be(5);
         
-        await Verify(response);
+        await Verify(response, _verifySettings);
         
         var dbContext = Utilities.GetDbContext(_appFactory);
 

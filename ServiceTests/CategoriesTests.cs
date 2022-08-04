@@ -10,9 +10,13 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
 {
     private readonly TestWebApplicationFactory<Program> _appFactory;
     private readonly HttpClient _httpClient;
+    private readonly VerifySettings _verifySettings;
 
     public CategoriesTests(TestWebApplicationFactory<Program> appFactory)
     {
+        _verifySettings = new VerifySettings();
+        _verifySettings.UseDirectory("./Snapshots/Categories");
+        
         _appFactory = appFactory;
         _httpClient = _appFactory.CreateClient();
     }
@@ -26,7 +30,7 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
         dbContext!.Categories.Should().NotBeNullOrEmpty();
         var categoryNames = dbContext.Categories.Select(c => c.Description);
 
-        await Verify(categoryNames);
+        await Verify(categoryNames, _verifySettings);
     }
 
     [Fact]
@@ -41,7 +45,7 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
             c.Subcategories.Should().NotBeNullOrEmpty();
         });
 
-        await Verify(response);
+        await Verify(response, _verifySettings);
     }
 
     [Fact]
@@ -71,7 +75,7 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
         var response = await _httpClient.GetFromJsonAsync<Category>($"api/Categories/2");
 
         response.Should().NotBeNull();
-        await Verify(response);
+        await Verify(response, _verifySettings);
     }
 
     [Fact]

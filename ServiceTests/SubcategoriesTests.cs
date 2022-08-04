@@ -11,9 +11,13 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Progra
 {
     private readonly TestWebApplicationFactory<Program> _appFactory;
     private readonly HttpClient _httpClient;
+    private readonly VerifySettings _verifySettings;
 
     public SubcategoriesTests(TestWebApplicationFactory<Program> appFactory)
     {
+        _verifySettings = new VerifySettings();
+        _verifySettings.UseDirectory("./Snapshots/Subcategories");
+        
         _appFactory = appFactory;
         _httpClient = _appFactory.CreateClient();
     }
@@ -25,7 +29,7 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Progra
 
         dbContext.Should().NotBeNull();
         dbContext!.Subcategories.Should().NotBeNullOrEmpty();
-        await Verify(dbContext.Subcategories);
+        await Verify(dbContext.Subcategories, _verifySettings);
     }
 
     [Fact]
@@ -57,7 +61,7 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Progra
         var response = await _httpClient.GetFromJsonAsync<Subcategory>("api/Subcategories/2");
 
         response.Should().NotBeNull();
-        await Verify(response);
+        await Verify(response, _verifySettings);
     }
     
     [Fact]
