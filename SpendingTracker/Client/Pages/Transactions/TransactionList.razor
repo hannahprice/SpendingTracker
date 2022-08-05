@@ -2,7 +2,9 @@
 @using SpendingTracker.Shared.Models
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-@if (!TransactionsState.Value.IsLoading && !TransactionsState.Value.Transactions!.Any())
+@if (!TransactionsState.Value.IsLoading &&
+     TransactionsState.Value.Transactions != null &&
+     !TransactionsState.Value.Transactions.Any())
 {
     <p>No transactions</p>
 }
