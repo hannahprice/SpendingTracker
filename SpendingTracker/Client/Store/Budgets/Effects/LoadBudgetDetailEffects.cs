@@ -4,11 +4,11 @@ using SpendingTracker.Client.Store.Budgets.Actions;
 
 namespace SpendingTracker.Client.Store.Budgets.Effects;
 
-public class LoadBudgetDetailEffect
+public class LoadBudgetDetailEffects
 {
     private readonly IBudgetsService BudgetsService;
 
-    public LoadBudgetDetailEffect(IBudgetsService budgetsService)
+    public LoadBudgetDetailEffects(IBudgetsService budgetsService)
     {
         BudgetsService = budgetsService;
     }

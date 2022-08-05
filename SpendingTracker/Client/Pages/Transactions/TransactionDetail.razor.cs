@@ -1,7 +1,5 @@
 ﻿using Fluxor;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using SpendingTracker.Client.Services;
 using SpendingTracker.Client.Store.Transactions;
 using SpendingTracker.Client.Store.Transactions.Actions;
 
@@ -10,9 +8,6 @@ namespace SpendingTracker.Client.Pages.Transactions;
 public partial class TransactionDetail
 {
     [Parameter] public string Id { get; set; }
-    [Inject] private ITransactionsService TransactionsService { get; set; }
-    [Inject] private ISnackbar Snackbar { get; set; }
-    [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] private IState<TransactionsState> TransactionsState { get; set; }
     [Inject] private IDispatcher Dispatcher { get; set; }
     private bool DialogVisible { get; set; } = false;
@@ -24,19 +19,9 @@ public partial class TransactionDetail
         Dispatcher.Dispatch(new LoadTransactionDetailAction(int.Parse(Id)));   
     }
 
-    private async Task DeleteTransaction()
+    private void DeleteTransaction()
     {
-        try
-        {
-            await TransactionsService.DeleteTransaction(int.Parse(Id));
-
-            ToggleDialog();
-            Snackbar.Add($"Transaction removed", Severity.Success);
-            NavigationManager.NavigateTo("/transactions", false);
-        }
-        catch
-        {
-            Snackbar.Add($"Error removing transaction", Severity.Error);
-        }
+        Dispatcher.Dispatch(new DeleteTransactionAction(int.Parse(Id)));
+        ToggleDialog();
     }
 }

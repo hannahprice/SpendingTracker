@@ -4,11 +4,11 @@ using SpendingTracker.Client.Store.Transactions.Actions;
 
 namespace SpendingTracker.Client.Store.Transactions.Effects;
 
-public class LoadTransactionDetailEffect
+public class LoadTransactionDetailEffects
 {
     private readonly ITransactionsService TransactionsService;
 
-    public LoadTransactionDetailEffect(ITransactionsService transactionsService)
+    public LoadTransactionDetailEffects(ITransactionsService transactionsService)
     {
         TransactionsService = transactionsService;
     }

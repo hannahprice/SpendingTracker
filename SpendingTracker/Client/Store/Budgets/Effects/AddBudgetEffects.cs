@@ -6,14 +6,14 @@ using SpendingTracker.Client.Store.Budgets.Actions;
 
 namespace SpendingTracker.Client.Store.Budgets.Effects;
 
-public class AddBudgetEffect
+public class AddBudgetEffects
 {
     private readonly IBudgetsService BudgetsService;
     private readonly ISnackbar Snackbar;
     private readonly NavigationManager NavigationManager;
     private readonly IState<BudgetsState> BudgetsState;
 
-    public AddBudgetEffect(IBudgetsService budgetsService, ISnackbar snackbar, NavigationManager navigationManager, IState<BudgetsState> budgetsState)
+    public AddBudgetEffects(IBudgetsService budgetsService, ISnackbar snackbar, NavigationManager navigationManager, IState<BudgetsState> budgetsState)
     {
         BudgetsService = budgetsService;
         Snackbar = snackbar;

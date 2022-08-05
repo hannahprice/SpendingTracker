@@ -6,13 +6,13 @@ using SpendingTracker.Client.Store.Budgets.Actions;
 
 namespace SpendingTracker.Client.Store.Budgets.Effects;
 
-public class DeleteBudgetEffect
+public class DeleteBudgetEffects
 {
     private readonly IBudgetsService BudgetsService;
     private readonly NavigationManager NavigationManager;
     private readonly ISnackbar SnackBar;
     
-    public DeleteBudgetEffect(IBudgetsService budgetsService, NavigationManager navigationManager, ISnackbar snackBar)
+    public DeleteBudgetEffects(IBudgetsService budgetsService, NavigationManager navigationManager, ISnackbar snackBar)
     {
         BudgetsService = budgetsService;
         NavigationManager = navigationManager;

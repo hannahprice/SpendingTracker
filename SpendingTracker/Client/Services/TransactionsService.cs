@@ -12,9 +12,9 @@ namespace SpendingTracker.Client.Services
             _httpClient = httpClient;
         }
 
-        public Task<List<Transaction>> GetAllTransactions()
+        public async Task<List<Transaction>> GetAllTransactions()
         {
-            return _httpClient.GetFromJsonAsync<List<Transaction>>("api/Transactions");
+            return await _httpClient.GetFromJsonAsync<List<Transaction>>("api/Transactions");
         }
 
         public async Task<int> AddTransaction(Transaction transaction)
@@ -30,14 +30,15 @@ namespace SpendingTracker.Client.Services
             return default;
         }
 
-        public Task<Transaction> GetTransaction(int id)
+        public async Task<Transaction> GetTransaction(int id)
         {
-            return _httpClient.GetFromJsonAsync<Transaction>($"api/Transactions/{id}");
+            return await _httpClient.GetFromJsonAsync<Transaction>($"api/Transactions/{id}");
         }
 
-        public Task DeleteTransaction(int id)
+        public async Task<bool> DeleteTransaction(int id)
         {
-            return _httpClient.DeleteAsync($"api/Transactions/{id}");
+            var result = await  _httpClient.DeleteAsync($"api/Transactions/{id}");
+            return result.IsSuccessStatusCode;
         }
     }
 }
