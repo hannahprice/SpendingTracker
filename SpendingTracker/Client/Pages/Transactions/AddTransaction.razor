@@ -1,13 +1,14 @@
 ﻿@using SpendingTracker.Shared.Models;
 @using SpendingTracker.Client.Components;
 @page "/transactions/add"
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <MudGrid Justify="Justify.Center">
     <MudItem xs="12" sm="7">
         <MudText Typo="Typo.h2" Class="my-7">Add new transaction</MudText>
     </MudItem>
     <MudItem xs="12" sm="3" Class="my-7 d-flex justify-end">
-        <MudSwitch @bind-Checked="AddingMultiple" Color="Color.Primary" Label="Add multiple (remains on this page)" /> 
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ToggleMultiAdd">Multi add: @TransactionsState.Value.MultiAddEnabled</MudButton>
     </MudItem>
     <MudItem xs="12" sm="10">
         <MudPaper Class="pa-6" Elevation="3">
@@ -19,7 +20,7 @@
                                  RequiredError="Amount is required"
                                  Culture="EnGbCulture"
                                  Adornment="Adornment.Start"
-                                 AdornmentIcon="@Icons.Filled.CurrencyPound" />
+                                 AdornmentIcon="@Icons.Filled.CurrencyPound"/>
 
                 <MudTextField @bind-Value="Transaction.Description"
                               Label="Description"
@@ -41,14 +42,14 @@
                 @if (Transaction.IsReoccurring)
                 {
                     <MudSelect @bind-Value="@Transaction.ReoccuringFrequency"
-                           Label="Frequency"
-                           AnchorOrigin="Origin.BottomCenter"
-                            Class="my-4">
-                    @foreach (Frequency item in Enum.GetValues(typeof(Frequency)))
-                    {
-                        <MudSelectItem Value="@item">@item</MudSelectItem>
-                    }
-                </MudSelect>
+                               Label="Frequency"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Class="my-4">
+                        @foreach (Frequency item in Enum.GetValues(typeof(Frequency)))
+                        {
+                            <MudSelectItem Value="@item">@item</MudSelectItem>
+                        }
+                    </MudSelect>
                 }
 
                 <MudDatePicker Label="Date of transaction"
@@ -65,7 +66,7 @@
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
                            Class="ml-auto mt-6"
-                           OnClick="@(async ()=> await Submit())">
+                           OnClick="@(async () => await Submit())">
                     Submit
                 </MudButton>
             </MudForm>

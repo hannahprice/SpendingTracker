@@ -3,37 +3,33 @@ using MudBlazor;
 using SpendingTracker.Client.Services;
 using SpendingTracker.Shared.Models;
 using System.Globalization;
+using Fluxor;
+using SpendingTracker.Client.Store.Transactions;
+using SpendingTracker.Client.Store.Transactions.Actions;
 
 namespace SpendingTracker.Client.Pages.Transactions
 {
     public partial class AddTransaction
     {
-        [Inject]
-        public ITransactionsService TransactionsService { get; set; }
+        [Inject] private IState<TransactionsState> TransactionsState { get;set; }
+        [Inject] private IDispatcher Dispatcher { get; set; }
+        private Transaction Transaction { get; set; } = new Transaction();
+        private List<Category> SelectedCategories { get; set; } = new List<Category>();
+        private List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
+        private DateTime? SelectedDatetime { get; set; }
+        private MudForm Form { get; set; }
 
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        private CultureInfo EnGbCulture = CultureInfo.GetCultureInfo("en-GB");
 
-        [Inject]
-        private ISnackbar Snackbar { get; set; }
-
-        public Transaction Transaction { get; set; } = new Transaction();
-        public List<Category> SelectedCategories { get; set; } = new List<Category>();
-        public List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
-        public DateTime? SelectedDatetime { get; set; }
-        public bool? Success { get; set; } = null;
-        public MudForm Form { get; set; }
-        public bool AddingMultiple { get; set; } = false;
-
-        public CultureInfo EnGbCulture = CultureInfo.GetCultureInfo("en-GB");
-
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
+            base.OnInitialized();
+            
             Transaction.IsOutwardPayment = true;
             Transaction.IsReoccurring = false;
         }
 
-        public async Task Submit()
+        private async Task Submit()
         {
             await Form.Validate();
 
@@ -52,29 +48,14 @@ namespace SpendingTracker.Client.Pages.Transactions
 
                 Transaction.DateOfTransaction = SelectedDatetime.Value;
 
-                var createdId = await TransactionsService.AddTransaction(Transaction);
-                Success = createdId > 0;
-
-                AddSnackBarMessage();
+                Dispatcher.Dispatch(new AddTransactionAction(Transaction));
                 Form.Reset();
-
-                if (!AddingMultiple)
-                {
-                    NavigationManager.NavigateTo("/transactions", false);
-                }
             }
         }
-
-        private void AddSnackBarMessage()
+        
+        private void ToggleMultiAdd()
         {
-            if (Success.Value)
-            {
-                Snackbar.Add($"Transaction added: {Transaction.Description}", Severity.Success);
-            }
-            else
-            {
-                Snackbar.Add($"Error adding transaction: {Transaction.Description}", Severity.Error);
-            }
+            Dispatcher.Dispatch(new ToggleMultiAddAction());
         }
     }
 }

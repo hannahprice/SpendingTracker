@@ -7,7 +7,7 @@ public static class DeleteTransactionActionsReducers
 {
     [ReducerMethod(typeof(DeleteTransactionAction))]
     public static TransactionsState ReduceDeleteTransactionAction(TransactionsState state)
-        => new TransactionsState(isLoading: true, transactions: state.Transactions, transactionDetail: null);
+        => new TransactionsState(isLoading: true, transactions: state.Transactions, transactionDetail: null, multiAddEnabled: state.MultiAddEnabled);
 
     [ReducerMethod]
     public static TransactionsState ReduceDeleteTransactionResultAction(TransactionsState state,
@@ -16,9 +16,9 @@ public static class DeleteTransactionActionsReducers
         if (action.Success)
         {
             var transactions = state.Transactions!.Where(x => x.Id != action.Id);   
-            return new TransactionsState(isLoading: false, transactions: transactions, transactionDetail: null);
+            return new TransactionsState(isLoading: false, transactions: transactions, transactionDetail: null, multiAddEnabled: state.MultiAddEnabled);
         }
 
-        return new TransactionsState(isLoading: false, transactions: state.Transactions, transactionDetail: state.TransactionDetail);
+        return new TransactionsState(isLoading: false, transactions: state.Transactions, transactionDetail: state.TransactionDetail, multiAddEnabled: state.MultiAddEnabled);
     }
 }
