@@ -5,10 +5,10 @@
 
 <MudGrid Justify="Justify.Center">
     <MudItem xs="12" sm="5">
-        <MudText Typo="Typo.h2" Class="my-7">Add new budget</MudText>
+        <MudText Typo="Typo.h2" Class="my-7" id="AddBudget-Header">Add new budget</MudText>
     </MudItem>
     <MudItem xs="12" sm="5" Class="my-7 d-flex justify-end">
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ToggleMultiAdd">Multi add: @BudgetsState.Value.MultiAddEnabled</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ToggleMultiAdd">Multi add: @BudgetsState.Value?.MultiAddEnabled</MudButton>
     </MudItem>
     <MudItem xs="12" sm="10">
         <MudPaper Class="pa-10" Elevation="3">
