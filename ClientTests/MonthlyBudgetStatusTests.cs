@@ -71,9 +71,7 @@ public class MonthlyBudgetStatusTests : TestContext
     public void WhenMonthlyBudgetButNoTransactionsForThisMonth_DisplaysBudgetStatusRow()
     {
         // Arrange
-        _budgetsService.Setup(x => x.GetAllBudgets()).ReturnsAsync(
-            new List<Budget>{new Budget{Id = 23, Amount = 65m, Frequency = Frequency.Monthly, Categories = 
-                new List<Category>{new Category{Description = "Bills"}}}});
+        SetupSingleBudget(65m);
         _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(new List<Transaction>());
 
         // Act
@@ -88,69 +86,53 @@ public class MonthlyBudgetStatusTests : TestContext
     public void WhenMonthlyBudgetAndTransactionForThisMonth_DisplaysBudgetCategory()
     {
         // Arrange
-        _budgetsService.Setup(x => x.GetAllBudgets()).ReturnsAsync(
-            new List<Budget>{new Budget{Id = 23, Amount = 65m, Frequency = Frequency.Monthly, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}}}});
-        _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(
-            new List<Transaction>{new Transaction{Amount = 15m, DateOfTransaction = DateTime.Now, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}} }});
+        SetupSingleBudget(65m);
+        SetupSingleTransaction(15m);
         
         // Act
         var component = RenderComponent<MonthlyBudgetStatus>();
 
         // Assert
         var categoryCell = component.Find("td:nth-child(1)");
-        categoryCell.MarkupMatches(@"<td class=""mud-table-cell"">Bills</td>");
+        categoryCell.InnerHtml.Should().Be("Bills");
     }
     
     [Fact]
     public void WhenMonthlyBudgetAndTransactionForThisMonth_DisplaysBudgetAmount()
     {
         // Arrange
-        _budgetsService.Setup(x => x.GetAllBudgets()).ReturnsAsync(
-            new List<Budget>{new Budget{Id = 23, Amount = 65m, Frequency = Frequency.Monthly, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}}}});
-        _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(
-            new List<Transaction>{new Transaction{Amount = 15m, DateOfTransaction = DateTime.Now, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}} }});
+        SetupSingleBudget(65m);
+        SetupSingleTransaction(15m);
         
         // Act
         var component = RenderComponent<MonthlyBudgetStatus>();
 
         // Assert
         var amountCell = component.Find("td:nth-child(2)");
-        amountCell.MarkupMatches(@"<td class=""mud-table-cell"">£65</td>");
+        amountCell.InnerHtml.Should().Be("£65");
     }
 
     [Fact]
     public void WhenMonthlyBudgetAndTransactionForThisMonth_DisplaysTotalSpendTowardsBudget()
     {
         // Arrange
-        _budgetsService.Setup(x => x.GetAllBudgets()).ReturnsAsync(
-            new List<Budget>{new Budget{Id = 23, Amount = 65m, Frequency = Frequency.Monthly, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}}}});
-        _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(
-            new List<Transaction>{new Transaction{Amount = 15m, DateOfTransaction = DateTime.Now, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}} }});
+        SetupSingleBudget(65m);
+        SetupSingleTransaction(15m);
         
         // Act
         var component = RenderComponent<MonthlyBudgetStatus>();
 
         // Assert
         var totalSpendCell = component.Find("td:nth-child(3)");
-        totalSpendCell.MarkupMatches(@"<td class=""mud-table-cell"">£15</td>");
+        totalSpendCell.InnerHtml.Should().Be("£15");
     }
 
     [Fact]
     public void WhenSpendWithinBudget_DisplaysTickIcon()
     {
         // Arrange
-        _budgetsService.Setup(x => x.GetAllBudgets()).ReturnsAsync(
-            new List<Budget>{new Budget{Id = 23, Amount = 65m, Frequency = Frequency.Monthly, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}}}});
-        _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(
-            new List<Transaction>{new Transaction{Amount = 15m, DateOfTransaction = DateTime.Now, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}} }});
+        SetupSingleBudget(65m);
+        SetupSingleTransaction(15m);
         
         // Act
         var component = RenderComponent<MonthlyBudgetStatus>();
@@ -164,12 +146,8 @@ public class MonthlyBudgetStatusTests : TestContext
     public void WhenSpendOverBudget_DisplaysWarningIcon()
     {
         // Arrange
-        _budgetsService.Setup(x => x.GetAllBudgets()).ReturnsAsync(
-            new List<Budget>{new Budget{Id = 23, Amount = 65m, Frequency = Frequency.Monthly, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}}}});
-        _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(
-            new List<Transaction>{new Transaction{Amount = 75m, DateOfTransaction = DateTime.Now, 
-                Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}} }});
+        SetupSingleBudget(65m);
+        SetupSingleTransaction(75m);
         
         // Act
         var component = RenderComponent<MonthlyBudgetStatus>();
@@ -178,4 +156,113 @@ public class MonthlyBudgetStatusTests : TestContext
         var checkIconTitle = component.Find("td:nth-child(4) svg title");
         checkIconTitle.InnerHtml.Should().Be("Warning");
     }
+
+    [Fact]
+    public void WhenMultipleTransactionsForThisMonth_DisplaysTotalSpendTowardsBudget()
+    {
+        // Arrange
+        SetupSingleBudget(65m);
+        
+        _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(
+            new List<Transaction>{
+                GetTransaction(15m, 1, "Bills"),
+                GetTransaction(20m, 1, "Bills")
+            });
+        
+        // Act
+        var component = RenderComponent<MonthlyBudgetStatus>();
+
+        // Assert
+        var totalSpendCell = component.Find("td:nth-child(3)");
+        totalSpendCell.InnerHtml.Should().Be("£35");
+    }
+
+    [Fact]
+    public void WhenMultipleBudgets_DisplaysMultipleBudgetStatuses()
+    {
+        // Arrange
+        _budgetsService.Setup(x => x.GetAllBudgets()).ReturnsAsync(
+            new List<Budget>{
+                GetBudget(65m,1, "Bills"),
+                GetBudget(200m,2, "Shopping")
+            });
+        _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(
+            new List<Transaction>{
+                GetTransaction(15m, 1, "Bills"),
+                GetTransaction(130m, 2, "Shopping")
+            });
+        
+        // Act
+        var component = RenderComponent<MonthlyBudgetStatus>();
+        
+        // Assert
+        var tableRows = component.FindAll("tbody tr");
+        tableRows.Count.Should().Be(2);
+    }
+
+    [Fact]
+    public void OnlyDisplaysTransactionsForCurrentMonth()
+    {
+        // Arrange
+        SetupSingleBudget(65m);
+        _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(
+            new List<Transaction>{
+                GetTransaction(15m, 1, "Bills"),
+                new Transaction{DateOfTransaction = DateTime.Now.AddMonths(-2), Amount = 120m}
+            });
+
+        // Act
+        var component = RenderComponent<MonthlyBudgetStatus>();
+
+        // Assert
+        var totalSpendCell = component.Find("td:nth-child(3)");
+        totalSpendCell.InnerHtml.Should().Be("£15");
+    }
+    
+    #region TestHelpers
+
+    private static Transaction GetTransaction(decimal amount, int categoryId, string category)
+    {
+        return new Transaction
+        {
+            Amount = amount, 
+            DateOfTransaction = DateTime.Now, 
+            Categories = new List<Category>{new Category{Id = categoryId, Description = category}}
+        };
+    }
+    
+    private static Budget GetBudget(decimal amount, int categoryId, string category)
+    {
+        return new Budget
+        {
+            Amount = amount, 
+            Frequency = Frequency.Monthly,
+            Categories = new List<Category> { new Category { Id = categoryId, Description = category } }
+        };
+    }
+
+    private void SetupSingleBudget(decimal amount)
+    {
+        _budgetsService.Setup(x => x.GetAllBudgets()).ReturnsAsync(
+            new List<Budget>
+            {
+                GetBudget(amount,1, "Bills")
+            });
+    }
+
+    private void SetupSingleTransaction(decimal amount)
+    {
+        _transactionsService.Setup(x => x.GetAllTransactions()).ReturnsAsync(
+            new List<Transaction>
+            {
+                new Transaction
+                {
+                    Amount = amount, 
+                    DateOfTransaction = DateTime.Now, 
+                    Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}}
+                }
+            });
+    }
+    
+    #endregion
 }
