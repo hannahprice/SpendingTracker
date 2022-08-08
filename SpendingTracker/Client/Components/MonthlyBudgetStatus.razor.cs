@@ -6,13 +6,13 @@ namespace SpendingTracker.Client.Components;
 
 public partial class MonthlyBudgetStatus
 {
-    [Inject] public IBudgetsService BudgetsService { get; set; }
-    [Inject] public ITransactionsService TransactionsService { get; set; }
-    public List<Budget> AllBudgets { get; set; } = new List<Budget>();
-    public List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
-    public bool IsLoading { get; set; } = false;
+    [Inject] private IBudgetsService BudgetsService { get; set; }
+    [Inject] private ITransactionsService TransactionsService { get; set; }
+    private List<Budget> AllBudgets { get; set; } = new List<Budget>();
+    private List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
+    private bool IsLoading { get; set; } = false;
 
-    public List<MonthlyBudgetStatusViewModel> MonthlyBudgetStatuses { get; set; } =
+    private List<MonthlyBudgetStatusViewModel> MonthlyBudgetStatuses { get; set; } =
         new List<MonthlyBudgetStatusViewModel>();
 
     protected override async Task OnInitializedAsync()
