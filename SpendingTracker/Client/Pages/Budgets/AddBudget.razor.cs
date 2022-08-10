@@ -12,7 +12,7 @@ namespace SpendingTracker.Client.Pages.Budgets
         [Inject] private IDispatcher Dispatcher { get; set; }
         [Inject] private IState<BudgetsState> BudgetsState { get; set; }
         private Budget Budget { get; set; } = new Budget();
-        private List<Category> SelectedCategories { get; set; } = new List<Category>();
+        private Category SelectedCategory { get; set; } = new Category();
         private List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
         private MudForm Form { get; set; }
         
@@ -22,10 +22,10 @@ namespace SpendingTracker.Client.Pages.Budgets
 
             if (Form.IsValid)
             {
-                if (SelectedCategories.Any())
+                if (SelectedCategory.Description != null)
                 {
-                    Budget.Categories = SelectedCategories;
-                    Budget.Categories.ForEach(x => x.Subcategories = null);
+                    Budget.Category = SelectedCategory;
+                    Budget.Category.Subcategories = null;
 
                     if (SelectedSubcategories.Any())
                     {

@@ -227,7 +227,7 @@ public class MonthlyBudgetStatusTests : TestContext
         {
             Amount = amount, 
             DateOfTransaction = DateTime.Now, 
-            Categories = new List<Category>{new Category{Id = categoryId, Description = category}}
+            Category = new Category{Id = categoryId, Description = category}
         };
     }
     
@@ -237,7 +237,7 @@ public class MonthlyBudgetStatusTests : TestContext
         {
             Amount = amount, 
             Frequency = Frequency.Monthly,
-            Categories = new List<Category> { new Category { Id = categoryId, Description = category } }
+            Category = new Category{Id = categoryId, Description = category}
         };
     }
 
@@ -259,7 +259,7 @@ public class MonthlyBudgetStatusTests : TestContext
                 {
                     Amount = amount, 
                     DateOfTransaction = DateTime.Now, 
-                    Categories = new List<Category>{new Category{Id = 1, Description = "Bills"}}
+                    Category = new Category{Id = 1, Description = "Bills"}
                 }
             });
     }

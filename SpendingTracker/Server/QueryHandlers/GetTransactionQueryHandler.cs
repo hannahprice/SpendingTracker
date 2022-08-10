@@ -17,7 +17,7 @@ public class GetTransactionQueryHandler : IRequestHandler<GetTransactionQuery, T
     public Task<Transaction> Handle(GetTransactionQuery request, CancellationToken cancellationToken)
     {
         return _dbContext.Transactions.Where(x => x.Id == request.id)
-            .Include(x => x.Categories)
+            .Include(x => x.Category)
             .Include(x => x.Subcategories)
             .FirstAsync(cancellationToken: cancellationToken);
     }

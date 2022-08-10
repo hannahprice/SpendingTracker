@@ -5,25 +5,23 @@
   IsOutwardPayment: true,
   IsReoccurring: false,
   DateOfTransaction: DateTime_1,
-  Categories: [
-    {
-      Id: 1,
-      Description: Bills,
-      Transactions: [
-        null
-      ],
-      Subcategories: [
-        {
-          Id: 1,
-          Description: Rent,
-          CategoryId: 1,
-          Transactions: [
-            null
-          ]
-        }
-      ]
-    }
-  ],
+  Category: {
+    Id: 1,
+    Description: Bills,
+    Transactions: [
+      null
+    ],
+    Subcategories: [
+      {
+        Id: 1,
+        Description: Rent,
+        CategoryId: 1,
+        Transactions: [
+          null
+        ]
+      }
+    ]
+  },
   Subcategories: [
     {
       Id: 1,

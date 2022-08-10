@@ -17,21 +17,21 @@ namespace SpendingTracker.Server.CommandHandlers
         {
             var transaction = request.transaction;
 
-            var categories = transaction.Categories?.ToList() ?? Enumerable.Empty<Category>();
+            var category = request.transaction.Category;
             var subCategories = transaction.Subcategories?.ToList() ?? Enumerable.Empty<Subcategory>();
 
-            transaction.Categories?.Clear();
+            transaction.Category = null;
             transaction.Subcategories?.Clear();
 
             _dbContext.Transactions.Attach(transaction);
 
-            _dbContext.Categories.AttachRange(categories);
+            _dbContext.Categories.Attach(category);
             _dbContext.Subcategories.AttachRange(subCategories);
 
-            transaction.Categories?.Clear();
+            transaction.Category = null;
             transaction.Subcategories?.Clear();
 
-            transaction.Categories?.AddRange(categories);
+            transaction.Category = category;
             transaction.Subcategories?.AddRange(subCategories);
 
             _dbContext.Entry(transaction).State = Microsoft.EntityFrameworkCore.EntityState.Added;

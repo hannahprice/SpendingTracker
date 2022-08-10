@@ -3,107 +3,87 @@
     Id: 3,
     Amount: 12.00,
     Frequency: Weekly,
-    Categories: [
-      {
-        Id: 1,
-        Description: Bills,
-        Budgets: [
-          null,
-          {
-            Id: 2,
-            Amount: 12.00,
-            Frequency: Weekly,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Budgets: [
-                  null,
-                  null,
-                  {
-                    Id: 1,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            Id: 1,
-            Amount: 12.00,
-            Frequency: Weekly,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Budgets: [
-                  null,
-                  {
-                    Id: 2,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null
-                ]
-              }
-            ]
-          }
-        ],
-        Subcategories: [
-          {
-            Id: 1,
-            Description: Rent,
-            CategoryId: 1,
-            Budgets: [
-              null,
-              {
-                Id: 2,
-                Amount: 12.00,
-                Frequency: Weekly,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              },
-              {
-                Id: 1,
-                Amount: 12.00,
-                Frequency: Weekly,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ],
+    Category: {
+      Id: 1,
+      Description: Bills,
+      Budgets: [
+        null,
+        {
+          Id: 2,
+          Amount: 12.00,
+          Frequency: Weekly,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Budgets: [
+                null,
+                null,
+                {
+                  Id: 1,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Id: 1,
+          Amount: 12.00,
+          Frequency: Weekly,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Budgets: [
+                null,
+                {
+                  Id: 2,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null
+              ]
+            }
+          ]
+        }
+      ],
+      Subcategories: [
+        {
+          Id: 1,
+          Description: Rent,
+          CategoryId: 1,
+          Budgets: [
+            null,
+            {
+              Id: 2,
+              Amount: 12.00,
+              Frequency: Weekly,
+              Subcategories: [
+                null
+              ]
+            },
+            {
+              Id: 1,
+              Amount: 12.00,
+              Frequency: Weekly,
+              Subcategories: [
+                null
+              ]
+            }
+          ]
+        }
+      ]
+    },
     Subcategories: [
       {
         Id: 1,
@@ -115,30 +95,25 @@
             Id: 2,
             Amount: 12.00,
             Frequency: Weekly,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Budgets: [
-                  null,
-                  null,
-                  {
-                    Id: 1,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  }
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Budgets: [
+                null,
+                null,
+                {
+                  Id: 1,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                }
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -147,30 +122,25 @@
             Id: 1,
             Amount: 12.00,
             Frequency: Weekly,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Budgets: [
-                  null,
-                  {
-                    Id: 2,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Budgets: [
+                null,
+                {
+                  Id: 2,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -183,107 +153,87 @@
     Id: 2,
     Amount: 12.00,
     Frequency: Weekly,
-    Categories: [
-      {
-        Id: 1,
-        Description: Bills,
-        Budgets: [
-          {
-            Id: 3,
-            Amount: 12.00,
-            Frequency: Weekly,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Budgets: [
-                  null,
-                  null,
-                  {
-                    Id: 1,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          null,
-          {
-            Id: 1,
-            Amount: 12.00,
-            Frequency: Weekly,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Budgets: [
-                  {
-                    Id: 3,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null,
-                  null
-                ]
-              }
-            ]
-          }
-        ],
-        Subcategories: [
-          {
-            Id: 1,
-            Description: Rent,
-            CategoryId: 1,
-            Budgets: [
-              {
-                Id: 3,
-                Amount: 12.00,
-                Frequency: Weekly,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              },
-              null,
-              {
-                Id: 1,
-                Amount: 12.00,
-                Frequency: Weekly,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ],
+    Category: {
+      Id: 1,
+      Description: Bills,
+      Budgets: [
+        {
+          Id: 3,
+          Amount: 12.00,
+          Frequency: Weekly,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Budgets: [
+                null,
+                null,
+                {
+                  Id: 1,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null,
+        {
+          Id: 1,
+          Amount: 12.00,
+          Frequency: Weekly,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Budgets: [
+                {
+                  Id: 3,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null,
+                null
+              ]
+            }
+          ]
+        }
+      ],
+      Subcategories: [
+        {
+          Id: 1,
+          Description: Rent,
+          CategoryId: 1,
+          Budgets: [
+            {
+              Id: 3,
+              Amount: 12.00,
+              Frequency: Weekly,
+              Subcategories: [
+                null
+              ]
+            },
+            null,
+            {
+              Id: 1,
+              Amount: 12.00,
+              Frequency: Weekly,
+              Subcategories: [
+                null
+              ]
+            }
+          ]
+        }
+      ]
+    },
     Subcategories: [
       {
         Id: 1,
@@ -294,30 +244,25 @@
             Id: 3,
             Amount: 12.00,
             Frequency: Weekly,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Budgets: [
-                  null,
-                  null,
-                  {
-                    Id: 1,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  }
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Budgets: [
+                null,
+                null,
+                {
+                  Id: 1,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                }
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -327,30 +272,25 @@
             Id: 1,
             Amount: 12.00,
             Frequency: Weekly,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Budgets: [
-                  {
-                    Id: 3,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null,
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Budgets: [
+                {
+                  Id: 3,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null,
+                null
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -363,107 +303,87 @@
     Id: 1,
     Amount: 12.00,
     Frequency: Weekly,
-    Categories: [
-      {
-        Id: 1,
-        Description: Bills,
-        Budgets: [
-          {
-            Id: 3,
-            Amount: 12.00,
-            Frequency: Weekly,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Budgets: [
-                  null,
-                  {
-                    Id: 2,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null
-                ]
-              }
-            ]
-          },
-          {
-            Id: 2,
-            Amount: 12.00,
-            Frequency: Weekly,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Budgets: [
-                  {
-                    Id: 3,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null,
-                  null
-                ]
-              }
-            ]
-          },
-          null
-        ],
-        Subcategories: [
-          {
-            Id: 1,
-            Description: Rent,
-            CategoryId: 1,
-            Budgets: [
-              {
-                Id: 3,
-                Amount: 12.00,
-                Frequency: Weekly,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              },
-              {
-                Id: 2,
-                Amount: 12.00,
-                Frequency: Weekly,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              },
-              null
-            ]
-          }
-        ]
-      }
-    ],
+    Category: {
+      Id: 1,
+      Description: Bills,
+      Budgets: [
+        {
+          Id: 3,
+          Amount: 12.00,
+          Frequency: Weekly,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Budgets: [
+                null,
+                {
+                  Id: 2,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null
+              ]
+            }
+          ]
+        },
+        {
+          Id: 2,
+          Amount: 12.00,
+          Frequency: Weekly,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Budgets: [
+                {
+                  Id: 3,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null,
+                null
+              ]
+            }
+          ]
+        },
+        null
+      ],
+      Subcategories: [
+        {
+          Id: 1,
+          Description: Rent,
+          CategoryId: 1,
+          Budgets: [
+            {
+              Id: 3,
+              Amount: 12.00,
+              Frequency: Weekly,
+              Subcategories: [
+                null
+              ]
+            },
+            {
+              Id: 2,
+              Amount: 12.00,
+              Frequency: Weekly,
+              Subcategories: [
+                null
+              ]
+            },
+            null
+          ]
+        }
+      ]
+    },
     Subcategories: [
       {
         Id: 1,
@@ -474,30 +394,25 @@
             Id: 3,
             Amount: 12.00,
             Frequency: Weekly,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Budgets: [
-                  null,
-                  {
-                    Id: 2,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Budgets: [
+                null,
+                {
+                  Id: 2,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -506,30 +421,25 @@
             Id: 2,
             Amount: 12.00,
             Frequency: Weekly,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Budgets: [
-                  {
-                    Id: 3,
-                    Amount: 12.00,
-                    Frequency: Weekly,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null,
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Budgets: [
+                {
+                  Id: 3,
+                  Amount: 12.00,
+                  Frequency: Weekly,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null,
+                null
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]

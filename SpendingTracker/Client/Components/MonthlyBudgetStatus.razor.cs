@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Components;
 using SpendingTracker.Client.Services;
 using SpendingTracker.Shared.Models;
 
@@ -42,16 +43,14 @@ public partial class MonthlyBudgetStatus
 
     private MonthlyBudgetStatusViewModel GetBudgetStatus(Budget budget, List<Transaction> thisMonthsTransactions)
     {
-        var transactionsForThisBudget = thisMonthsTransactions
-            .Where(x => x.Categories != null &&
-                        x.Categories.Any() && 
-                        x.Categories.FirstOrDefault().Id == budget.Categories.First().Id).ToList();
-            
+        var transactionsForThisBudget =
+            thisMonthsTransactions.Where(x => x.Category != null && x.Category.Id == budget.Category.Id).ToList();
+        
         var currentMonthSpendTowardsBudget = transactionsForThisBudget.Select(x => x.Amount).Sum();
             
         return new MonthlyBudgetStatusViewModel()
         {
-            BudgetDescription = budget.Categories.First().Description,
+            BudgetDescription = budget.Category?.Description,
             BudgetAmount = budget.Amount,
             CurrentMonthSpendForBudget = currentMonthSpendTowardsBudget,
             WithinBudget = currentMonthSpendTowardsBudget <= budget.Amount

@@ -9,7 +9,7 @@
         public bool IsReoccurring { get; set; }
         public Frequency? ReoccuringFrequency { get; set; }
         public DateTime DateOfTransaction { get; set; }
-        public List<Category>? Categories { get; set; }
+        public Category? Category { get; set; }
         public List<Subcategory>? Subcategories { get; set; }
     }
 }

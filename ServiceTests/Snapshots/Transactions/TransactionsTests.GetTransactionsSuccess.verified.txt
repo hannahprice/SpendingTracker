@@ -6,125 +6,105 @@
     IsOutwardPayment: true,
     IsReoccurring: false,
     DateOfTransaction: DateTime_1,
-    Categories: [
-      {
-        Id: 1,
-        Description: Bills,
-        Transactions: [
-          null,
-          {
-            Id: 2,
-            Amount: 55.99,
-            Description: Card payment to Sainsbury's,
-            IsOutwardPayment: true,
-            IsReoccurring: false,
-            DateOfTransaction: DateTime_2,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Transactions: [
-                  null,
-                  null,
-                  {
-                    Id: 1,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_3,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            Id: 1,
-            Amount: 55.99,
-            Description: Card payment to Sainsbury's,
-            IsOutwardPayment: true,
-            IsReoccurring: false,
-            DateOfTransaction: DateTime_3,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Transactions: [
-                  null,
-                  {
-                    Id: 2,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_2,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null
-                ]
-              }
-            ]
-          }
-        ],
-        Subcategories: [
-          {
-            Id: 1,
-            Description: Rent,
-            CategoryId: 1,
-            Transactions: [
-              null,
-              {
-                Id: 2,
-                Amount: 55.99,
-                Description: Card payment to Sainsbury's,
-                IsOutwardPayment: true,
-                IsReoccurring: false,
-                DateOfTransaction: DateTime_2,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              },
-              {
-                Id: 1,
-                Amount: 55.99,
-                Description: Card payment to Sainsbury's,
-                IsOutwardPayment: true,
-                IsReoccurring: false,
-                DateOfTransaction: DateTime_3,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ],
+    Category: {
+      Id: 1,
+      Description: Bills,
+      Transactions: [
+        null,
+        {
+          Id: 2,
+          Amount: 55.99,
+          Description: Card payment to Sainsbury's,
+          IsOutwardPayment: true,
+          IsReoccurring: false,
+          DateOfTransaction: DateTime_2,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Transactions: [
+                null,
+                null,
+                {
+                  Id: 1,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_3,
+                  Subcategories: [
+                    null
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Id: 1,
+          Amount: 55.99,
+          Description: Card payment to Sainsbury's,
+          IsOutwardPayment: true,
+          IsReoccurring: false,
+          DateOfTransaction: DateTime_3,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Transactions: [
+                null,
+                {
+                  Id: 2,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_2,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null
+              ]
+            }
+          ]
+        }
+      ],
+      Subcategories: [
+        {
+          Id: 1,
+          Description: Rent,
+          CategoryId: 1,
+          Transactions: [
+            null,
+            {
+              Id: 2,
+              Amount: 55.99,
+              Description: Card payment to Sainsbury's,
+              IsOutwardPayment: true,
+              IsReoccurring: false,
+              DateOfTransaction: DateTime_2,
+              Subcategories: [
+                null
+              ]
+            },
+            {
+              Id: 1,
+              Amount: 55.99,
+              Description: Card payment to Sainsbury's,
+              IsOutwardPayment: true,
+              IsReoccurring: false,
+              DateOfTransaction: DateTime_3,
+              Subcategories: [
+                null
+              ]
+            }
+          ]
+        }
+      ]
+    },
     Subcategories: [
       {
         Id: 1,
@@ -139,33 +119,28 @@
             IsOutwardPayment: true,
             IsReoccurring: false,
             DateOfTransaction: DateTime_2,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Transactions: [
-                  null,
-                  null,
-                  {
-                    Id: 1,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_3,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  }
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Transactions: [
+                null,
+                null,
+                {
+                  Id: 1,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_3,
+                  Subcategories: [
+                    null
+                  ]
+                }
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -177,33 +152,28 @@
             IsOutwardPayment: true,
             IsReoccurring: false,
             DateOfTransaction: DateTime_3,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Transactions: [
-                  null,
-                  {
-                    Id: 2,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_2,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Transactions: [
+                null,
+                {
+                  Id: 2,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_2,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -219,125 +189,105 @@
     IsOutwardPayment: true,
     IsReoccurring: false,
     DateOfTransaction: DateTime_2,
-    Categories: [
-      {
-        Id: 1,
-        Description: Bills,
-        Transactions: [
-          {
-            Id: 3,
-            Amount: 55.99,
-            Description: Card payment to Sainsbury's,
-            IsOutwardPayment: true,
-            IsReoccurring: false,
-            DateOfTransaction: DateTime_1,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Transactions: [
-                  null,
-                  null,
-                  {
-                    Id: 1,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_3,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          null,
-          {
-            Id: 1,
-            Amount: 55.99,
-            Description: Card payment to Sainsbury's,
-            IsOutwardPayment: true,
-            IsReoccurring: false,
-            DateOfTransaction: DateTime_3,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Transactions: [
-                  {
-                    Id: 3,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_1,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null,
-                  null
-                ]
-              }
-            ]
-          }
-        ],
-        Subcategories: [
-          {
-            Id: 1,
-            Description: Rent,
-            CategoryId: 1,
-            Transactions: [
-              {
-                Id: 3,
-                Amount: 55.99,
-                Description: Card payment to Sainsbury's,
-                IsOutwardPayment: true,
-                IsReoccurring: false,
-                DateOfTransaction: DateTime_1,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              },
-              null,
-              {
-                Id: 1,
-                Amount: 55.99,
-                Description: Card payment to Sainsbury's,
-                IsOutwardPayment: true,
-                IsReoccurring: false,
-                DateOfTransaction: DateTime_3,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ],
+    Category: {
+      Id: 1,
+      Description: Bills,
+      Transactions: [
+        {
+          Id: 3,
+          Amount: 55.99,
+          Description: Card payment to Sainsbury's,
+          IsOutwardPayment: true,
+          IsReoccurring: false,
+          DateOfTransaction: DateTime_1,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Transactions: [
+                null,
+                null,
+                {
+                  Id: 1,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_3,
+                  Subcategories: [
+                    null
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null,
+        {
+          Id: 1,
+          Amount: 55.99,
+          Description: Card payment to Sainsbury's,
+          IsOutwardPayment: true,
+          IsReoccurring: false,
+          DateOfTransaction: DateTime_3,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Transactions: [
+                {
+                  Id: 3,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_1,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null,
+                null
+              ]
+            }
+          ]
+        }
+      ],
+      Subcategories: [
+        {
+          Id: 1,
+          Description: Rent,
+          CategoryId: 1,
+          Transactions: [
+            {
+              Id: 3,
+              Amount: 55.99,
+              Description: Card payment to Sainsbury's,
+              IsOutwardPayment: true,
+              IsReoccurring: false,
+              DateOfTransaction: DateTime_1,
+              Subcategories: [
+                null
+              ]
+            },
+            null,
+            {
+              Id: 1,
+              Amount: 55.99,
+              Description: Card payment to Sainsbury's,
+              IsOutwardPayment: true,
+              IsReoccurring: false,
+              DateOfTransaction: DateTime_3,
+              Subcategories: [
+                null
+              ]
+            }
+          ]
+        }
+      ]
+    },
     Subcategories: [
       {
         Id: 1,
@@ -351,33 +301,28 @@
             IsOutwardPayment: true,
             IsReoccurring: false,
             DateOfTransaction: DateTime_1,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Transactions: [
-                  null,
-                  null,
-                  {
-                    Id: 1,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_3,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  }
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Transactions: [
+                null,
+                null,
+                {
+                  Id: 1,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_3,
+                  Subcategories: [
+                    null
+                  ]
+                }
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -390,33 +335,28 @@
             IsOutwardPayment: true,
             IsReoccurring: false,
             DateOfTransaction: DateTime_3,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Transactions: [
-                  {
-                    Id: 3,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_1,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null,
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Transactions: [
+                {
+                  Id: 3,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_1,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null,
+                null
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -432,125 +372,105 @@
     IsOutwardPayment: true,
     IsReoccurring: false,
     DateOfTransaction: DateTime_3,
-    Categories: [
-      {
-        Id: 1,
-        Description: Bills,
-        Transactions: [
-          {
-            Id: 3,
-            Amount: 55.99,
-            Description: Card payment to Sainsbury's,
-            IsOutwardPayment: true,
-            IsReoccurring: false,
-            DateOfTransaction: DateTime_1,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Transactions: [
-                  null,
-                  {
-                    Id: 2,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_2,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null
-                ]
-              }
-            ]
-          },
-          {
-            Id: 2,
-            Amount: 55.99,
-            Description: Card payment to Sainsbury's,
-            IsOutwardPayment: true,
-            IsReoccurring: false,
-            DateOfTransaction: DateTime_2,
-            Categories: [
-              null
-            ],
-            Subcategories: [
-              {
-                Id: 1,
-                Description: Rent,
-                CategoryId: 1,
-                Transactions: [
-                  {
-                    Id: 3,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_1,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null,
-                  null
-                ]
-              }
-            ]
-          },
-          null
-        ],
-        Subcategories: [
-          {
-            Id: 1,
-            Description: Rent,
-            CategoryId: 1,
-            Transactions: [
-              {
-                Id: 3,
-                Amount: 55.99,
-                Description: Card payment to Sainsbury's,
-                IsOutwardPayment: true,
-                IsReoccurring: false,
-                DateOfTransaction: DateTime_1,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              },
-              {
-                Id: 2,
-                Amount: 55.99,
-                Description: Card payment to Sainsbury's,
-                IsOutwardPayment: true,
-                IsReoccurring: false,
-                DateOfTransaction: DateTime_2,
-                Categories: [
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              },
-              null
-            ]
-          }
-        ]
-      }
-    ],
+    Category: {
+      Id: 1,
+      Description: Bills,
+      Transactions: [
+        {
+          Id: 3,
+          Amount: 55.99,
+          Description: Card payment to Sainsbury's,
+          IsOutwardPayment: true,
+          IsReoccurring: false,
+          DateOfTransaction: DateTime_1,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Transactions: [
+                null,
+                {
+                  Id: 2,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_2,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null
+              ]
+            }
+          ]
+        },
+        {
+          Id: 2,
+          Amount: 55.99,
+          Description: Card payment to Sainsbury's,
+          IsOutwardPayment: true,
+          IsReoccurring: false,
+          DateOfTransaction: DateTime_2,
+          Subcategories: [
+            {
+              Id: 1,
+              Description: Rent,
+              CategoryId: 1,
+              Transactions: [
+                {
+                  Id: 3,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_1,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null,
+                null
+              ]
+            }
+          ]
+        },
+        null
+      ],
+      Subcategories: [
+        {
+          Id: 1,
+          Description: Rent,
+          CategoryId: 1,
+          Transactions: [
+            {
+              Id: 3,
+              Amount: 55.99,
+              Description: Card payment to Sainsbury's,
+              IsOutwardPayment: true,
+              IsReoccurring: false,
+              DateOfTransaction: DateTime_1,
+              Subcategories: [
+                null
+              ]
+            },
+            {
+              Id: 2,
+              Amount: 55.99,
+              Description: Card payment to Sainsbury's,
+              IsOutwardPayment: true,
+              IsReoccurring: false,
+              DateOfTransaction: DateTime_2,
+              Subcategories: [
+                null
+              ]
+            },
+            null
+          ]
+        }
+      ]
+    },
     Subcategories: [
       {
         Id: 1,
@@ -564,33 +484,28 @@
             IsOutwardPayment: true,
             IsReoccurring: false,
             DateOfTransaction: DateTime_1,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Transactions: [
-                  null,
-                  {
-                    Id: 2,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_2,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Transactions: [
+                null,
+                {
+                  Id: 2,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_2,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]
@@ -602,33 +517,28 @@
             IsOutwardPayment: true,
             IsReoccurring: false,
             DateOfTransaction: DateTime_2,
-            Categories: [
-              {
-                Id: 1,
-                Description: Bills,
-                Transactions: [
-                  {
-                    Id: 3,
-                    Amount: 55.99,
-                    Description: Card payment to Sainsbury's,
-                    IsOutwardPayment: true,
-                    IsReoccurring: false,
-                    DateOfTransaction: DateTime_1,
-                    Categories: [
-                      null
-                    ],
-                    Subcategories: [
-                      null
-                    ]
-                  },
-                  null,
-                  null
-                ],
-                Subcategories: [
-                  null
-                ]
-              }
-            ],
+            Category: {
+              Id: 1,
+              Description: Bills,
+              Transactions: [
+                {
+                  Id: 3,
+                  Amount: 55.99,
+                  Description: Card payment to Sainsbury's,
+                  IsOutwardPayment: true,
+                  IsReoccurring: false,
+                  DateOfTransaction: DateTime_1,
+                  Subcategories: [
+                    null
+                  ]
+                },
+                null,
+                null
+              ],
+              Subcategories: [
+                null
+              ]
+            },
             Subcategories: [
               null
             ]

@@ -36,7 +36,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         response.Should().BeInDescendingOrder(c => c.Id);
         response.Should().AllSatisfy(c =>
         {
-            c.Categories.Should().NotBeNullOrEmpty();
+            c.Category.Should().NotBeNull();
             c.Subcategories.Should().NotBeNullOrEmpty();
         });
 
@@ -57,7 +57,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         {
             Id = 4, Amount = 55.99m, Description = "Card payment to Sainsbury's", IsReoccurring = false,
             IsOutwardPayment = true, DateOfTransaction = DateTime.Now,
-            Categories = new List<Category> { new Category { Id = 1 } },
+            Category = new Category{Id = 1},
             Subcategories = new List<Subcategory> { new Subcategory { Id = 1 } }
         };
 
@@ -111,7 +111,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         {
             Id = id, Amount = 55.99m, Description = "Card payment to Sainsbury's", IsReoccurring = false,
             IsOutwardPayment = true, DateOfTransaction = DateTime.Now,
-            Categories = new List<Category> { new Category { Id = 1 } },
+            Category = new Category{Id = 1},
             Subcategories = new List<Subcategory> { new Subcategory { Id = 1 } }
         };
         var response = await _httpClient.PostAsJsonAsync("api/Transactions", transaction);

@@ -5,8 +5,7 @@
 {
     <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7"/>
 }
-<MudChipSet @bind-SelectedChips="@SelectedCategoryChips"
-            MultiSelection="true"
+<MudChipSet @bind-SelectedChip="@SelectedCategoryChip"
             Filter="true">
     @foreach (Category category in AvailableCategories)
     {

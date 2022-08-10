@@ -35,20 +35,18 @@ public partial class MonthlyTransactionChart
 
         if (thisMonthsTransactions.Any())
         {
-            var transactionsWithCategories = thisMonthsTransactions.Where(x =>
-                x.Categories != null &&
-                x.Categories.Count == 1);
+            var transactionsWithCategories = thisMonthsTransactions.Where(x => x.Category != null);
 
             var groupedTransactions = transactionsWithCategories
-                .GroupBy(g => g.Categories!.First().Description);
-
+                .GroupBy(g => g.Category.Description);
+            
             var dataLabels = groupedTransactions.Select(x => x.Key).ToList();
             var data = groupedTransactions
                 .Select(x => x.Sum(y => (double)y.Amount))
                 .ToList();
-
+            
             var transactionsWithNoCategories =
-                thisMonthsTransactions.Where(x => x.Categories is null || !x.Categories.Any()).ToList();
+                thisMonthsTransactions.Where(x => x.Category is null).ToList();
 
             if (transactionsWithNoCategories.Any())
             {
