@@ -49,7 +49,7 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         var budget = new Budget()
         {
             Id = 4, Amount = 50.00m, Frequency = Frequency.Weekly,
-            Categories = new List<Category> { new Category { Id = 1 } },
+            Category = new Category{Id = 1,},
             Subcategories = new List<Subcategory> {new Subcategory{Id = 1}}
         };
         
@@ -100,7 +100,7 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         var budget = new Budget()
         {
             Id = id, Amount = 12.00m, Frequency = Frequency.Weekly,
-            Categories = new List<Category> { new Category { Id = 1 } },
+            Category = new Category{Id = 1},
             Subcategories = new List<Subcategory> {new Subcategory{Id = 1}}
         };
         var response = await _httpClient.PostAsJsonAsync("api/Budgets", budget);

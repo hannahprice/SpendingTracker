@@ -14,7 +14,7 @@ namespace SpendingTracker.Client.Pages.Transactions
         [Inject] private IState<TransactionsState> TransactionsState { get;set; }
         [Inject] private IDispatcher Dispatcher { get; set; }
         private Transaction Transaction { get; set; } = new Transaction();
-        private List<Category> SelectedCategories { get; set; } = new List<Category>();
+        private Category SelectedCategory { get; set; } = new Category();
         private List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
         private DateTime? SelectedDatetime { get; set; }
         private MudForm Form { get; set; }
@@ -35,10 +35,10 @@ namespace SpendingTracker.Client.Pages.Transactions
 
             if (Form.IsValid)
             {
-                if (SelectedCategories.Any())
+                if (SelectedCategory.Description != null)
                 {
-                    Transaction.Categories = SelectedCategories;
-                    Transaction.Categories.ForEach(x => x.Subcategories = null);
+                    Transaction.Category = SelectedCategory;
+                    Transaction.Category.Subcategories = null;
                 }
 
                 if (SelectedSubcategories.Any())

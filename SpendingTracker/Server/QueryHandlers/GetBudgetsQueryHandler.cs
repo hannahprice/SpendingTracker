@@ -18,7 +18,7 @@ namespace SpendingTracker.Server.QueryHandlers
         {
             return _dbContext.Budgets
                 .OrderByDescending(x => x.Id)
-                .Include(x => x.Categories)
+                .Include(x => x.Category)
                 .Include(x => x.Subcategories)
                 .ToListAsync(cancellationToken: cancellationToken);
         }

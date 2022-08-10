@@ -7,15 +7,15 @@ namespace SpendingTracker.Client.Components;
 
 public partial class CategorySelection
 {
-    [Parameter] public List<Category> SelectedCategories { get; set; }
-    [Parameter] public EventCallback<List<Category>> SelectedCategoriesChanged { get; set; }
+    [Parameter] public Category? SelectedCategory { get; set; }
+    [Parameter] public EventCallback<Category> SelectedCategoryChanged { get; set; }
     [Parameter] public List<Subcategory> SelectedSubcategories { get; set; }
     [Parameter] public EventCallback<List<Subcategory>> SelectedSubcategoriesChanged { get; set; }
     [Inject] public ICategoriesService CategoriesService { get; set; }
     private bool IsLoading { get; set; } = false;
     private List<Category> AvailableCategories { get; set; } = new List<Category>();
     private List<Subcategory> AvailableSubcategories { get; set; } = new List<Subcategory>();
-    private MudChip[]? SelectedCategoryChips { get; set; } 
+    private MudChip? SelectedCategoryChip { get; set; } 
     private MudChip[]? SelectedSubcategoryChips { get; set; }
     protected override async Task OnInitializedAsync()
     {
@@ -26,15 +26,13 @@ public partial class CategorySelection
     
     private async Task CategoryClicked()
     {
-        var selectedCategoryDescriptions = SelectedCategoryChips?.Select(c => c.Text).ToList();
-        var selectedCategories = AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
-            
-        AvailableSubcategories = selectedCategories.SelectMany(x => x.Subcategories).ToList();
+        SelectedCategory = GetSelectedCategory();
+        AvailableSubcategories = SelectedCategory is null ? new List<Subcategory>() : SelectedCategory.Subcategories;
 
-        SelectedCategories = GetSelectedCategories();
-        SelectedSubcategories = GetSelectedSubcategories();
+        SelectedSubcategories.Clear();
+        SelectedSubcategoryChips = Array.Empty<MudChip>();
         
-        await SelectedCategoriesChanged.InvokeAsync(SelectedCategories);
+        await SelectedCategoryChanged.InvokeAsync(SelectedCategory);
         await SelectedSubcategoriesChanged.InvokeAsync(SelectedSubcategories);
     }
 
@@ -44,10 +42,10 @@ public partial class CategorySelection
         await SelectedSubcategoriesChanged.InvokeAsync(SelectedSubcategories);
     }
 
-    private List<Category> GetSelectedCategories()
+    private Category? GetSelectedCategory()
     {
-        var selectedCategoryDescriptions = SelectedCategoryChips?.Select(c => c.Text).ToList();
-        return AvailableCategories.Where(x => selectedCategoryDescriptions.Contains(x.Description)).ToList();
+        var selectedCategoryDescription = SelectedCategoryChip?.Text;
+        return AvailableCategories.SingleOrDefault(x => selectedCategoryDescription == x.Description);
     }
     
     private List<Subcategory> GetSelectedSubcategories()

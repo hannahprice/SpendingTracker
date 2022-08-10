@@ -2,25 +2,23 @@
   Id: 5,
   Amount: 12.00,
   Frequency: Weekly,
-  Categories: [
-    {
-      Id: 1,
-      Description: Bills,
-      Budgets: [
-        null
-      ],
-      Subcategories: [
-        {
-          Id: 1,
-          Description: Rent,
-          CategoryId: 1,
-          Budgets: [
-            null
-          ]
-        }
-      ]
-    }
-  ],
+  Category: {
+    Id: 1,
+    Description: Bills,
+    Budgets: [
+      null
+    ],
+    Subcategories: [
+      {
+        Id: 1,
+        Description: Rent,
+        CategoryId: 1,
+        Budgets: [
+          null
+        ]
+      }
+    ]
+  },
   Subcategories: [
     {
       Id: 1,

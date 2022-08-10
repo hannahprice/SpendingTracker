@@ -17,21 +17,21 @@ namespace SpendingTracker.Server.CommandHandlers
         {
             var budget = request.budget;
 
-            var categories = request.budget.Categories.ToList();
+            var category = request.budget.Category;
             var subCategories = budget.Subcategories?.ToList() ?? Enumerable.Empty<Subcategory>();
 
-            budget.Categories.Clear();
+            budget.Category = null;
             budget.Subcategories?.Clear();
 
             _dbContext.Budgets.Attach(budget);
 
-            _dbContext.Categories.AttachRange(categories);
+            _dbContext.Categories.Attach(category);
             _dbContext.Subcategories.AttachRange(subCategories);
 
-            budget.Categories.Clear();
+            budget.Category = null;
             budget.Subcategories?.Clear();
 
-            budget.Categories.AddRange(categories);
+            budget.Category = category;
             budget.Subcategories?.AddRange(subCategories);
 
             _dbContext.Entry(budget).State = Microsoft.EntityFrameworkCore.EntityState.Added;

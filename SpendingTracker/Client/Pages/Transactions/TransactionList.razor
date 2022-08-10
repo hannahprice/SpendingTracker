@@ -55,13 +55,10 @@ else
                     }
 
                     <MudTd DataLabel="Categories">
-                        @if (@context.Categories != null && @context.Categories.Any())
+                        @if (@context.Category != null)
                         {
                             <MudList Dense="true" DisableGutters="true" DisablePadding="true">
-                                @foreach (var category in context.Categories)
-                                {
-                                    <MudListItem Text="@category.Description"/>
-                                }
+                                <p>@context.Category.Description</p>
                             </MudList>
                         }
                         else

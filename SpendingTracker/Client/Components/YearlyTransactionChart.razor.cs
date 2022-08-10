@@ -32,9 +32,9 @@ public partial class YearlyTransactionChart
         var thisYearsTransactions = AllTransactions
             .Where(x =>
                 x.DateOfTransaction.Date.Year == DateTime.Now.Date.Year).ToList();
-
-        var thisYearsCategories = thisYearsTransactions.Where(x => x.Categories != null && x.Categories.Count == 1)
-            .Select(x => x.Categories!.First().Description).Distinct().ToList();
+        
+        var thisYearsCategories = thisYearsTransactions.Where(x => x.Category != null)
+            .Select(x => x.Category.Description).Distinct().ToList();
 
         foreach (var category in thisYearsCategories)
         {
@@ -47,11 +47,11 @@ public partial class YearlyTransactionChart
         foreach (var month in months)
         {
             var transactionsForMonth = thisYearsTransactions.Where(x => x.DateOfTransaction.Month == month).ToList();
-            var transactionsWithCategories = transactionsForMonth.Where(x => x.Categories != null &&
-                                                                             x.Categories.Count == 1).ToList();
+            
+            var transactionsWithCategories = transactionsForMonth.Where(x => x.Category != null).ToList();
             
             var groupedTransactions = transactionsWithCategories
-                .GroupBy(g => g.Categories!.First().Description).ToList();
+                .GroupBy(g => g.Category.Description).ToList();
             
             foreach (var chartSeries in chartData)
             {
