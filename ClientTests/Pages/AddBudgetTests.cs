@@ -4,19 +4,18 @@ using Fluxor;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using MudBlazor;
-using MudBlazor.Services;
 using SpendingTracker.Client.Components;
 using SpendingTracker.Client.Pages.Budgets;
 using SpendingTracker.Client.Store.Budgets;
 using SpendingTracker.Shared.Models;
 
-namespace ClientTests;
+namespace ClientTests.Pages;
 
 public class AddBudgetTests : TestContext
 {
-    private Mock<IState<BudgetsState>> BudgetsState;
-    private Mock<IDispatcher> Dispatcher;
-    private Mock<IActionSubscriber> ActionSubscriber;
+    private readonly Mock<IState<BudgetsState>> BudgetsState;
+    private readonly Mock<IDispatcher> Dispatcher;
+    private readonly Mock<IActionSubscriber> ActionSubscriber;
     
     public AddBudgetTests()
     {
