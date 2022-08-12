@@ -11,10 +11,10 @@ public partial class CategorySelection
     [Parameter] public EventCallback<Category> SelectedCategoryChanged { get; set; }
     [Parameter] public List<Subcategory> SelectedSubcategories { get; set; }
     [Parameter] public EventCallback<List<Subcategory>> SelectedSubcategoriesChanged { get; set; }
-    [Inject] public ICategoriesService CategoriesService { get; set; }
+    [Inject] private ICategoriesService CategoriesService { get; set; }
     private bool IsLoading { get; set; } = false;
-    private List<Category> AvailableCategories { get; set; } = new List<Category>();
-    private List<Subcategory> AvailableSubcategories { get; set; } = new List<Subcategory>();
+    private List<Category?> AvailableCategories { get; set; } = new List<Category?>();
+    private List<Subcategory?> AvailableSubcategories { get; set; } = new List<Subcategory?>();
     private MudChip? SelectedCategoryChip { get; set; } 
     private MudChip[]? SelectedSubcategoryChips { get; set; }
     protected override async Task OnInitializedAsync()

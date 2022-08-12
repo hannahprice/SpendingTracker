@@ -1,13 +1,13 @@
 ﻿@using SpendingTracker.Shared.Models
 
-<MudText Typo="Typo.caption">Categories</MudText>
+<MudText Typo="Typo.caption" id="CategorySelection-Header">Categories</MudText>
 @if (IsLoading)
 {
     <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7"/>
 }
 <MudChipSet @bind-SelectedChip="@SelectedCategoryChip"
             Filter="true">
-    @foreach (Category category in AvailableCategories)
+    @foreach (var category in AvailableCategories)
     {
         <MudChip Text="@category?.Description" Size="Size.Large" OnClick="CategoryClicked"></MudChip>
     }
@@ -24,7 +24,7 @@ else
 <MudChipSet @bind-SelectedChips="@SelectedSubcategoryChips"
             MultiSelection="true"
             Filter="true">
-    @foreach (Subcategory subcategory in AvailableSubcategories)
+    @foreach (var subcategory in AvailableSubcategories)
     {
         <MudChip Text="@subcategory?.Description" Size="Size.Large" OnClick="SubcategoryClicked"></MudChip>
     }

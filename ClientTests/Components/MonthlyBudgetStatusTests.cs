@@ -2,22 +2,23 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using MudBlazor;
 using SpendingTracker.Client.Components;
 using SpendingTracker.Client.Services;
 using SpendingTracker.Shared.Models;
 
-namespace ClientTests;
+namespace ClientTests.Components;
 
 public class MonthlyBudgetStatusTests : TestContext
 {
     private readonly Mock<IBudgetsService> _budgetsService;
     private readonly Mock<ITransactionsService> _transactionsService;
-
+    
     public MonthlyBudgetStatusTests()
     {
         _budgetsService = new Mock<IBudgetsService>();
         _transactionsService = new Mock<ITransactionsService>();
-
+        
         Services.AddSingleton(_budgetsService.Object);
         Services.AddSingleton(_transactionsService.Object);
     }
