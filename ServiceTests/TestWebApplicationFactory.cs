@@ -22,7 +22,7 @@ public class TestWebApplicationFactory<TStartup> : WebApplicationFactory<TStartu
             services.AddDbContext<FinanceContext>(options =>
             {
                 options.UseInMemoryDatabase("InMemoryTestDb");
-            });
+            },ServiceLifetime.Transient, ServiceLifetime.Transient);
             
             var sp = services.BuildServiceProvider();
             
