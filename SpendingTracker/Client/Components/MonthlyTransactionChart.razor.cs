@@ -6,17 +6,16 @@ namespace SpendingTracker.Client.Components;
 
 public partial class MonthlyTransactionChart
 {
-    public bool IsLoading { get; set; } = false;
-    public List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
-
-    public string[] ThisMonthsTransactionsDataLabels { get; set; }
-    public double[] ThisMonthsTransactionsData { get; set; }
-    public int Index = -1;
-    public string ChartInnerLabel => Index < 0 ? "Total" : ThisMonthsTransactionsDataLabels[Index];
-    public string ChartInnerData => Index < 0 ? ThisMonthsTransactionsData?.Sum().ToString("0.00") : ThisMonthsTransactionsData[Index].ToString("0.00");
-
     [Inject] public ITransactionsService TransactionsService { get; set; }
+    private bool IsLoading { get; set; } = false;
+    private List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
 
+    private string[] ThisMonthsTransactionsDataLabels { get; set; }
+    private double[]? ThisMonthsTransactionsData { get; set; }
+    private int Index = -1;
+    private string ChartInnerLabel => Index < 0 ? "Total" : ThisMonthsTransactionsDataLabels[Index];
+    private string ChartInnerData => Index < 0 ? ThisMonthsTransactionsData?.Sum().ToString("0.00") : ThisMonthsTransactionsData[Index].ToString("0.00");
+    
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;

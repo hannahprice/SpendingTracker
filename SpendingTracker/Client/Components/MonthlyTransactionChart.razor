@@ -12,7 +12,7 @@
         }
         else
         {
-            if (!AllTransactions.Any())
+            if (ThisMonthsTransactionsData == null || !ThisMonthsTransactionsData.Any())
             {
                 <MudItem>
                     <MudText Typo="Typo.caption" Align="Align.Center">Add some transactions for this month to view the overview</MudText>
