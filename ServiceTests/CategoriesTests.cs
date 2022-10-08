@@ -6,13 +6,13 @@ using SpendingTracker.Shared.Models;
 namespace ServiceTests;
 
 [UsesVerify]
-public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
+public class CategoriesTests : IClassFixture<TestWebApplicationFactory>
 {
-    private readonly TestWebApplicationFactory<Program> _appFactory;
+    private readonly TestWebApplicationFactory _appFactory;
     private readonly HttpClient _httpClient;
     private readonly VerifySettings _verifySettings;
 
-    public CategoriesTests(TestWebApplicationFactory<Program> appFactory)
+    public CategoriesTests(TestWebApplicationFactory appFactory)
     {
         _verifySettings = new VerifySettings();
         _verifySettings.UseDirectory("./Snapshots/Categories");
@@ -24,11 +24,12 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
     [Fact]
     public async Task DatabaseIsSeededWithExpectedCategories()
     {
-        var dbContext = Utilities.GetDbContext(_appFactory);
+        // var dbContext = Utilities.GetDbContext(_appFactory);
 
-        dbContext.Should().NotBeNull();
-        dbContext!.Categories.Should().NotBeNullOrEmpty();
-        var categoryNames = dbContext.Categories.Select(c => c.Description);
+        // dbContext.Should().NotBeNull();
+        var categories = await Utilities.GetCategories(_appFactory);
+        categories.Should().NotBeNullOrEmpty();
+        var categoryNames = categories.Select(c => c.Description);
 
         await Verify(categoryNames, _verifySettings);
     }
@@ -63,10 +64,12 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
         var responseContent = await response.Content.ReadAsStringAsync();
         var newCategoryId = int.Parse(responseContent);
         
-        var dbContext = Utilities.GetDbContext(_appFactory);
-        dbContext!.Categories.Should().Contain(c => c.Id == newCategoryId);
+        // var dbContext = Utilities.GetDbContext(_appFactory);
+        var categories = await Utilities.GetCategories(_appFactory);
 
-        await RemoveAddedCategory(dbContext, newCategoryId);
+        categories.Should().Contain(c => c.Id == newCategoryId);
+        await Utilities.RemoveCategory(_appFactory, newCategoryId);
+        // await RemoveAddedCategory(dbContext, newCategoryId);
     }
 
     [Fact]
@@ -93,13 +96,13 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
         var response = await _httpClient.DeleteAsync($"api/Categories/{category.Id}");
         response.EnsureSuccessStatusCode();
         
-        var dbContext = Utilities.GetDbContext(_appFactory);
-        dbContext!.Categories.Should().NotContain(c => c.Id == 9);
+        var categories = await Utilities.GetCategories(_appFactory);
+        categories.Should().NotContain(c => c.Id == 9);
     }
     
-    private async Task RemoveAddedCategory(FinanceContext dbContext, int addedCategoryId)
-    {
-        dbContext.Categories.Remove(dbContext.Categories.Single(c => c.Id == addedCategoryId));
-        await dbContext.SaveChangesAsync();
-    }
+    // private async Task RemoveAddedCategory(FinanceContext dbContext, int addedCategoryId)
+    // {
+    //     dbContext.Categories.Remove(dbContext.Categories.Single(c => c.Id == addedCategoryId));
+    //     await dbContext.SaveChangesAsync();
+    // }
 }

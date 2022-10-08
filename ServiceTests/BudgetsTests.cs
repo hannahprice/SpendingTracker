@@ -6,13 +6,13 @@ using SpendingTracker.Shared.Models;
 namespace ServiceTests;
 
 [UsesVerify]
-public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
+public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
 {
-    private readonly TestWebApplicationFactory<Program> _appFactory;
+    private readonly TestWebApplicationFactory _appFactory;
     private readonly HttpClient _httpClient;
     private readonly VerifySettings _verifySettings;
     
-    public BudgetsTests(TestWebApplicationFactory<Program> appFactory)
+    public BudgetsTests(TestWebApplicationFactory appFactory)
     {
         _verifySettings = new VerifySettings();
         _verifySettings.UseDirectory("./Snapshots/Budgets");
@@ -34,13 +34,18 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         response.Should().BeInDescendingOrder(c => c.Id);
 
         await Verify(response, _verifySettings);
-        
-        var dbContext = Utilities.GetDbContext(_appFactory);
 
-        var removeBudgetTask1 = RemoveAddedBudget(dbContext!,1);
-        var removeBudgetTask2 = RemoveAddedBudget(dbContext!,2);
-        var removeBudgetTask3 = RemoveAddedBudget(dbContext!,3);
-        await Task.WhenAll(removeBudgetTask1, removeBudgetTask2, removeBudgetTask3);
+        await Utilities.RemoveBudgets(_appFactory, new int[]{1,2,3});
+
+       // var dbContext = Utilities.GetDbContext(_appFactory);
+
+       // Utilities.RemoveBudget(_appFactory, 2);
+       // Utilities.RemoveBudget(_appFactory, 3);
+
+       // var removeBudgetTask1 = RemoveAddedBudget(dbContext!,1);
+       //  var removeBudgetTask2 = RemoveAddedBudget(dbContext!,2);
+       //  var removeBudgetTask3 = RemoveAddedBudget(dbContext!,3);
+        // await Task.WhenAll(removeBudgetTask1, removeBudgetTask2, removeBudgetTask3);
     }
 
     [Fact]
@@ -59,10 +64,13 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         var responseContent = await response.Content.ReadAsStringAsync();
         var newBudgetId = int.Parse(responseContent);
         
-        var dbContext = Utilities.GetDbContext(_appFactory);
-        dbContext!.Budgets.Should().Contain(c => c.Id == newBudgetId);
+        // var dbContext = Utilities.GetDbContext(_appFactory);
+        var budgets = await Utilities.GetBudgets(_appFactory);
 
-        await RemoveAddedBudget(dbContext, 4);
+        budgets.Should().Contain(c => c.Id == newBudgetId);
+        await Utilities.RemoveBudget(_appFactory, 4);
+
+        // await RemoveAddedBudget(dbContext, 4);
     }
 
     [Fact]
@@ -76,9 +84,10 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         
         await Verify(response, _verifySettings);
         
-        var dbContext = Utilities.GetDbContext(_appFactory);
+        // var dbContext = Utilities.GetDbContext(_appFactory);
 
-        await RemoveAddedBudget(dbContext!, 5);
+        // await RemoveAddedBudget(dbContext!, 5);
+        await Utilities.RemoveBudget(_appFactory, 5);
     }
 
     [Fact]
@@ -89,8 +98,9 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         var response = await _httpClient.DeleteAsync($"api/Budgets/6");
         response.EnsureSuccessStatusCode();
         
-        var dbContext = Utilities.GetDbContext(_appFactory);
-        dbContext!.Budgets.Should().NotContain(c => c.Id == 6);
+        // var dbContext = Utilities.GetDbContext(_appFactory);
+        var budgets = await Utilities.GetBudgets(_appFactory);
+        budgets.Should().NotContain(c => c.Id == 6);
     }
     
     #region TestHelpers
@@ -107,11 +117,11 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory<Program>>
         response.EnsureSuccessStatusCode();
     }
 
-    private async Task RemoveAddedBudget(FinanceContext dbContext, int addedBudgetId)
-    {
-        dbContext.Budgets.Remove(dbContext.Budgets.Single(c => c.Id == addedBudgetId));
-        await dbContext.SaveChangesAsync();
-    }
+    // private async Task RemoveAddedBudget(FinanceContext dbContext, int addedBudgetId)
+    // {
+    //     dbContext.Budgets.Remove(dbContext.Budgets.Single(c => c.Id == addedBudgetId));
+    //     await dbContext.SaveChangesAsync();
+    // }
 
     #endregion
 }

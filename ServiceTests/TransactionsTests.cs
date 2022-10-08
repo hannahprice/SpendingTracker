@@ -7,13 +7,13 @@ using Xunit;
 namespace ServiceTests;
 
 [UsesVerify]
-public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program>>
+public class TransactionsTests : IClassFixture<TestWebApplicationFactory>
 {
-    private readonly TestWebApplicationFactory<Program> _appFactory;
+    private readonly TestWebApplicationFactory _appFactory;
     private readonly HttpClient _httpClient;
     private readonly VerifySettings _verifySettings;
 
-    public TransactionsTests(TestWebApplicationFactory<Program> appFactory)
+    public TransactionsTests(TestWebApplicationFactory appFactory)
     {
         _verifySettings = new VerifySettings();
         _verifySettings.UseDirectory("./Snapshots/Transactions");
@@ -42,12 +42,13 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
 
         await Verify(response, _verifySettings);
 
-        var dbContext = Utilities.GetDbContext(_appFactory);
-
-        var removeTransactionTask1 = RemoveAddedTransaction(dbContext!, 1);
-        var removeTransactionTask2 = RemoveAddedTransaction(dbContext!, 2);
-        var removeTransactionTask3 = RemoveAddedTransaction(dbContext!, 3);
-        await Task.WhenAll(removeTransactionTask1, removeTransactionTask2, removeTransactionTask3);
+        await Utilities.RemoveTransactions(_appFactory, new[] { 1, 2, 3 });
+        // var dbContext = Utilities.GetDbContext(_appFactory);
+        //
+        // var removeTransactionTask1 = RemoveAddedTransaction(dbContext!, 1);
+        // var removeTransactionTask2 = RemoveAddedTransaction(dbContext!, 2);
+        // var removeTransactionTask3 = RemoveAddedTransaction(dbContext!, 3);
+        // await Task.WhenAll(removeTransactionTask1, removeTransactionTask2, removeTransactionTask3);
     }
 
     [Fact]
@@ -67,10 +68,11 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         var responseContent = await response.Content.ReadAsStringAsync();
         var newTransactionId = int.Parse(responseContent);
 
-        var dbContext = Utilities.GetDbContext(_appFactory);
-        dbContext!.Transactions.Should().Contain(c => c.Id == newTransactionId);
+        var transactions = await Utilities.GetTransactions(_appFactory);
+        transactions.Should().Contain(c => c.Id == newTransactionId);
 
-        await RemoveAddedTransaction(dbContext, 4);
+        await Utilities.RemoveTransaction(_appFactory, 4);
+        // await RemoveAddedTransaction(dbContext, 4);
     }
 
     [Fact]
@@ -85,9 +87,10 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         response!.Id.Should().Be(id);
         await Verify(response, _verifySettings);
 
-        var dbContext = Utilities.GetDbContext(_appFactory);
+        // var dbContext = Utilities.GetDbContext(_appFactory);
+        await Utilities.RemoveTransaction(_appFactory, id);
 
-        await RemoveAddedTransaction(dbContext!, id);
+        // await RemoveAddedTransaction(dbContext!, id);
     }
 
     [Fact]
@@ -99,8 +102,8 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         var response = await _httpClient.DeleteAsync($"api/Transactions/{id}");
         response.EnsureSuccessStatusCode();
 
-        var dbContext = Utilities.GetDbContext(_appFactory);
-        dbContext!.Transactions.Should().NotContain(c => c.Id == id);
+        var transactions = await Utilities.GetTransactions(_appFactory);
+        transactions.Should().NotContain(c => c.Id == id);
     }
 
     #region TestHelpers
@@ -118,11 +121,11 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory<Program
         response.EnsureSuccessStatusCode();
     }
 
-    private async Task RemoveAddedTransaction(FinanceContext dbContext, int addedTransactionId)
-    {
-        dbContext.Transactions.Remove(dbContext.Transactions.Single(t => t.Id == addedTransactionId));
-        await dbContext.SaveChangesAsync();
-    }
+    // private async Task RemoveAddedTransaction(FinanceContext dbContext, int addedTransactionId)
+    // {
+    //     dbContext.Transactions.Remove(dbContext.Transactions.Single(t => t.Id == addedTransactionId));
+    //     await dbContext.SaveChangesAsync();
+    // }
 
     #endregion
 }
