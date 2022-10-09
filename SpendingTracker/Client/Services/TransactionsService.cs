@@ -12,7 +12,7 @@ namespace SpendingTracker.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Transaction>> GetAllTransactions()
+        public async Task<List<Transaction>?> GetAllTransactions()
         {
             return await _httpClient.GetFromJsonAsync<List<Transaction>>("api/Transactions");
         }
@@ -23,14 +23,13 @@ namespace SpendingTracker.Client.Services
 
             if (result.IsSuccessStatusCode)
             {
-                var data = await result.Content.ReadAsStringAsync();
-                return int.Parse(data);
+                return await result.Content.ReadFromJsonAsync<int>();
             }
 
             return default;
         }
 
-        public async Task<Transaction> GetTransaction(int id)
+        public async Task<Transaction?> GetTransaction(int id)
         {
             return await _httpClient.GetFromJsonAsync<Transaction>($"api/Transactions/{id}");
         }

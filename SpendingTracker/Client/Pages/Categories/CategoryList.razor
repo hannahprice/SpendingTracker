@@ -1,6 +1,6 @@
 ﻿@page "/categories"
 
-@if (!IsLoading && !Categories.Any())
+@if (!IsLoading && (Categories is null || !Categories!.Any()))
 {
     <p>No categories</p>
 }

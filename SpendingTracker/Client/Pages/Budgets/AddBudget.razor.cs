@@ -9,12 +9,12 @@ namespace SpendingTracker.Client.Pages.Budgets
 {
     public partial class AddBudget
     {
-        [Inject] private IDispatcher Dispatcher { get; set; }
-        [Inject] private IState<BudgetsState> BudgetsState { get; set; }
+        [Inject] private IDispatcher Dispatcher { get; set; } = default!;
+        [Inject] private IState<BudgetsState> BudgetsState { get; set; } = default!;
         private Budget Budget { get; set; } = new Budget();
         private Category SelectedCategory { get; set; } = new Category();
         private List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
-        private MudForm Form { get; set; }
+        private MudForm Form { get; set; } = default!;
         
         private async Task Submit()
         {

@@ -23,7 +23,7 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory>
     [Fact]
     public async Task DatabaseIsSeededWithSomeSubcategories()
     {
-        var subcategories = await Utilities.GetSubcategories(_appFactory);
+        var subcategories = await TestHelpers.GetSubcategories(_appFactory);
 
         subcategories.Should().NotBeNullOrEmpty();
         await Verify(subcategories, _verifySettings);
@@ -42,14 +42,13 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory>
 
         response.EnsureSuccessStatusCode();
         
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var newSubcategoryId = int.Parse(responseContent);
+        var newSubcategoryId = await response.Content.ReadFromJsonAsync<int>();
 
-        var subcategories = await Utilities.GetSubcategories(_appFactory);
+        var subcategories = await TestHelpers.GetSubcategories(_appFactory);
         var addedSubcategory = subcategories.Single(c => c.Id == newSubcategoryId);
         addedSubcategory.CategoryId.Should().Be(1);
 
-        await Utilities.RemoveSubcategory(_appFactory, newSubcategoryId);
+        await TestHelpers.RemoveSubcategory(_appFactory, newSubcategoryId);
     }
 
     [Fact]
@@ -73,13 +72,12 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory>
         var addResponse = await _httpClient.PostAsJsonAsync("api/Subcategories", subcategory);
         addResponse.EnsureSuccessStatusCode();
         
-        var responseContent = await addResponse.Content.ReadAsStringAsync();
-        var newSubcategoryId = int.Parse(responseContent);
+        var newSubcategoryId = await addResponse.Content.ReadFromJsonAsync<int>();
 
         var response = await _httpClient.DeleteAsync($"api/Subcategories/{newSubcategoryId}");
         response.EnsureSuccessStatusCode();
         
-        var subcategories = await Utilities.GetSubcategories(_appFactory);
+        var subcategories = await TestHelpers.GetSubcategories(_appFactory);
         subcategories.Should().NotContain(c => c.Id == newSubcategoryId);
     }
 }

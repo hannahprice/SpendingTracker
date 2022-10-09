@@ -7,23 +7,29 @@ namespace SpendingTracker.Client.Pages.Budgets
 {
     public partial class BudgetDetail
     {
-        [Parameter] public string Id { get; set; }
-        [Inject] private IState<BudgetsState> BudgetsState { get; set; }
-        [Inject] private IDispatcher Dispatcher { get; set; }
+        [Parameter] public string? Id { get; set; }
+        [Inject] private IState<BudgetsState> BudgetsState { get; set; } = default!;
+        [Inject] private IDispatcher Dispatcher { get; set; } = default!;
         private bool DialogVisible { get; set; } = false;
         
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            Dispatcher.Dispatch(new LoadBudgetDetailAction(int.Parse(Id)));
+            if (Id != null)
+            {
+                Dispatcher.Dispatch(new LoadBudgetDetailAction(int.Parse(Id)));
+            }
         }
 
         private void ToggleDialog() => DialogVisible = !DialogVisible;
 
         private void DeleteBudget()
         {
-            Dispatcher.Dispatch(new DeleteBudgetAction(int.Parse(Id)));
-            ToggleDialog();
+            if (Id != null)
+            {
+                Dispatcher.Dispatch(new DeleteBudgetAction(int.Parse(Id)));
+                ToggleDialog();
+            }
         }
     }
 }

@@ -7,36 +7,38 @@ namespace SpendingTracker.Client.Pages.Subcategories;
 
 public partial class SubcategoryDetail
 {
-    [Parameter] public string Id { get; set; }
-    [Inject] private ISubcategoriesService SubcategoriesService { get; set; }
-    [Inject] private NavigationManager NavigationManager { get; set; }
-    [Inject] private ISnackbar Snackbar { get; set; }
-    private bool IsLoading { get; set; } = false;
+    [Parameter] public string? Id { get; set; }
+    [Inject] private ISubcategoriesService SubcategoriesService { get; set; } = default!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] private ISnackbar Snackbar { get; set; } = default!;
     private bool DialogVisible { get; set; } = false;
     private void ToggleDialog() => DialogVisible = !DialogVisible;
 
-    private Subcategory Subcategory { get; set; } = new Subcategory();
+    private Subcategory? Subcategory { get; set; } = new Subcategory();
 
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-        Subcategory = await SubcategoriesService.GetSubcategory(int.Parse(Id));
-        IsLoading = false;
+        if (Id != null)
+        {
+            Subcategory = await SubcategoriesService.GetSubcategory(int.Parse(Id));
+        }
     }   
     private async Task DeleteSubcategory()
     {
         try
         {
-            await SubcategoriesService.DeleteSubcategory(int.Parse(Id));
+            if (Id != null)
+            {
+                await SubcategoriesService.DeleteSubcategory(int.Parse(Id));
+                ToggleDialog();
+                Snackbar.Add($"Subcategory removed", Severity.Success);
                 
-            ToggleDialog();
-            Snackbar.Add($"Subcategory removed", Severity.Success);
-                
-            NavigationManager.NavigateTo("/categories", false);
+                NavigationManager.NavigateTo("/categories", false);
+            }
         }
         catch
         {
-            Snackbar.Add($"Error removing subcategory: {Subcategory.Description}", Severity.Error);
+            Snackbar.Add($"Error removing subcategory: {Subcategory!.Description}", Severity.Error);
         }
     }
 }

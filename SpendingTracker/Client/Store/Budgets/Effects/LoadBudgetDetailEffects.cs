@@ -1,6 +1,7 @@
 ﻿using Fluxor;
 using SpendingTracker.Client.Services;
 using SpendingTracker.Client.Store.Budgets.Actions;
+using SpendingTracker.Shared.Models;
 
 namespace SpendingTracker.Client.Store.Budgets.Effects;
 

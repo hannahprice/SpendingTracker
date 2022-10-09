@@ -7,19 +7,22 @@ namespace SpendingTracker.Client.Pages.Categories;
 
 public partial class CategoryDetail
 {
-    [Parameter] public string Id { get; set; }
-    [Inject] private ICategoriesService CategoriesService { get; set; }
-    [Inject] private NavigationManager NavigationManager { get; set; }
-    [Inject] private ISnackbar Snackbar { get; set; }
+    [Parameter] public string? Id { get; set; }
+    [Inject] private ICategoriesService CategoriesService { get; set; } = default!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] private ISnackbar Snackbar { get; set; } = default!;
     private bool DialogVisible { get; set; } = false;
     private bool IsLoading { get; set; } = false;
-    private Category Category { get; set; } = new Category();
+    private Category? Category { get; set; } = new Category();
     private void ToggleDialog() => DialogVisible = !DialogVisible;
 
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
-        Category = await CategoriesService.GetCategory(int.Parse(Id));
+        if (Id != null)
+        {
+            Category = await CategoriesService.GetCategory(int.Parse(Id));
+        }
         IsLoading = false;
     }
     
@@ -27,16 +30,18 @@ public partial class CategoryDetail
     {
         try
         {
-            await CategoriesService.DeleteCategory(int.Parse(Id));
+            if (Id != null)
+            {
+                await CategoriesService.DeleteCategory(int.Parse(Id));
+                ToggleDialog();
+                Snackbar.Add($"Category removed", Severity.Success);
                 
-            ToggleDialog();
-            Snackbar.Add($"Category removed", Severity.Success);
-                
-            NavigationManager.NavigateTo("/categories", false);
+                NavigationManager.NavigateTo("/categories", false);
+            }
         }
         catch
         {
-            Snackbar.Add($"Error removing category: {Category.Description}", Severity.Error);
+            Snackbar.Add($"Error removing category: {Category!.Description}", Severity.Error);
         }
     }
 }

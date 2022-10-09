@@ -16,8 +16,8 @@ public static class AddTransactionActionsReducers
         AddTransactionResultAction action)
     {
         var transactions = new List<Transaction>();
-        transactions.AddRange(state.Transactions);
-        transactions.Add(action.Transaction);
+        transactions.AddRange(state.Transactions!);
+        transactions.Add(action.Transaction!);
         return new TransactionsState(isLoading: false, transactions: transactions, transactionDetail: state.TransactionDetail, multiAddEnabled: state.MultiAddEnabled);
     }
     

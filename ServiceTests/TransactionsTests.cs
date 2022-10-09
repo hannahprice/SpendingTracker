@@ -31,7 +31,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory>
             c.Subcategories.Should().NotBeNullOrEmpty();
         });
         
-        await Utilities.RemoveTransactions(_appFactory, new int[]{ newTransactionId1, newTransactionId2 });
+        await TestHelpers.RemoveTransactions(_appFactory, new[]{ newTransactionId1, newTransactionId2 });
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory>
     {
         var transaction = new Transaction()
         {
-            Amount = 55.99m, Description = "Card payment to Sainsbury's", IsReoccurring = false,
+            Amount = 55.99m, Description = "Card payment to supermarket", IsReoccurring = false,
             IsOutwardPayment = true, DateOfTransaction = DateTime.Now,
             Category = new Category{Id = 1},
             Subcategories = new List<Subcategory> { new Subcategory { Id = 1 } }
@@ -48,13 +48,12 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory>
         var response = await _httpClient.PostAsJsonAsync("api/Transactions", transaction);
         response.EnsureSuccessStatusCode();
 
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var newTransactionId = int.Parse(responseContent);
+        var newTransactionId = await response.Content.ReadFromJsonAsync<int>();
 
-        var transactions = await Utilities.GetTransactions(_appFactory);
+        var transactions = await TestHelpers.GetTransactions(_appFactory);
         transactions.Should().Contain(c => c.Id == newTransactionId);
 
-        await Utilities.RemoveTransaction(_appFactory, newTransactionId);
+        await TestHelpers.RemoveTransaction(_appFactory, newTransactionId);
     }
 
     [Fact]
@@ -67,7 +66,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory>
         response.Should().NotBeNull();
         response!.Id.Should().Be(newTransactionId);
         
-        await Utilities.RemoveTransaction(_appFactory, newTransactionId);
+        await TestHelpers.RemoveTransaction(_appFactory, newTransactionId);
     }
 
     [Fact]
@@ -78,7 +77,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory>
         var response = await _httpClient.DeleteAsync($"api/Transactions/{newTransactionId}");
         response.EnsureSuccessStatusCode();
 
-        var transactions = await Utilities.GetTransactions(_appFactory);
+        var transactions = await TestHelpers.GetTransactions(_appFactory);
         transactions.Should().NotContain(c => c.Id == newTransactionId);
     }
 
@@ -88,7 +87,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory>
     {
         var transaction = new Transaction()
         {
-            Amount = 55.99m, Description = "Card payment to Sainsbury's", IsReoccurring = false,
+            Amount = 55.99m, Description = "Card payment to supermarket", IsReoccurring = false,
             IsOutwardPayment = true, DateOfTransaction = DateTime.Now,
             Category = new Category{Id = 1},
             Subcategories = new List<Subcategory> { new Subcategory { Id = 1 } }
@@ -96,8 +95,7 @@ public class TransactionsTests : IClassFixture<TestWebApplicationFactory>
         var response = await _httpClient.PostAsJsonAsync("api/Transactions", transaction);
         response.EnsureSuccessStatusCode();
 
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return int.Parse(responseContent);
+        return await response.Content.ReadFromJsonAsync<int>();
     }
 
     #endregion

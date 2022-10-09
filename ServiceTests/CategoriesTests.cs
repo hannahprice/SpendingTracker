@@ -23,7 +23,7 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory>
     [Fact]
     public async Task DatabaseIsSeededWithExpectedCategories()
     {
-        var categories = await Utilities.GetCategories(_appFactory);
+        var categories = await TestHelpers.GetCategories(_appFactory);
         categories.Should().NotBeNullOrEmpty();
         var categoryNames = categories.Select(c => c.Description);
 
@@ -57,13 +57,12 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory>
 
         response.EnsureSuccessStatusCode();
         
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var newCategoryId = int.Parse(responseContent);
+        var newCategoryId = await response.Content.ReadFromJsonAsync<int>();
         
-        var categories = await Utilities.GetCategories(_appFactory);
+        var categories = await TestHelpers.GetCategories(_appFactory);
 
         categories.Should().Contain(c => c.Id == newCategoryId);
-        await Utilities.RemoveCategory(_appFactory, newCategoryId);
+        await TestHelpers.RemoveCategory(_appFactory, newCategoryId);
     }
 
     [Fact]
@@ -86,13 +85,12 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory>
         var addResponse = await _httpClient.PostAsJsonAsync("api/Categories", category);
         addResponse.EnsureSuccessStatusCode();
         
-        var responseContent = await addResponse.Content.ReadAsStringAsync();
-        var newCategoryId = int.Parse(responseContent);
+        var newCategoryId = await addResponse.Content.ReadFromJsonAsync<int>();
 
         var response = await _httpClient.DeleteAsync($"api/Categories/{newCategoryId}");
         response.EnsureSuccessStatusCode();
         
-        var categories = await Utilities.GetCategories(_appFactory);
+        var categories = await TestHelpers.GetCategories(_appFactory);
         categories.Should().NotContain(c => c.Id == newCategoryId);
     }
 }

@@ -7,34 +7,30 @@ namespace SpendingTracker.Client.Pages.Categories
 {
     public partial class AddCategoryOrSubcategory
     {
-        [Inject]
-        public ICategoriesService CategoriesService { get; set; }
+        [Inject] public ICategoriesService CategoriesService { get; set; } = default!;
 
-        [Inject]
-        public ISubcategoriesService SubcategoriesService { get; set; }
+        [Inject] public ISubcategoriesService SubcategoriesService { get; set; } = default!;
 
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        [Inject] public NavigationManager NavigationManager { get; set; } = default!;
 
-        [Inject]
-        private ISnackbar Snackbar { get; set; }
+        [Inject] private ISnackbar Snackbar { get; set; } = default!;
 
-        public Category Category { get; set; } = new Category();
-        public Subcategory Subcategory { get; set; } = new Subcategory();
-        public List<Category> AvailableCategories { get; set; } = new List<Category>();
+        private Category Category { get; set; } = new Category();
+        private Subcategory Subcategory { get; set; } = new Subcategory();
+        private List<Category>? AvailableCategories { get; set; } = new List<Category>();
 
-        public bool? Success { get; set; } = null;
-        public MudForm CategoryForm { get; set; }
-        public MudForm SubcategoryForm { get; set; }
-        public bool AddingMultiple { get; set; } = false;
-        public bool AddingSubcategory { get; set; } = false;
+        private bool Success { get; set; }
+        private MudForm CategoryForm { get; set; } = default!;
+        private MudForm SubcategoryForm { get; set; } = default!;
+        private bool AddingMultiple { get; set; } = false;
+        private bool AddingSubcategory { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
         {
             AvailableCategories = await CategoriesService.GetAllCategories();
         }
 
-        public async Task SubmitCategory()
+        private async Task SubmitCategory()
         {
             await CategoryForm.Validate();
 
@@ -57,7 +53,7 @@ namespace SpendingTracker.Client.Pages.Categories
             }
         }
 
-        public async Task SubmitSubcategory()
+        private async Task SubmitSubcategory()
         {
             await SubcategoryForm.Validate();
 
@@ -78,7 +74,7 @@ namespace SpendingTracker.Client.Pages.Categories
 
         private void AddSubcategorySnackBarMessage()
         {
-            if (Success.Value)
+            if (Success)
             {
                 Snackbar.Add($"Subcategory added: {Subcategory.Description}", Severity.Success);
             }
@@ -90,7 +86,7 @@ namespace SpendingTracker.Client.Pages.Categories
 
         private void AddCategorySnackBarMessage()
         {
-            if (Success.Value)
+            if (Success)
             {
                 Snackbar.Add($"Category added: {Category.Description}", Severity.Success);
             }

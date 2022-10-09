@@ -7,13 +7,13 @@ namespace SpendingTracker.Client.Pages.Categories
 {
     public partial class CategoryList
     {
-        [Inject] public ICategoriesService CategoriesService { get; set; }
-        [Inject] public NavigationManager NavigationManager { get; set; }
-        public List<Subcategory> Subcategories { get; set; } = new List<Subcategory>();
-        public bool IsLoading { get; set; } = false;
-        private List<Category> Categories { get; set; } = new List<Category>();
+        [Inject] public ICategoriesService CategoriesService { get; set; } = default!;
+        [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+        private List<Subcategory>? Subcategories { get; set; } = new List<Subcategory>();
+        private bool IsLoading { get; set; } = false;
+        private List<Category>? Categories { get; set; } = new List<Category>();
 
-        private TableGroupDefinition<Subcategory> _groupDefinition = new()
+        private readonly TableGroupDefinition<Subcategory> _groupDefinition = new()
         {
             Indentation = false,
             Expandable = true,
@@ -26,7 +26,7 @@ namespace SpendingTracker.Client.Pages.Categories
             IsLoading = true;
 
             Categories = await CategoriesService.GetAllCategories();
-            Subcategories = Categories.Where(x => x.Subcategories != null && x.Subcategories.Any())
+            Subcategories = Categories?.Where(x => x.Subcategories != null && x.Subcategories.Any())
                 .SelectMany(x => x.Subcategories!).ToList();
 
             AddCategoriesWithNoSubcategories();
@@ -37,16 +37,19 @@ namespace SpendingTracker.Client.Pages.Categories
         private void AddCategoriesWithNoSubcategories()
         {
             var categoriesWithNoSubcategories =
-                Categories.Where(x => x.Subcategories is null || !x.Subcategories.Any()).ToList();
+                Categories?.Where(x => x.Subcategories is null || !x.Subcategories.Any()).ToList();
 
-            foreach (var category in categoriesWithNoSubcategories)
+            if (categoriesWithNoSubcategories != null)
             {
-                var subcategory = new Subcategory
+                foreach (var category in categoriesWithNoSubcategories)
                 {
-                    CategoryId = category.Id,
-                    Description = string.Empty
-                };
-                Subcategories.Add(subcategory);
+                    var subcategory = new Subcategory
+                    {
+                        CategoryId = category.Id,
+                        Description = string.Empty
+                    };
+                    Subcategories?.Add(subcategory);
+                }
             }
         }
 
@@ -62,8 +65,8 @@ namespace SpendingTracker.Client.Pages.Categories
 
         private string GetGroupName(object categoryId)
         {
-            var id = int.Parse(categoryId.ToString());
-            return Categories.First(x => x.Id == id).Description;
+            var id = int.Parse(categoryId.ToString()!);
+            return Categories!.First(x => x.Id == id).Description;
         }
     }
 }

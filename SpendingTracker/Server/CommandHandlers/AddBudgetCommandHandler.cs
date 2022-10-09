@@ -25,7 +25,7 @@ namespace SpendingTracker.Server.CommandHandlers
 
             _dbContext.Budgets.Attach(budget);
 
-            _dbContext.Categories.Attach(category);
+            _dbContext.Categories.Attach(category!);
             _dbContext.Subcategories.AttachRange(subCategories);
 
             budget.Category = null;

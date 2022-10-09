@@ -26,7 +26,7 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
         response.Should().NotBeNullOrEmpty();
         response.Should().BeInDescendingOrder(c => c.Id);
 
-        await Utilities.RemoveBudgets(_appFactory, new int[]{newBudgetId1, newBudgetId2});
+        await TestHelpers.RemoveBudgets(_appFactory, new[]{newBudgetId1, newBudgetId2});
     }
 
     [Fact]
@@ -42,13 +42,12 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
         var response = await _httpClient.PostAsJsonAsync("api/Budgets", budget);
         response.EnsureSuccessStatusCode();
         
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var newBudgetId = int.Parse(responseContent);
+        var newBudgetId = await response.Content.ReadFromJsonAsync<int>();
         
-        var budgets = await Utilities.GetBudgets(_appFactory);
+        var budgets = await TestHelpers.GetBudgets(_appFactory);
 
         budgets.Should().Contain(c => c.Id == newBudgetId);
-        await Utilities.RemoveBudget(_appFactory, newBudgetId);
+        await TestHelpers.RemoveBudget(_appFactory, newBudgetId);
     }
 
     [Fact]
@@ -60,7 +59,7 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
         response.Should().NotBeNull();
         response!.Id.Should().Be(newBudgetId);
         
-        await Utilities.RemoveBudget(_appFactory, newBudgetId);
+        await TestHelpers.RemoveBudget(_appFactory, newBudgetId);
     }
 
     [Fact]
@@ -71,7 +70,7 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
         var response = await _httpClient.DeleteAsync($"api/Budgets/{newBudgetId}");
         response.EnsureSuccessStatusCode();
         
-        var budgets = await Utilities.GetBudgets(_appFactory);
+        var budgets = await TestHelpers.GetBudgets(_appFactory);
         budgets.Should().NotContain(c => c.Id == newBudgetId);
     }
     
@@ -88,8 +87,7 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
         var response = await _httpClient.PostAsJsonAsync("api/Budgets", budget);
         response.EnsureSuccessStatusCode();
         
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return int.Parse(responseContent);
+        return await response.Content.ReadFromJsonAsync<int>();
     }
 
     #endregion

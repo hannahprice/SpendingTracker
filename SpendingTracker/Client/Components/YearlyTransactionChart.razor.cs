@@ -8,18 +8,18 @@ namespace SpendingTracker.Client.Components;
 
 public partial class YearlyTransactionChart
 {
-    [Inject] public ITransactionsService TransactionsService { get; set; }
+    [Inject] public ITransactionsService TransactionsService { get; set; } = default!;
 
-    private List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
+    private List<Transaction>? AllTransactions { get; set; } = new List<Transaction>();
     private bool IsLoading { get; set; } = false;
     private List<ChartSeries> Series { get; set; } = new List<ChartSeries>();
-    private string[] xAxisLabels { get; set; } = new string[]{};
+    private string[] XAxisLabels { get; set; } = Array.Empty<string>();
 
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
         AllTransactions = await TransactionsService.GetAllTransactions();
-        if (AllTransactions.Any())
+        if (AllTransactions != null && AllTransactions.Any())
         {
             GroupThisYearsTransactionData();
         }
@@ -28,21 +28,17 @@ public partial class YearlyTransactionChart
 
     private void GroupThisYearsTransactionData()
     {
-        var chartData = new Dictionary<string, List<double>>();
-        var thisYearsTransactions = AllTransactions
+        var thisYearsTransactions = AllTransactions!
             .Where(x =>
                 x.DateOfTransaction.Date.Year == DateTime.Now.Date.Year).ToList();
         
         var thisYearsCategories = thisYearsTransactions.Where(x => x.Category != null)
-            .Select(x => x.Category.Description).Distinct().ToList();
+            .Select(x => x.Category!.Description).Distinct().ToList();
 
-        foreach (var category in thisYearsCategories)
-        {
-            chartData.Add(category, new List<double>());
-        }
+        var chartData = thisYearsCategories.ToDictionary(category => category, category => new List<double>());
 
         var (months, monthNames) = GetPastMonthsForThisYear();
-        xAxisLabels = monthNames.ToArray();
+        XAxisLabels = monthNames.ToArray();
 
         foreach (var month in months)
         {
@@ -51,7 +47,7 @@ public partial class YearlyTransactionChart
             var transactionsWithCategories = transactionsForMonth.Where(x => x.Category != null).ToList();
             
             var groupedTransactions = transactionsWithCategories
-                .GroupBy(g => g.Category.Description).ToList();
+                .GroupBy(g => g.Category!.Description).ToList();
             
             foreach (var chartSeries in chartData)
             {
