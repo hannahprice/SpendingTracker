@@ -7,12 +7,12 @@ namespace SpendingTracker.Client;
 
 public partial class App
 {
-    [Inject] private IDispatcher? Dispatcher { get; set; }
+    [Inject] private IDispatcher Dispatcher { get; set; } = default!;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Dispatcher?.Dispatch(new LoadBudgetsAction());
-        Dispatcher?.Dispatch(new LoadTransactionsAction());
+        Dispatcher.Dispatch(new LoadBudgetsAction());
+        Dispatcher.Dispatch(new LoadTransactionsAction());
     }
 }

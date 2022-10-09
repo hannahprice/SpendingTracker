@@ -8,9 +8,9 @@ namespace SpendingTracker.Client.Pages.Categories;
 public partial class CategoryDetail
 {
     [Parameter] public string? Id { get; set; }
-    [Inject] private ICategoriesService CategoriesService { get; set; }
-    [Inject] private NavigationManager NavigationManager { get; set; }
-    [Inject] private ISnackbar Snackbar { get; set; }
+    [Inject] private ICategoriesService CategoriesService { get; set; } = default!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] private ISnackbar Snackbar { get; set; } = default!;
     private bool DialogVisible { get; set; } = false;
     private bool IsLoading { get; set; } = false;
     private Category? Category { get; set; } = new Category();

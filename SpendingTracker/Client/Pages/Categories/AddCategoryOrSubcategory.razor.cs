@@ -7,21 +7,21 @@ namespace SpendingTracker.Client.Pages.Categories
 {
     public partial class AddCategoryOrSubcategory
     {
-        [Inject] public ICategoriesService CategoriesService { get; set; }
+        [Inject] public ICategoriesService CategoriesService { get; set; } = default!;
 
-        [Inject] public ISubcategoriesService SubcategoriesService { get; set; }
+        [Inject] public ISubcategoriesService SubcategoriesService { get; set; } = default!;
 
-        [Inject] public NavigationManager NavigationManager { get; set; }
+        [Inject] public NavigationManager NavigationManager { get; set; } = default!;
 
-        [Inject] private ISnackbar Snackbar { get; set; }
+        [Inject] private ISnackbar Snackbar { get; set; } = default!;
 
         private Category Category { get; set; } = new Category();
         private Subcategory Subcategory { get; set; } = new Subcategory();
         private List<Category>? AvailableCategories { get; set; } = new List<Category>();
 
         private bool Success { get; set; }
-        private MudForm CategoryForm { get; set; }
-        private MudForm SubcategoryForm { get; set; }
+        private MudForm CategoryForm { get; set; } = default!;
+        private MudForm SubcategoryForm { get; set; } = default!;
         private bool AddingMultiple { get; set; } = false;
         private bool AddingSubcategory { get; set; } = false;
 

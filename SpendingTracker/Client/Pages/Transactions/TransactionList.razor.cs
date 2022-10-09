@@ -8,8 +8,8 @@ namespace SpendingTracker.Client.Pages.Transactions
 {
     public partial class TransactionList
     {
-        [Inject] private NavigationManager NavigationManager { get; set; }
-        [Inject] private IState<TransactionsState> TransactionsState { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
+        [Inject] private IState<TransactionsState> TransactionsState { get; set; } = default!;
 
         private void TransactionClicked(TableRowClickEventArgs<Transaction> eventArgs)
         {

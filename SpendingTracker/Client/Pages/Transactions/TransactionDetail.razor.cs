@@ -7,21 +7,27 @@ namespace SpendingTracker.Client.Pages.Transactions;
 
 public partial class TransactionDetail
 {
-    [Parameter] public string Id { get; set; }
-    [Inject] private IState<TransactionsState> TransactionsState { get; set; }
-    [Inject] private IDispatcher Dispatcher { get; set; }
+    [Parameter] public string? Id { get; set; }
+    [Inject] private IState<TransactionsState> TransactionsState { get; set; } = default!;
+    [Inject] private IDispatcher Dispatcher { get; set; } = default!;
     private bool DialogVisible { get; set; } = false;
 
     private void ToggleDialog() => DialogVisible = !DialogVisible;
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Dispatcher.Dispatch(new LoadTransactionDetailAction(int.Parse(Id)));   
+        if (Id != null)
+        {
+            Dispatcher.Dispatch(new LoadTransactionDetailAction(int.Parse(Id)));
+        }
     }
 
     private void DeleteTransaction()
     {
-        Dispatcher.Dispatch(new DeleteTransactionAction(int.Parse(Id)));
-        ToggleDialog();
+        if (Id != null)
+        {
+            Dispatcher.Dispatch(new DeleteTransactionAction(int.Parse(Id)));
+            ToggleDialog();
+        }
     }
 }

@@ -10,8 +10,8 @@ namespace SpendingTracker.Client.Pages.Transactions
 {
     public partial class AddTransaction
     {
-        [Inject] private IState<TransactionsState>? TransactionsState { get;set; }
-        [Inject] private IDispatcher? Dispatcher { get; set; }
+        [Inject] private IState<TransactionsState> TransactionsState { get;set; } = default!;
+        [Inject] private IDispatcher Dispatcher { get; set; } = default!;
         private Transaction Transaction { get; set; } = new Transaction();
         private Category? SelectedCategory { get; set; } = new Category();
         private List<Subcategory>? SelectedSubcategories { get; set; } = new List<Subcategory>();
@@ -50,14 +50,14 @@ namespace SpendingTracker.Client.Pages.Transactions
                     Transaction.DateOfTransaction = SelectedDatetime.Value;
                 }
 
-                Dispatcher?.Dispatch(new AddTransactionAction(Transaction));
+                Dispatcher.Dispatch(new AddTransactionAction(Transaction));
                 Form.Reset();
             }
         }
         
         private void ToggleMultiAdd()
         {
-            Dispatcher?.Dispatch(new ToggleMultiAddAction());
+            Dispatcher.Dispatch(new ToggleMultiAddAction());
         }
     }
 }

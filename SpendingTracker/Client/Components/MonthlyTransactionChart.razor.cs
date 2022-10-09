@@ -6,15 +6,15 @@ namespace SpendingTracker.Client.Components;
 
 public partial class MonthlyTransactionChart
 {
-    [Inject] public ITransactionsService TransactionsService { get; set; }
+    [Inject] public ITransactionsService TransactionsService { get; set; } = default!;
     private bool IsLoading { get; set; } = false;
     private List<Transaction>? AllTransactions { get; set; } = new List<Transaction>();
 
-    private string[] ThisMonthsTransactionsDataLabels { get; set; }
+    private string[] ThisMonthsTransactionsDataLabels { get; set; } = default!;
     private double[]? ThisMonthsTransactionsData { get; set; }
     private int Index = -1;
     private string ChartInnerLabel => Index < 0 ? "Total" : ThisMonthsTransactionsDataLabels[Index];
-    private string ChartInnerData => Index < 0 ? ThisMonthsTransactionsData?.Sum().ToString("0.00") : ThisMonthsTransactionsData[Index].ToString("0.00");
+    private string ChartInnerData => (Index < 0 ? ThisMonthsTransactionsData?.Sum().ToString("0.00") : ThisMonthsTransactionsData![Index].ToString("0.00"))!;
     
     protected override async Task OnInitializedAsync()
     {
@@ -37,7 +37,7 @@ public partial class MonthlyTransactionChart
             var transactionsWithCategories = thisMonthsTransactions.Where(x => x.Category != null);
 
             var groupedTransactions = transactionsWithCategories
-                .GroupBy(g => g.Category.Description);
+                .GroupBy(g => g.Category!.Description).ToList();
             
             var dataLabels = groupedTransactions.Select(x => x.Key).ToList();
             var data = groupedTransactions

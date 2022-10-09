@@ -8,8 +8,8 @@ namespace SpendingTracker.Client.Pages.Budgets
 {
     public partial class BudgetList
     {
-        [Inject] private NavigationManager NavigationManager { get; set; }
-        [Inject] private IState<BudgetsState> BudgetsState { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
+        [Inject] private IState<BudgetsState> BudgetsState { get; set; } = default!;
 
         private void BudgetClicked(TableRowClickEventArgs<Budget> eventArgs)
         {

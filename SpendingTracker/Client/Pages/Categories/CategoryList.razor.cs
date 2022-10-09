@@ -7,11 +7,11 @@ namespace SpendingTracker.Client.Pages.Categories
 {
     public partial class CategoryList
     {
-        [Inject] public ICategoriesService CategoriesService { get; set; }
-        [Inject] public NavigationManager NavigationManager { get; set; }
-        private List<Subcategory> Subcategories { get; set; } = new List<Subcategory>();
+        [Inject] public ICategoriesService CategoriesService { get; set; } = default!;
+        [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+        private List<Subcategory>? Subcategories { get; set; } = new List<Subcategory>();
         private bool IsLoading { get; set; } = false;
-        private List<Category> Categories { get; set; } = new List<Category>();
+        private List<Category>? Categories { get; set; } = new List<Category>();
 
         private readonly TableGroupDefinition<Subcategory> _groupDefinition = new()
         {
@@ -26,7 +26,7 @@ namespace SpendingTracker.Client.Pages.Categories
             IsLoading = true;
 
             Categories = await CategoriesService.GetAllCategories();
-            Subcategories = Categories.Where(x => x.Subcategories != null && x.Subcategories.Any())
+            Subcategories = Categories?.Where(x => x.Subcategories != null && x.Subcategories.Any())
                 .SelectMany(x => x.Subcategories!).ToList();
 
             AddCategoriesWithNoSubcategories();
@@ -39,14 +39,17 @@ namespace SpendingTracker.Client.Pages.Categories
             var categoriesWithNoSubcategories =
                 Categories?.Where(x => x.Subcategories is null || !x.Subcategories.Any()).ToList();
 
-            foreach (var category in categoriesWithNoSubcategories)
+            if (categoriesWithNoSubcategories != null)
             {
-                var subcategory = new Subcategory
+                foreach (var category in categoriesWithNoSubcategories)
                 {
-                    CategoryId = category.Id,
-                    Description = string.Empty
-                };
-                Subcategories.Add(subcategory);
+                    var subcategory = new Subcategory
+                    {
+                        CategoryId = category.Id,
+                        Description = string.Empty
+                    };
+                    Subcategories?.Add(subcategory);
+                }
             }
         }
 

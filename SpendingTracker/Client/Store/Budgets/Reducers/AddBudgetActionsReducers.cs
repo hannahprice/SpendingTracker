@@ -13,9 +13,9 @@ public static class AddBudgetActionsReducers
     [ReducerMethod]
     public static BudgetsState ReduceAddBudgetResultAction(BudgetsState state, AddBudgetResultAction action)
     {
-        var budgets = new List<Budget?>();
-        budgets.AddRange(state.Budgets);
-        budgets.Add(action.Budget);
+        var budgets = new List<Budget>();
+        budgets.AddRange(state.Budgets!);
+        budgets.Add(action.Budget!);
         return new BudgetsState(isLoading: false, budgets: budgets, budgetDetail: state.BudgetDetail, multiAddEnabled: state.MultiAddEnabled);
     }
 

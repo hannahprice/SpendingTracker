@@ -9,12 +9,12 @@ public partial class CategorySelection
 {
     [Parameter] public Category? SelectedCategory { get; set; }
     [Parameter] public EventCallback<Category> SelectedCategoryChanged { get; set; }
-    [Parameter] public List<Subcategory> SelectedSubcategories { get; set; }
+    [Parameter] public List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
     [Parameter] public EventCallback<List<Subcategory>> SelectedSubcategoriesChanged { get; set; }
-    [Inject] private ICategoriesService CategoriesService { get; set; }
+    [Inject] private ICategoriesService CategoriesService { get; set; } = default!;
     private bool IsLoading { get; set; } = false;
-    private List<Category?> AvailableCategories { get; set; } = new List<Category?>();
-    private List<Subcategory?> AvailableSubcategories { get; set; } = new List<Subcategory?>();
+    private List<Category>? AvailableCategories { get; set; } = new List<Category>();
+    private List<Subcategory>? AvailableSubcategories { get; set; } = new List<Subcategory>();
     private MudChip? SelectedCategoryChip { get; set; } 
     private MudChip[]? SelectedSubcategoryChips { get; set; }
     protected override async Task OnInitializedAsync()
@@ -45,7 +45,7 @@ public partial class CategorySelection
     private Category? GetSelectedCategory()
     {
         var selectedCategoryDescription = SelectedCategoryChip?.Text;
-        return AvailableCategories.SingleOrDefault(x => selectedCategoryDescription == x.Description);
+        return AvailableCategories?.SingleOrDefault(x => selectedCategoryDescription == x.Description);
     }
     
     private List<Subcategory> GetSelectedSubcategories()
@@ -53,7 +53,7 @@ public partial class CategorySelection
         if (SelectedSubcategoryChips is { Length: > 0 })
         {
             var selectedSubcategoryDescriptions = SelectedSubcategoryChips?.Select(c => c.Text).ToList();
-            return AvailableSubcategories.Where(x => selectedSubcategoryDescriptions.Contains(x.Description)).ToList();   
+            return AvailableSubcategories?.Where(x => selectedSubcategoryDescriptions!.Contains(x.Description)).ToList()!;   
         }
         return new List<Subcategory>(0);
     }
