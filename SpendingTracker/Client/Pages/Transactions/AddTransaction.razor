@@ -8,7 +8,7 @@
         <MudText Typo="Typo.h2" Class="my-7">Add new transaction</MudText>
     </MudItem>
     <MudItem xs="12" sm="3" Class="my-7 d-flex justify-end">
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ToggleMultiAdd">Multi add: @TransactionsState.Value.MultiAddEnabled</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ToggleMultiAdd">Multi add: @(TransactionsState != null && TransactionsState.Value.MultiAddEnabled)</MudButton>
     </MudItem>
     <MudItem xs="12" sm="10">
         <MudPaper Class="pa-6" Elevation="3">

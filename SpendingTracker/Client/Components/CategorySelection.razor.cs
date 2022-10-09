@@ -50,7 +50,7 @@ public partial class CategorySelection
     
     private List<Subcategory> GetSelectedSubcategories()
     {
-        if (SelectedSubcategoryChips != null && SelectedSubcategoryChips.Length > 0)
+        if (SelectedSubcategoryChips is { Length: > 0 })
         {
             var selectedSubcategoryDescriptions = SelectedSubcategoryChips?.Select(c => c.Text).ToList();
             return AvailableSubcategories.Where(x => selectedSubcategoryDescriptions.Contains(x.Description)).ToList();   

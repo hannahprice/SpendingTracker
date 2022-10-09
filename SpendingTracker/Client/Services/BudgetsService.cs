@@ -12,9 +12,9 @@ namespace SpendingTracker.Client.Services
             _httpClient = httpClient;
         }
 
-        public Task<List<Budget>> GetAllBudgets()
+        public async Task<List<Budget>?> GetAllBudgets()
         {
-            return _httpClient.GetFromJsonAsync<List<Budget>>("api/Budgets");
+            return await _httpClient.GetFromJsonAsync<List<Budget>>("api/Budgets");
         }
 
         public async Task<int> AddBudget(Budget budget)
@@ -23,13 +23,12 @@ namespace SpendingTracker.Client.Services
 
             if (!result.IsSuccessStatusCode) return default;
             
-            var data = await result.Content.ReadAsStringAsync();
-            return int.Parse(data);
+            return await result.Content.ReadFromJsonAsync<int>();
         }
 
-        public Task<Budget> GetBudget(int id)
+        public async Task<Budget?> GetBudget(int id)
         {
-            return _httpClient.GetFromJsonAsync<Budget>($"api/Budgets/{id}");
+            return await _httpClient.GetFromJsonAsync<Budget>($"api/Budgets/{id}");
         }
 
         public async Task<bool> DeleteBudget(int id)

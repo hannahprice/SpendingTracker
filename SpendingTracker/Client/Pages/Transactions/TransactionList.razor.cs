@@ -14,7 +14,7 @@ namespace SpendingTracker.Client.Pages.Transactions
         private void TransactionClicked(TableRowClickEventArgs<Transaction> eventArgs)
         {
             var id = eventArgs.Item.Id;
-            NavigationManager.NavigateTo($"/transactions/{id}");
+            NavigationManager?.NavigateTo($"/transactions/{id}");
         }
     }
 }

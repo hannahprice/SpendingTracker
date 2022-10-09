@@ -8,7 +8,7 @@ public partial class MonthlyTransactionChart
 {
     [Inject] public ITransactionsService TransactionsService { get; set; }
     private bool IsLoading { get; set; } = false;
-    private List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
+    private List<Transaction>? AllTransactions { get; set; } = new List<Transaction>();
 
     private string[] ThisMonthsTransactionsDataLabels { get; set; }
     private double[]? ThisMonthsTransactionsData { get; set; }
@@ -28,7 +28,7 @@ public partial class MonthlyTransactionChart
 
     private void GroupThisMonthsTransactionData()
     {
-        var thisMonthsTransactions = AllTransactions
+        var thisMonthsTransactions = AllTransactions!
             .Where(x =>
                 x.DateOfTransaction.Date.Month == DateTime.Now.Date.Month).ToList();
 

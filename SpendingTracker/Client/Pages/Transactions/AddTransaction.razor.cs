@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using SpendingTracker.Client.Services;
 using SpendingTracker.Shared.Models;
 using System.Globalization;
 using Fluxor;
@@ -11,15 +10,15 @@ namespace SpendingTracker.Client.Pages.Transactions
 {
     public partial class AddTransaction
     {
-        [Inject] private IState<TransactionsState> TransactionsState { get;set; }
-        [Inject] private IDispatcher Dispatcher { get; set; }
+        [Inject] private IState<TransactionsState>? TransactionsState { get;set; }
+        [Inject] private IDispatcher? Dispatcher { get; set; }
         private Transaction Transaction { get; set; } = new Transaction();
-        private Category SelectedCategory { get; set; } = new Category();
-        private List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
+        private Category? SelectedCategory { get; set; } = new Category();
+        private List<Subcategory>? SelectedSubcategories { get; set; } = new List<Subcategory>();
         private DateTime? SelectedDatetime { get; set; }
-        private MudForm Form { get; set; }
+        private MudForm? Form { get; set; }
 
-        private CultureInfo EnGbCulture = CultureInfo.GetCultureInfo("en-GB");
+        private readonly CultureInfo EnGbCulture = CultureInfo.GetCultureInfo("en-GB");
 
         protected override void OnInitialized()
         {
@@ -31,31 +30,34 @@ namespace SpendingTracker.Client.Pages.Transactions
 
         private async Task Submit()
         {
-            await Form.Validate();
+            await Form!.Validate();
 
             if (Form.IsValid)
             {
-                if (SelectedCategory.Description != null)
+                if (SelectedCategory != null)
                 {
                     Transaction.Category = SelectedCategory;
                     Transaction.Category.Subcategories = null;
                 }
 
-                if (SelectedSubcategories.Any())
+                if (SelectedSubcategories != null && SelectedSubcategories.Any())
                 {
                     Transaction.Subcategories = SelectedSubcategories;
                 }
 
-                Transaction.DateOfTransaction = SelectedDatetime.Value;
+                if (SelectedDatetime != null)
+                {
+                    Transaction.DateOfTransaction = SelectedDatetime.Value;
+                }
 
-                Dispatcher.Dispatch(new AddTransactionAction(Transaction));
+                Dispatcher?.Dispatch(new AddTransactionAction(Transaction));
                 Form.Reset();
             }
         }
         
         private void ToggleMultiAdd()
         {
-            Dispatcher.Dispatch(new ToggleMultiAddAction());
+            Dispatcher?.Dispatch(new ToggleMultiAddAction());
         }
     }
 }

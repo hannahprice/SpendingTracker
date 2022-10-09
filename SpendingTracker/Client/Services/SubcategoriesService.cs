@@ -18,11 +18,10 @@ namespace SpendingTracker.Client.Services
 
             if (!result.IsSuccessStatusCode) return default;
             
-            var data = await result.Content.ReadAsStringAsync();
-            return int.Parse(data);
+            return await result.Content.ReadFromJsonAsync<int>();
         }
         
-        public async Task<Subcategory> GetSubcategory(int id)
+        public async Task<Subcategory?> GetSubcategory(int id)
         {
             return await _httpClient.GetFromJsonAsync<Subcategory>($"api/Subcategories/{id}");
         }

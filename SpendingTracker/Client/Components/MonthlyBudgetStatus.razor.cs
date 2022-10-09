@@ -44,7 +44,7 @@ public partial class MonthlyBudgetStatus
     private MonthlyBudgetStatusViewModel GetBudgetStatus(Budget budget, List<Transaction> thisMonthsTransactions)
     {
         var transactionsForThisBudget =
-            thisMonthsTransactions.Where(x => x.Category != null && x.Category.Id == budget.Category.Id).ToList();
+            thisMonthsTransactions.Where(x => x.Category != null && x.Category.Id == budget.Category?.Id).ToList();
         
         var currentMonthSpendTowardsBudget = transactionsForThisBudget.Select(x => x.Amount).Sum();
             

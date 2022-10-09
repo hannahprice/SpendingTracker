@@ -9,11 +9,11 @@ namespace SpendingTracker.Client.Pages.Categories
     {
         [Inject] public ICategoriesService CategoriesService { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
-        public List<Subcategory> Subcategories { get; set; } = new List<Subcategory>();
-        public bool IsLoading { get; set; } = false;
+        private List<Subcategory> Subcategories { get; set; } = new List<Subcategory>();
+        private bool IsLoading { get; set; } = false;
         private List<Category> Categories { get; set; } = new List<Category>();
 
-        private TableGroupDefinition<Subcategory> _groupDefinition = new()
+        private readonly TableGroupDefinition<Subcategory> _groupDefinition = new()
         {
             Indentation = false,
             Expandable = true,
@@ -37,7 +37,7 @@ namespace SpendingTracker.Client.Pages.Categories
         private void AddCategoriesWithNoSubcategories()
         {
             var categoriesWithNoSubcategories =
-                Categories.Where(x => x.Subcategories is null || !x.Subcategories.Any()).ToList();
+                Categories?.Where(x => x.Subcategories is null || !x.Subcategories.Any()).ToList();
 
             foreach (var category in categoriesWithNoSubcategories)
             {
@@ -62,8 +62,8 @@ namespace SpendingTracker.Client.Pages.Categories
 
         private string GetGroupName(object categoryId)
         {
-            var id = int.Parse(categoryId.ToString());
-            return Categories.First(x => x.Id == id).Description;
+            var id = int.Parse(categoryId.ToString()!);
+            return Categories!.First(x => x.Id == id).Description;
         }
     }
 }

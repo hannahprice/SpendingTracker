@@ -12,7 +12,7 @@ namespace SpendingTracker.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Category>> GetAllCategories()
+        public async Task<List<Category>?> GetAllCategories()
         {
             return await _httpClient.GetFromJsonAsync<List<Category>>("api/Categories");
         }
@@ -22,12 +22,10 @@ namespace SpendingTracker.Client.Services
             var result = await _httpClient.PostAsJsonAsync("api/Categories", category);
 
             if (!result.IsSuccessStatusCode) return default;
-            var data = await result.Content.ReadAsStringAsync();
-            
-            return int.Parse(data);
+            return await result.Content.ReadFromJsonAsync<int>();
         }
 
-        public async Task<Category> GetCategory(int id)
+        public async Task<Category?> GetCategory(int id)
         {
             return await _httpClient.GetFromJsonAsync<Category>($"api/Categories/{id}");
         }

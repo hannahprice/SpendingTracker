@@ -7,7 +7,7 @@ namespace SpendingTracker.Client.Pages.Subcategories;
 
 public partial class SubcategoryDetail
 {
-    [Parameter] public string Id { get; set; }
+    [Parameter] public string? Id { get; set; }
     [Inject] private ISubcategoriesService SubcategoriesService { get; set; }
     [Inject] private NavigationManager NavigationManager { get; set; }
     [Inject] private ISnackbar Snackbar { get; set; }
@@ -15,7 +15,7 @@ public partial class SubcategoryDetail
     private bool DialogVisible { get; set; } = false;
     private void ToggleDialog() => DialogVisible = !DialogVisible;
 
-    private Subcategory Subcategory { get; set; } = new Subcategory();
+    private Subcategory? Subcategory { get; set; } = new Subcategory();
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,7 +36,7 @@ public partial class SubcategoryDetail
         }
         catch
         {
-            Snackbar.Add($"Error removing subcategory: {Subcategory.Description}", Severity.Error);
+            Snackbar.Add($"Error removing subcategory: {Subcategory!.Description}", Severity.Error);
         }
     }
 }

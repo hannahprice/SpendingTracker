@@ -10,7 +10,7 @@ public partial class YearlyTransactionChart
 {
     [Inject] public ITransactionsService TransactionsService { get; set; }
 
-    private List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
+    private List<Transaction>? AllTransactions { get; set; } = new List<Transaction>();
     private bool IsLoading { get; set; } = false;
     private List<ChartSeries> Series { get; set; } = new List<ChartSeries>();
     private string[] xAxisLabels { get; set; } = new string[]{};

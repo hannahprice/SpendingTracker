@@ -5,7 +5,7 @@ using SpendingTracker.Shared.Models;
 
 namespace ServiceTests;
 
-public static class Utilities
+public static class TestHelpers
 {
     #region Budgets
 
