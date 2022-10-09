@@ -11,43 +11,32 @@ namespace ServiceTests;
 
 public class TestWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    private readonly MsSqlTestcontainer _dbContainer = new TestcontainersBuilder<MsSqlTestcontainer>()
-        .WithDatabase(new MsSqlTestcontainerConfiguration
-        {
-            Database = "TestFinanceTracker",
-            // Username = "hannah",
-            Password = "test"
-        }).Build();
+    private readonly MsSqlTestcontainer _dbContainer;
+
+    public TestWebApplicationFactory()
+    {
+        _dbContainer = new TestcontainersBuilder<MsSqlTestcontainer>()
+            .WithDatabase(new MsSqlTestcontainerConfiguration
+            {
+                Password = "localdevpassword#123"
+            })
+            .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
+            .WithCleanUp(true)
+            .Build();
+    }
     
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
         {
-            var descriptor = services.SingleOrDefault(
-                d => d.ServiceType ==
-                     typeof(DbContextOptions<FinanceContext>));
-
-            services.Remove(descriptor!);
+            services.RemoveDbContext();
 
             services.AddDbContext<FinanceContext>(options =>
             {
                 options.UseSqlServer(_dbContainer.ConnectionString);
             });
-            
-            // services.AddDbContext<FinanceContext>(options =>
-            // {
-            //     options.UseInMemoryDatabase("InMemoryTestDb");
-            // },ServiceLifetime.Transient, ServiceLifetime.Transient);
-            
-            var sp = services.BuildServiceProvider();
-            
-            using (var scope = sp.CreateScope())
-            {
-                var scopedServices = scope.ServiceProvider;
-                var db = scopedServices.GetRequiredService<FinanceContext>();
 
-                db.Database.EnsureCreated();
-            }
+            services.EnsureDatabaseCreated();
         });
     }
 
@@ -58,6 +47,6 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>, IAsyncL
 
     public new async Task DisposeAsync()
     {
-        await _dbContainer.StopAsync();
+        await _dbContainer.DisposeAsync();
     }
 }

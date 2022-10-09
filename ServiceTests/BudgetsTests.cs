@@ -1,21 +1,16 @@
 ﻿using System.Net.Http.Json;
 using FluentAssertions;
-using SpendingTracker.Server;
 using SpendingTracker.Shared.Models;
 
 namespace ServiceTests;
 
-[UsesVerify]
 public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
 {
     private readonly TestWebApplicationFactory _appFactory;
     private readonly HttpClient _httpClient;
-    private readonly VerifySettings _verifySettings;
     
     public BudgetsTests(TestWebApplicationFactory appFactory)
     {
-        _verifySettings = new VerifySettings();
-        _verifySettings.UseDirectory("./Snapshots/Budgets");
         _appFactory = appFactory;
         _httpClient = _appFactory.CreateClient();
     }
@@ -23,29 +18,15 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
     [Fact]
     public async Task GetBudgetsSuccess()
     {
-        var addBudgetTask1 = InsertTestBudget(1);
-        var addBudgetTask2 = InsertTestBudget(2);
-        var addBudgetTask3 = InsertTestBudget(3);
-        await Task.WhenAll(addBudgetTask1, addBudgetTask2, addBudgetTask3);
+        var newBudgetId1 = await InsertTestBudget();
+        var newBudgetId2 = await InsertTestBudget();
 
         var response = await _httpClient.GetFromJsonAsync<List<Budget>>("api/Budgets");
         
         response.Should().NotBeNullOrEmpty();
         response.Should().BeInDescendingOrder(c => c.Id);
 
-        await Verify(response, _verifySettings);
-
-        await Utilities.RemoveBudgets(_appFactory, new int[]{1,2,3});
-
-       // var dbContext = Utilities.GetDbContext(_appFactory);
-
-       // Utilities.RemoveBudget(_appFactory, 2);
-       // Utilities.RemoveBudget(_appFactory, 3);
-
-       // var removeBudgetTask1 = RemoveAddedBudget(dbContext!,1);
-       //  var removeBudgetTask2 = RemoveAddedBudget(dbContext!,2);
-       //  var removeBudgetTask3 = RemoveAddedBudget(dbContext!,3);
-        // await Task.WhenAll(removeBudgetTask1, removeBudgetTask2, removeBudgetTask3);
+        await Utilities.RemoveBudgets(_appFactory, new int[]{newBudgetId1, newBudgetId2});
     }
 
     [Fact]
@@ -53,7 +34,7 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
     {
         var budget = new Budget()
         {
-            Id = 4, Amount = 50.00m, Frequency = Frequency.Weekly,
+            Amount = 50.00m, Frequency = Frequency.Weekly,
             Category = new Category{Id = 1,},
             Subcategories = new List<Subcategory> {new Subcategory{Id = 1}}
         };
@@ -64,64 +45,52 @@ public class BudgetsTests : IClassFixture<TestWebApplicationFactory>
         var responseContent = await response.Content.ReadAsStringAsync();
         var newBudgetId = int.Parse(responseContent);
         
-        // var dbContext = Utilities.GetDbContext(_appFactory);
         var budgets = await Utilities.GetBudgets(_appFactory);
 
         budgets.Should().Contain(c => c.Id == newBudgetId);
-        await Utilities.RemoveBudget(_appFactory, 4);
-
-        // await RemoveAddedBudget(dbContext, 4);
+        await Utilities.RemoveBudget(_appFactory, newBudgetId);
     }
 
     [Fact]
     public async Task GetBudgetSuccess()
     {
-        await InsertTestBudget(5);
+        var newBudgetId = await InsertTestBudget();
 
-        var response = await _httpClient.GetFromJsonAsync<Budget>("api/Budgets/5");
+        var response = await _httpClient.GetFromJsonAsync<Budget>($"api/Budgets/{newBudgetId}");
         response.Should().NotBeNull();
-        response!.Id.Should().Be(5);
+        response!.Id.Should().Be(newBudgetId);
         
-        await Verify(response, _verifySettings);
-        
-        // var dbContext = Utilities.GetDbContext(_appFactory);
-
-        // await RemoveAddedBudget(dbContext!, 5);
-        await Utilities.RemoveBudget(_appFactory, 5);
+        await Utilities.RemoveBudget(_appFactory, newBudgetId);
     }
 
     [Fact]
     public async Task DeleteBudgetSuccess()
     {
-        await InsertTestBudget(6);
+        var newBudgetId = await InsertTestBudget();
 
-        var response = await _httpClient.DeleteAsync($"api/Budgets/6");
+        var response = await _httpClient.DeleteAsync($"api/Budgets/{newBudgetId}");
         response.EnsureSuccessStatusCode();
         
-        // var dbContext = Utilities.GetDbContext(_appFactory);
         var budgets = await Utilities.GetBudgets(_appFactory);
-        budgets.Should().NotContain(c => c.Id == 6);
+        budgets.Should().NotContain(c => c.Id == newBudgetId);
     }
     
     #region TestHelpers
 
-    private async Task InsertTestBudget(int id)
+    private async Task<int> InsertTestBudget()
     {
         var budget = new Budget()
         {
-            Id = id, Amount = 12.00m, Frequency = Frequency.Weekly,
+            Amount = 12.00m, Frequency = Frequency.Weekly,
             Category = new Category{Id = 1},
             Subcategories = new List<Subcategory> {new Subcategory{Id = 1}}
         };
         var response = await _httpClient.PostAsJsonAsync("api/Budgets", budget);
         response.EnsureSuccessStatusCode();
+        
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return int.Parse(responseContent);
     }
-
-    // private async Task RemoveAddedBudget(FinanceContext dbContext, int addedBudgetId)
-    // {
-    //     dbContext.Budgets.Remove(dbContext.Budgets.Single(c => c.Id == addedBudgetId));
-    //     await dbContext.SaveChangesAsync();
-    // }
 
     #endregion
 }

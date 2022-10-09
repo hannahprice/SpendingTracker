@@ -1,6 +1,5 @@
 ﻿using System.Net.Http.Json;
 using FluentAssertions;
-using SpendingTracker.Server;
 using SpendingTracker.Shared.Models;
 
 namespace ServiceTests;
@@ -24,9 +23,6 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory>
     [Fact]
     public async Task DatabaseIsSeededWithExpectedCategories()
     {
-        // var dbContext = Utilities.GetDbContext(_appFactory);
-
-        // dbContext.Should().NotBeNull();
         var categories = await Utilities.GetCategories(_appFactory);
         categories.Should().NotBeNullOrEmpty();
         var categoryNames = categories.Select(c => c.Description);
@@ -64,12 +60,10 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory>
         var responseContent = await response.Content.ReadAsStringAsync();
         var newCategoryId = int.Parse(responseContent);
         
-        // var dbContext = Utilities.GetDbContext(_appFactory);
         var categories = await Utilities.GetCategories(_appFactory);
 
         categories.Should().Contain(c => c.Id == newCategoryId);
         await Utilities.RemoveCategory(_appFactory, newCategoryId);
-        // await RemoveAddedCategory(dbContext, newCategoryId);
     }
 
     [Fact]
@@ -86,23 +80,19 @@ public class CategoriesTests : IClassFixture<TestWebApplicationFactory>
     {
         var category = new Category
         {
-            Id = 9,
             Description = "CategoryToBeDeleted"
         };
         
         var addResponse = await _httpClient.PostAsJsonAsync("api/Categories", category);
         addResponse.EnsureSuccessStatusCode();
+        
+        var responseContent = await addResponse.Content.ReadAsStringAsync();
+        var newCategoryId = int.Parse(responseContent);
 
-        var response = await _httpClient.DeleteAsync($"api/Categories/{category.Id}");
+        var response = await _httpClient.DeleteAsync($"api/Categories/{newCategoryId}");
         response.EnsureSuccessStatusCode();
         
         var categories = await Utilities.GetCategories(_appFactory);
-        categories.Should().NotContain(c => c.Id == 9);
+        categories.Should().NotContain(c => c.Id == newCategoryId);
     }
-    
-    // private async Task RemoveAddedCategory(FinanceContext dbContext, int addedCategoryId)
-    // {
-    //     dbContext.Categories.Remove(dbContext.Categories.Single(c => c.Id == addedCategoryId));
-    //     await dbContext.SaveChangesAsync();
-    // }
 }
