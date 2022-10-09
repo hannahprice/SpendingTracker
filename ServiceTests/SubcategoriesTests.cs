@@ -1,19 +1,17 @@
 ﻿using System.Net.Http.Json;
 using FluentAssertions;
-using SpendingTracker.Server;
 using SpendingTracker.Shared.Models;
-using Xunit;
 
 namespace ServiceTests;
 
 [UsesVerify]
-public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Program>>
+public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory>
 {
-    private readonly TestWebApplicationFactory<Program> _appFactory;
+    private readonly TestWebApplicationFactory _appFactory;
     private readonly HttpClient _httpClient;
     private readonly VerifySettings _verifySettings;
 
-    public SubcategoriesTests(TestWebApplicationFactory<Program> appFactory)
+    public SubcategoriesTests(TestWebApplicationFactory appFactory)
     {
         _verifySettings = new VerifySettings();
         _verifySettings.UseDirectory("./Snapshots/Subcategories");
@@ -25,11 +23,10 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Progra
     [Fact]
     public async Task DatabaseIsSeededWithSomeSubcategories()
     {
-        var dbContext = Utilities.GetDbContext(_appFactory);
+        var subcategories = await Utilities.GetSubcategories(_appFactory);
 
-        dbContext.Should().NotBeNull();
-        dbContext!.Subcategories.Should().NotBeNullOrEmpty();
-        await Verify(dbContext.Subcategories, _verifySettings);
+        subcategories.Should().NotBeNullOrEmpty();
+        await Verify(subcategories, _verifySettings);
     }
 
     [Fact]
@@ -47,12 +44,12 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Progra
         
         var responseContent = await response.Content.ReadAsStringAsync();
         var newSubcategoryId = int.Parse(responseContent);
-        
-        var dbContext = Utilities.GetDbContext(_appFactory);
-        var addedSubcategory = dbContext!.Subcategories.Single(c => c.Id == newSubcategoryId);
+
+        var subcategories = await Utilities.GetSubcategories(_appFactory);
+        var addedSubcategory = subcategories.Single(c => c.Id == newSubcategoryId);
         addedSubcategory.CategoryId.Should().Be(1);
 
-        await RemoveAddedSubcategory(dbContext, addedSubcategory);
+        await Utilities.RemoveSubcategory(_appFactory, newSubcategoryId);
     }
 
     [Fact]
@@ -69,24 +66,20 @@ public class SubcategoriesTests : IClassFixture<TestWebApplicationFactory<Progra
     {
         var subcategory = new Subcategory
         {
-            Id = 45,
             Description = "SubcategoryToBeDeleted",
             CategoryId = 5
         };
         
         var addResponse = await _httpClient.PostAsJsonAsync("api/Subcategories", subcategory);
         addResponse.EnsureSuccessStatusCode();
+        
+        var responseContent = await addResponse.Content.ReadAsStringAsync();
+        var newSubcategoryId = int.Parse(responseContent);
 
-        var response = await _httpClient.DeleteAsync($"api/Subcategories/{subcategory.Id}");
+        var response = await _httpClient.DeleteAsync($"api/Subcategories/{newSubcategoryId}");
         response.EnsureSuccessStatusCode();
         
-        var dbContext = Utilities.GetDbContext(_appFactory);
-        dbContext!.Subcategories.Should().NotContain(c => c.Id == 45);
-    }
-    
-    private async Task RemoveAddedSubcategory(FinanceContext dbContext, Subcategory addedSubcategory)
-    {
-        dbContext.Subcategories.Remove(addedSubcategory);
-        await dbContext.SaveChangesAsync();
+        var subcategories = await Utilities.GetSubcategories(_appFactory);
+        subcategories.Should().NotContain(c => c.Id == newSubcategoryId);
     }
 }
