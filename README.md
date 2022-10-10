@@ -14,7 +14,7 @@ For those that know me.. I like to be organised 😀 So I'm building a simple ap
 - Fluxor for state management
 - MudBlazor for UI components and styling
 - BUnit for UI component tests
-- TestWebApplicationFactory for in-memory integration tests
+- TestWebApplicationFactory and Docker for integration tests
 - Verify for capturing test output
 - Mediatr and CQRS pattern for API project
 
