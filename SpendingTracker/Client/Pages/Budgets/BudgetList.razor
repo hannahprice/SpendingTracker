@@ -27,15 +27,13 @@ else
                       OnRowClick="@BudgetClicked"
                       T="Budget">
                 <HeaderContent>
-                    <MudTh>Id</MudTh>
                     <MudTh>Amount</MudTh>
                     <MudTh>Frequency</MudTh>
                     <MudTh>Categories</MudTh>
                     <MudTh>Subcategories</MudTh>
                 </HeaderContent>
                 <RowTemplate>
-                    <MudTd DataLabel="Id">@context.Id</MudTd>
-                    <MudTd DataLabel="Amount">@context.Amount</MudTd>
+                    <MudTd DataLabel="Amount">£@context.Amount</MudTd>
                     <MudTd DataLabel="Frequency">@context.Frequency</MudTd>
 
                     <MudTd DataLabel="Categories">

@@ -28,32 +28,17 @@ else
                       OnRowClick="@TransactionClicked"
                       T="Transaction">
                 <HeaderContent>
-                    <MudTh>Id</MudTh>
                     <MudTh>Date</MudTh>
                     <MudTh>Description</MudTh>
                     <MudTh>Amount</MudTh>
-                    <MudTh>Is outward payment</MudTh>
-                    <MudTh>Is reoccuring</MudTh>
-                    <MudTh>Reoccuring frequency</MudTh>
                     <MudTh>Categories</MudTh>
                     <MudTh>Subcategories</MudTh>
+                    <MudTh>Outward payment</MudTh>
                 </HeaderContent>
                 <RowTemplate>
-                    <MudTd DataLabel="Id">@context.Id</MudTd>
-                    <MudTd DataLabel="Date">@context.DateOfTransaction</MudTd>
+                    <MudTd DataLabel="Date">@context.DateOfTransaction.ToString("D")</MudTd>
                     <MudTd DataLabel="Description">@context.Description</MudTd>
-                    <MudTd DataLabel="Amount">@context.Amount</MudTd>
-                    <MudTd DataLabel="Is outward payment">@context.IsOutwardPayment</MudTd>
-                    <MudTd DataLabel="Is reoccurring">@context.IsReoccurring</MudTd>
-                    @if (@context.IsReoccurring)
-                    {
-                        <MudTd DataLabel="Reoccurring frequency">@context.ReoccuringFrequency</MudTd>
-                    }
-                    else
-                    {
-                        <MudTd DataLabel="Reoccurring frequency">-</MudTd>
-                    }
-
+                    <MudTd DataLabel="Amount">£@context.Amount</MudTd>
                     <MudTd DataLabel="Categories">
                         @if (@context.Category != null)
                         {
@@ -81,6 +66,16 @@ else
                         else
                         {
                             <p>-</p>
+                        }
+                    </MudTd>
+                    <MudTd DataLabel="Is outward payment">
+                        @if (context.IsOutwardPayment)
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.Check" Title="Check" Color="Color.Success"/>
+                        }
+                        else
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.Close" Title="Close" Color="Color.Error"/>
                         }
                     </MudTd>
                 </RowTemplate>

@@ -39,9 +39,12 @@
                         AnchorOrigin="Origin.BottomCenter" 
                         Required="true" 
                         RequiredError="Category is required">
-                        @foreach (Category category in AvailableCategories)
+                        @if (AvailableCategories != null)
                         {
-                            <MudSelectItem Value="category.Id">@category.Description</MudSelectItem>
+                            foreach (Category category in AvailableCategories)
+                            {
+                                <MudSelectItem Value="@category.Id">@category.Description</MudSelectItem>
+                            }
                         }
                     </MudSelect>
 
