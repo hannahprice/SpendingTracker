@@ -19,21 +19,22 @@ else
         }
 
         <MudItem xs="8">
-            <MudTable
-                Items="@Subcategories"
-                GroupBy="@_groupDefinition"
-                Hover="true"
-                GroupHeaderStyle="@($"background-color:{Colors.Grey.Lighten5}")">
-                <GroupHeaderTemplate>
-                    <MudTh Class="mud-table-cell-custom-group">
-                        <MudText Typo="Typo.h6" @onclick="() => NavigateToCategoryDetail(context.Key)">@GetGroupName(context.Key)</MudText>
-                    </MudTh>
-                </GroupHeaderTemplate>
-                <RowTemplate>
-                    <MudTd @onclick="() => NavigateToSubcategoryDetail(context.Id)">@context.Description</MudTd>
-                </RowTemplate>
-            </MudTable>
-
+            <MudCard Elevation="3">
+                            <MudTable
+                                Items="@Subcategories"
+                                GroupBy="@_groupDefinition"
+                                Hover="true"
+                                GroupHeaderStyle="@($"background-color:{Colors.Grey.Lighten5}")">
+                                <GroupHeaderTemplate>
+                                    <MudTh Class="mud-table-cell-custom-group">
+                                        <MudText Typo="Typo.h6" @onclick="() => NavigateToCategoryDetail(context.Key)">@GetGroupName(context.Key)</MudText>
+                                    </MudTh>
+                                </GroupHeaderTemplate>
+                                <RowTemplate>
+                                    <MudTd @onclick="() => NavigateToSubcategoryDetail(context.Id)">@context.Description</MudTd>
+                                </RowTemplate>
+                            </MudTable>
+            </MudCard>
         </MudItem>
 
     </MudGrid>
