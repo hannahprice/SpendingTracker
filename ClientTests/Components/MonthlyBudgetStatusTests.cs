@@ -65,7 +65,7 @@ public class MonthlyBudgetStatusTests : TestContext
         
         // Assert
         var tableHeaderCells = component.FindAll("th");
-        tableHeaderCells.Count.Should().Be(4);
+        tableHeaderCells.Count.Should().Be(3);
     }
     
     [Fact]
@@ -80,7 +80,7 @@ public class MonthlyBudgetStatusTests : TestContext
 
         // Assert
         var tableBodyCells = component.FindAll("tbody td");
-        tableBodyCells.Count.Should().Be(4);
+        tableBodyCells.Count.Should().Be(3);
     }
     
     [Fact]
@@ -125,7 +125,7 @@ public class MonthlyBudgetStatusTests : TestContext
 
         // Assert
         var totalSpendCell = component.Find("td:nth-child(3)");
-        totalSpendCell.InnerHtml.Should().Be("£15");
+        totalSpendCell.InnerHtml.Should().Contain("£15");
     }
 
     [Fact]
@@ -139,7 +139,7 @@ public class MonthlyBudgetStatusTests : TestContext
         var component = RenderComponent<MonthlyBudgetStatus>();
 
         // Assert
-        var checkIconTitle = component.Find("td:nth-child(4) svg title");
+        var checkIconTitle = component.Find("td:nth-child(3) svg title");
         checkIconTitle.InnerHtml.Should().Be("Check");
     }
 
@@ -154,7 +154,7 @@ public class MonthlyBudgetStatusTests : TestContext
         var component = RenderComponent<MonthlyBudgetStatus>();
 
         // Assert
-        var checkIconTitle = component.Find("td:nth-child(4) svg title");
+        var checkIconTitle = component.Find("td:nth-child(3) svg title");
         checkIconTitle.InnerHtml.Should().Be("Warning");
     }
 
@@ -175,7 +175,7 @@ public class MonthlyBudgetStatusTests : TestContext
 
         // Assert
         var totalSpendCell = component.Find("td:nth-child(3)");
-        totalSpendCell.InnerHtml.Should().Be("£35");
+        totalSpendCell.InnerHtml.Should().Contain("£35");
     }
 
     [Fact]
@@ -217,7 +217,7 @@ public class MonthlyBudgetStatusTests : TestContext
 
         // Assert
         var totalSpendCell = component.Find("td:nth-child(3)");
-        totalSpendCell.InnerHtml.Should().Be("£15");
+        totalSpendCell.InnerHtml.Should().Contain("£15");
     }
     
     #region TestHelpers
