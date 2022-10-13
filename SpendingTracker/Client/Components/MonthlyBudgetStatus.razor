@@ -6,20 +6,20 @@
             <MudTh>Budget category</MudTh>
             <MudTh>Budget amount</MudTh>
             <MudTh>Current month spend</MudTh>
-            <MudTh>Within budget?</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.BudgetDescription</MudTd>
             <MudTd>£@context.BudgetAmount</MudTd>
-            <MudTd>£@context.CurrentMonthSpendForBudget</MudTd>
-            <MudTd>
+            <MudTd Class="d-flex gap-4 align-center">
+                £@context.CurrentMonthSpendForBudget
+
                 @if (context.WithinBudget)
                 {
-                    <MudIcon Icon="@Icons.Material.Filled.Check" Title="Check" Color="Color.Success" />  
+                    <MudIcon Icon="@Icons.Material.Filled.Check" Title="Check" Color="Color.Success"/>
                 }
                 else
                 {
-                    <MudIcon Icon="@Icons.Material.Filled.Warning" Title="Warning" Color="Color.Warning" />
+                    <MudIcon Icon="@Icons.Material.Filled.Warning" Title="Warning" Color="Color.Warning"/>
                 }
             </MudTd>
         </RowTemplate>
