@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using SpendingTracker.Client.Services;
 using SpendingTracker.Shared.Models;
@@ -11,7 +12,7 @@ public partial class SubcategoryDetail
     [Inject] private ISubcategoriesService SubcategoriesService { get; set; } = default!;
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
     [Inject] private ISnackbar Snackbar { get; set; } = default!;
-    private bool DialogVisible { get; set; } = false;
+    private bool DialogVisible { get; set; }
     private void ToggleDialog() => DialogVisible = !DialogVisible;
 
     private Subcategory? Subcategory { get; set; } = new Subcategory();
@@ -20,7 +21,7 @@ public partial class SubcategoryDetail
     {
         if (Id != null)
         {
-            Subcategory = await SubcategoriesService.GetSubcategory(int.Parse(Id));
+            Subcategory = await SubcategoriesService.GetSubcategory(int.Parse(Id, CultureInfo.InvariantCulture));
         }
     }   
     private async Task DeleteSubcategory()
@@ -29,7 +30,7 @@ public partial class SubcategoryDetail
         {
             if (Id != null)
             {
-                await SubcategoriesService.DeleteSubcategory(int.Parse(Id));
+                await SubcategoriesService.DeleteSubcategory(int.Parse(Id, CultureInfo.InvariantCulture));
                 ToggleDialog();
                 Snackbar.Add($"Subcategory removed", Severity.Success);
                 
