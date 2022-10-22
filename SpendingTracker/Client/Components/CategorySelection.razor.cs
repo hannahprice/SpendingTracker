@@ -12,7 +12,7 @@ public partial class CategorySelection
     [Parameter] public List<Subcategory> SelectedSubcategories { get; set; } = new List<Subcategory>();
     [Parameter] public EventCallback<List<Subcategory>> SelectedSubcategoriesChanged { get; set; }
     [Inject] private ICategoriesService CategoriesService { get; set; } = default!;
-    private bool IsLoading { get; set; } = false;
+    private bool IsLoading { get; set; }
     private List<Category>? AvailableCategories { get; set; } = new List<Category>();
     private List<Subcategory>? AvailableSubcategories { get; set; } = new List<Subcategory>();
     private MudChip? SelectedCategoryChip { get; set; } 

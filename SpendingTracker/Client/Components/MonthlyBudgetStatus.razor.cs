@@ -11,7 +11,7 @@ public partial class MonthlyBudgetStatus
     [Inject] private ITransactionsService TransactionsService { get; set; } = default!;
     private List<Budget> AllBudgets { get; set; } = new List<Budget>();
     private List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
-    private bool IsLoading { get; set; } = false;
+    private bool IsLoading { get; set; }
 
     private List<MonthlyBudgetStatusViewModel> MonthlyBudgetStatuses { get; set; } =
         new List<MonthlyBudgetStatusViewModel>();
@@ -42,7 +42,7 @@ public partial class MonthlyBudgetStatus
         IsLoading = false;
     }
 
-    private MonthlyBudgetStatusViewModel GetBudgetStatus(Budget budget, List<Transaction>? thisMonthsTransactions)
+    private static MonthlyBudgetStatusViewModel GetBudgetStatus(Budget budget, List<Transaction>? thisMonthsTransactions)
     {
         var transactionsForThisBudget =
             thisMonthsTransactions?.Where(x => x.Category != null && x.Category.Id == budget.Category?.Id).ToList();

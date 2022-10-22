@@ -11,7 +11,7 @@ public partial class YearlyTransactionChart
     [Inject] public ITransactionsService TransactionsService { get; set; } = default!;
 
     private List<Transaction>? AllTransactions { get; set; } = new List<Transaction>();
-    private bool IsLoading { get; set; } = false;
+    private bool IsLoading { get; set; }
     private List<ChartSeries> Series { get; set; } = new List<ChartSeries>();
     private string[] XAxisLabels { get; set; } = Array.Empty<string>();
 

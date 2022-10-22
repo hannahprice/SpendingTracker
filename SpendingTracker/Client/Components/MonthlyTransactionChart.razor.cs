@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Components;
 using SpendingTracker.Client.Services;
 using SpendingTracker.Shared.Models;
 
@@ -7,14 +8,14 @@ namespace SpendingTracker.Client.Components;
 public partial class MonthlyTransactionChart
 {
     [Inject] public ITransactionsService TransactionsService { get; set; } = default!;
-    private bool IsLoading { get; set; } = false;
+    private bool IsLoading { get; set; }
     private List<Transaction>? AllTransactions { get; set; } = new List<Transaction>();
 
     private string[] ThisMonthsTransactionsDataLabels { get; set; } = default!;
     private double[]? ThisMonthsTransactionsData { get; set; }
     private int Index = -1;
     private string ChartInnerLabel => Index < 0 ? "Total" : ThisMonthsTransactionsDataLabels[Index];
-    private string ChartInnerData => (Index < 0 ? ThisMonthsTransactionsData?.Sum().ToString("0.00") : ThisMonthsTransactionsData![Index].ToString("0.00"))!;
+    private string ChartInnerData => (Index < 0 ? ThisMonthsTransactionsData?.Sum().ToString("0.00", CultureInfo.InvariantCulture) : ThisMonthsTransactionsData![Index].ToString("0.00", CultureInfo.InvariantCulture))!;
     
     protected override async Task OnInitializedAsync()
     {

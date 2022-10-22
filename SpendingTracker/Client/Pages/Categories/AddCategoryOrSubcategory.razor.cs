@@ -22,8 +22,8 @@ namespace SpendingTracker.Client.Pages.Categories
         private bool Success { get; set; }
         private MudForm CategoryForm { get; set; } = default!;
         private MudForm SubcategoryForm { get; set; } = default!;
-        private bool AddingMultiple { get; set; } = false;
-        private bool AddingSubcategory { get; set; } = false;
+        private bool AddingMultiple { get; set; }
+        private bool AddingSubcategory { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
