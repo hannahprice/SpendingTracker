@@ -10,17 +10,17 @@ For those that know me.. I like to be organised 😀 So I'm building a simple ap
 
 ## Tech stack
 - Blazor wasm
-- EF Core (currently using localdb but will move to a real DB)
 - Fluxor for state management
 - MudBlazor for UI components and styling
 - BUnit for UI component tests
+- EF Core (MSSQL hosted in Docker)
 - TestWebApplicationFactory and Docker for integration tests
 - Verify for capturing test output
 - Mediatr and CQRS pattern for API project
 
 ## Running the app
 
-- `dotnet run --project .\SpendingTracker\Server\SpendingTracker.Server.csproj`
-- Navigate to https://localhost:7248/
+If using Visual Studio, set the docker compose project as the startup project and run (making sure Docker Desktop is running).
+
 - Add some transactions (currently manual, but will be adding file upload functionality) 
 - Add some budgets
