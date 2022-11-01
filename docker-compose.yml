@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  spendingtracker.db:
+    container_name: spendingtracker-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=1Secure*Password1
+  spendingtracker.server:
+    container_name: spendingtracker-app
+    image: ${DOCKER_REGISTRY-}spendingtrackerserver
+    build:
+      context: .
+      dockerfile: SpendingTracker/Server/Dockerfile
+    depends_on:
+     - spendingtracker.db
+    environment:
+      - DB_HOST=spendingtracker.db
+      - DB_NAME=SpendingTracker
+      - MSSQL_SA_PASSWORD=1Secure*Password1

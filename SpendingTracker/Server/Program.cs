@@ -16,7 +16,11 @@ namespace SpendingTracker.Server
 
             builder.Services.AddMediatR(typeof(Program));
 
-            builder.Services.AddDbContext<FinanceContext>(options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=FinanceTracker;Trusted_Connection=True;MultipleActiveResultSets=true")
+            var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+            var dbPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
+
+            builder.Services.AddDbContext<FinanceContext>(options => options.UseSqlServer($"Server={dbHost};Database={dbName};User=sa;Password={dbPassword};")
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution));
 
             var app = builder.Build();
@@ -40,12 +44,26 @@ namespace SpendingTracker.Server
 
             app.UseRouting();
 
-
             app.MapRazorPages();
             app.MapControllers();
             app.MapFallbackToFile("index.html");
 
+            RunEFMigrations(app);
+
             app.Run();
+        }
+
+        private static void RunEFMigrations(WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
+
+            var dbContext = services.GetRequiredService<FinanceContext>();
+
+            if (dbContext.Database.IsSqlServer())
+            {
+                dbContext.Database.Migrate();
+            }
         }
     }
 }
