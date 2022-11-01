@@ -48,6 +48,13 @@ namespace SpendingTracker.Server
             app.MapControllers();
             app.MapFallbackToFile("index.html");
 
+            RunEFMigrations(app);
+
+            app.Run();
+        }
+
+        private static void RunEFMigrations(WebApplication app)
+        {
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
 
@@ -68,8 +75,6 @@ namespace SpendingTracker.Server
 
                 throw;
             }
-
-            app.Run();
         }
     }
 }

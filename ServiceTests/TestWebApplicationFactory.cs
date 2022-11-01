@@ -3,6 +3,7 @@ using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SpendingTracker.Server;
@@ -27,7 +28,7 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>, IAsyncL
     
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureServices(services =>
+        builder.ConfigureTestServices(services =>
         {
             services.RemoveDbContext();
 
@@ -35,8 +36,6 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>, IAsyncL
             {
                 options.UseSqlServer(_dbContainer.ConnectionString);
             });
-
-            services.EnsureDatabaseCreated();
         });
     }
 
