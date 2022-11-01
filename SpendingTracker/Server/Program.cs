@@ -58,22 +58,11 @@ namespace SpendingTracker.Server
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
 
-            try
+            var dbContext = services.GetRequiredService<FinanceContext>();
+
+            if (dbContext.Database.IsSqlServer())
             {
-                var dbContext = services.GetRequiredService<FinanceContext>();
-
-                if (dbContext.Database.IsSqlServer())
-                {
-                    dbContext.Database.Migrate();
-                }
-            }
-            catch (Exception ex)
-            {
-                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
-                logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-
-                throw;
+                dbContext.Database.Migrate();
             }
         }
     }
